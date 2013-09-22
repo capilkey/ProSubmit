@@ -33,15 +33,9 @@ public class DBAccess {
     public boolean closeConnection() {
         boolean success = false;
         try {
-            if (statement != null) { 
-                statement.close();
-            }
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
+            if (statement  != null) { statement.close(); }
+            if (resultSet  != null) { resultSet.close(); }
+            if (connection != null) { connection.close();}
         }catch (SQLException e) {
         	System.out.println(e.getMessage());
         }finally{
