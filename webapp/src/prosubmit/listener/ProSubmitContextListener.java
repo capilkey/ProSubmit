@@ -4,12 +4,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import prosubmit.controller.DBConnectionPool;
+import prosubmit.db.DBConnectionPool;
  
 /**
  * Application Lifecycle Listener implementation class ProSubmitContextListener
  *
  */
+@SuppressWarnings("all")
 public final class ProSubmitContextListener implements ServletContextListener{
 	ServletContext context = null;
 	

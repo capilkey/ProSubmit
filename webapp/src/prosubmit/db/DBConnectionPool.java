@@ -1,7 +1,7 @@
 /**
  * 
  */
-package prosubmit.controller;
+package prosubmit.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,6 +11,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
  * @author ramone
  *
  */
+@SuppressWarnings("all")
 public class DBConnectionPool {
 
     private DataSource pool = null; 

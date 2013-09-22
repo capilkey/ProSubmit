@@ -1,7 +1,7 @@
 /**
  * 
  */
-package prosubmit.controller;
+package prosubmit.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +18,7 @@ import prosubmit.controller.*;
  * @author ramone
  *
  */
+@SuppressWarnings("all")
 public class DBAccess {
     private PreparedStatement statement = null;
     private ResultSet resultSet = null;
