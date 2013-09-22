@@ -33,7 +33,7 @@ public final class ProSubmitContextListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent ctxEvnt) {
 		// TODO Auto-generated method stub
 		context = ctxEvnt.getServletContext();
-		context.setAttribute("DBConnectionPool",new DBConnectionPool());
+		context.setAttribute("ddPool",new DBConnectionPool());
 		
 	}
 	

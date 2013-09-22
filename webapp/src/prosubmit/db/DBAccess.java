@@ -20,13 +20,14 @@ import prosubmit.controller.*;
  */
 @SuppressWarnings("all")
 public class DBAccess {
+	private DBConnectionPool dbPool = null;
     private PreparedStatement statement = null;
     private ResultSet resultSet = null;
     private Connection connection = null;
     private ServletContext context;
 
-	public DBAccess(ServletContext ctx) {
-        context = ctx;
+	public DBAccess(DBConnectionPool dbPool) {
+        this.dbPool = dbPool;
     }
     
     
