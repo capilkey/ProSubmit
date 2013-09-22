@@ -16,13 +16,11 @@ public class DBConnectionPool {
 
     private DataSource pool = null; 
     
-
-    /** A private Constructor prevents any other class from instantiating. */
     public DBConnectionPool() {
-            pool = new DataSource();
-			pool.setUrl("jdbc:mysql://zenit.senecac.on.ca:9120/pro_submit");
-			pool.setUsername("ramone");
-			pool.setPassword("ramone");
+    	pool = new DataSource();
+	pool.setUrl("jdbc:mysql://zenit.senecac.on.ca:9120/pro_submit");
+	pool.setUsername("ramone");
+	pool.setPassword("ramone");
     }
     
     public Connection getConnection() {
