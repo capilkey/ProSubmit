@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 
@@ -96,4 +97,16 @@ public class DBAccess {
         }
         return success;
     }
+
+
+	public boolean updateDB(String sql, String[] params) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
+	public boolean queryDB(HashMap<String, String> professor, String sql) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

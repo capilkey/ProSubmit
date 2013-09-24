@@ -5,6 +5,9 @@
 	<listener>
 		<listener-class>prosubmit.listener.ProSubmitContextListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>prosubmit.listener.ProSubmitSessionListener</listener-class>
+	</listener>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

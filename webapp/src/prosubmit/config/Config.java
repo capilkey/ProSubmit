@@ -20,7 +20,7 @@ public class Config {
 			System.out.println(e.getMessage());
 		}
 	}
-	static String getProperty(String key){
+	static public String getProperty(String key){
 		return properties.getProperty(key);
 	}
 }
