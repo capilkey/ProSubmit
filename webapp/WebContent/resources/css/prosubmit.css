@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+body{
+	background-color:#FCFCFC;
+	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+label{
+	display:block;
+	font-weight:bold;
+	color:#111;
+}
+
+h1,h2{
+	color:#3B76F5;
+}

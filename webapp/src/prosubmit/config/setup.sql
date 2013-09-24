@@ -51,10 +51,10 @@ CREATE TABLE course(
 
 DROP TABLE IF EXISTS student;
 CREATE TABLE student(
-	`student_id` VARCHAR(10) NOT NULL PRIMARY KEY,
+	`student_id` VARCHAR(40) NOT NULL PRIMARY KEY,
 	`student_firstname` VARCHAR(25) NOT NULL,
 	`student_lastname` VARCHAR(25) NOT NULL,
-	`student_email` VARCHAR(40) NOT NULL UNIQUE,
+	`student_email` VARCHAR(50) NOT NULL UNIQUE,
 	`student_username` VARCHAR(25) NOT NULL,
 	`group_id` INT UNSIGNED NOT NULL REFERENCES `group` (group_id)
 );
@@ -67,7 +67,7 @@ CREATE TABLE `group` (
 	`group_desc` TEXT NOT NULL,
 	`semester_code` VARCHAR(20) NOT NULL REFERENCES semester (semester_code),
 	`course_id` VARCHAR(10) NOT NULL REFERENCES course (course_id),
-	`student_id` VARCHAR(10) NOT NULL REFERENCES student(student_id)
+	`student_id` VARCHAR(40) NOT NULL REFERENCES student(student_id)
 );
 
 DROP TABLE IF EXISTS project_status;
@@ -135,6 +135,11 @@ CREATE TABLE project_rank(
 	`project_id` INT UNSIGNED NOT NULL REFERENCES project (project_id),
 	`projrank_val` TINYINT(1) UNSIGNED NOT NULL,
 	CONSTRAINT PRIMARY KEY (group_id,project_id)
+);
+
+DROP TABLE IF EXISTS system_admin;
+CREATE TABLE system_admin(
+	`user_id` VARCHAR(40) NOT NULL PRIMARY KEY
 );
 
 SET FOREIGN_KEY_CHECKS = 1;
