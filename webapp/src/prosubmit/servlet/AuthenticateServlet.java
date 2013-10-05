@@ -1,11 +1,22 @@
 package prosubmit.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import prosubmit.controller.AuthenticationManager;
+import prosubmit.db.DBAccess;
+import prosubmit.db.DBConnectionPool;
 
 /**
  * @author ramone
@@ -14,13 +25,18 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("all")
 public final class AuthenticateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private AuthenticationManager authManager;
+	private final String CONTENT_TYPE = "application/json";
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private ServletConfig config = null;   
+    private ServletContext context = null;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AuthenticateServlet() {
         super();
         // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -28,6 +44,8 @@ public final class AuthenticateServlet extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
+		super.init(config);
+		context = config.getServletContext();
 	}
 
 	/**
@@ -35,7 +53,7 @@ public final class AuthenticateServlet extends HttpServlet {
 	 */
 	public ServletConfig getServletConfig() {
 		// TODO Auto-generated method stub
-		return null;
+		return config;
 	}
 
 	/**
@@ -43,6 +61,29 @@ public final class AuthenticateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setHeader("Content-Type",CONTENT_TYPE);
+		PrintWriter out = response.getWriter();
+		
+		if(authManager == null){
+			authManager = new AuthenticationManager(new DBAccess((DBConnectionPool)context.getAttribute("dbPool")));
+		}
+		HashMap<String,String> result = new HashMap<String,String>();
+		result.put("success","0");
+		result.put("redirect","redirect");
+		
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		boolean validated = false;
+		
+		if(username != null && password != null){
+			result.put("message","Username and/or password is empty");
+		}else{
+			
+			if(!validated){
+				result.put("message","Incorrect username and/or password");
+			}
+		}
+		out.println(gson.toJson(result));
 	}
 
 	/**
@@ -50,6 +91,6 @@ public final class AuthenticateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		doGet(request,response);
 	}
-
 }

@@ -26,15 +26,13 @@ public final class ProSubmitContextListener implements ServletContextListener{
 	@Override
 	public void contextDestroyed(ServletContextEvent ctxEvnt) {
 		// TODO Auto-generated method stub
-		context = ctxEvnt.getServletContext();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent ctxEvnt) {
 		// TODO Auto-generated method stub
 		context = ctxEvnt.getServletContext();
-		context.setAttribute("ddPool",new DBConnectionPool());
-		
+		context.setAttribute("dbPool",new DBConnectionPool());
 	}
 	
 }
