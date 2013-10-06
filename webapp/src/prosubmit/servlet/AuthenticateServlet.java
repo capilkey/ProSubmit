@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,7 +37,6 @@ public final class AuthenticateServlet extends HttpServlet {
     public AuthenticateServlet() {
         super();
         // TODO Auto-generated constructor stub
-        
     }
 
 	/**
@@ -61,13 +61,15 @@ public final class AuthenticateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
 		response.setHeader("Content-Type",CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
 		
 		if(authManager == null){
 			authManager = new AuthenticationManager(new DBAccess((DBConnectionPool)context.getAttribute("dbPool")));
 		}
-		HashMap<String,String> result = new HashMap<String,String>();
+		HashMap<String,String> userInfo = new HashMap<String,String>();
+		HashMap<String,String> result   = new HashMap<String,String>();
 		result.put("success","0");
 		result.put("redirect","redirect");
 		
@@ -78,8 +80,40 @@ public final class AuthenticateServlet extends HttpServlet {
 		if(username != null && password != null){
 			result.put("message","Username and/or password is empty");
 		}else{
+			validated =  authManager.validateStudent(username,password,userInfo);
+			if(validated){
+				result.put("redirect","/Student/");
+				session.setAttribute("isStudent",true);
+			}
 			
 			if(!validated){
+				validated =  authManager.validatePofessor(username,password,userInfo);
+				if(validated){
+					result.put("redirect","/Professor/");
+					session.setAttribute("isProfessor",true);
+				}
+			}
+			
+			if(!validated){
+				validated =  authManager.validatePartner(username,password,userInfo);
+				if(validated){
+					result.put("redirect","/Partner/");
+					session.setAttribute("isPartner",true);
+				}
+			}
+			
+			if(!validated){
+				validated =  authManager.validateAdmin(username,password,userInfo);
+				if(validated){
+					result.put("redirect","/Admin/");
+					session.setAttribute("isAdmin",true);
+				}
+			}
+			
+			if(validated){
+				result.put("success","1");
+				session.setAttribute("userInfo",userInfo);
+			}else{
 				result.put("message","Incorrect username and/or password");
 			}
 		}
