@@ -63,7 +63,7 @@ public class AuthenticationManager {
 		//if(ldap.search(username,password)){
 			String sql = "select * FROM professor WHERE professor_username  = '" + username +"'";
 			dbAccess.queryDB(info, sql);
-			if(info.get("professor_username")!= null){
+			if(info.isEmpty() == false){
 				validated = true;
 			}
 		//}
@@ -83,7 +83,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		String sql = "select * FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
 		dbAccess.queryDB(info, sql);
-		if(info.get("partner_id")!= null){
+		if(info.isEmpty() == false){
 			validated = true;
 		}
 		return validated;
@@ -103,7 +103,7 @@ public class AuthenticationManager {
 		//if(ldap.search(username,password)){
 			String sql = "select * FROM system_admin WHERE user_id  = '" + username+"'";
 			dbAccess.queryDB(info, sql);
-			if(info.get("user_id")!= null){
+			if(info.isEmpty() == false){
 				validated = true;
 			}
 		//}
