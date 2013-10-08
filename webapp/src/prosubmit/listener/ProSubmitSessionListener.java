@@ -18,17 +18,19 @@ public class ProSubmitSessionListener implements HttpSessionListener {
      */
     public ProSubmitSessionListener() {
         // TODO Auto-generated constructor stub
+    	super();
     }
 
 	/**
      * @see HttpSessionListener#sessionCreated(HttpSessionEvent)
      */
     public void sessionCreated(HttpSessionEvent evt) {
+    	System.out.println(">>>>>>>>>>>>  SESSION CREATED  <<<<<<<<<<");
         // TODO Auto-generated method stub
     	session = evt.getSession();
     	session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
     }
-
+ 
 	/**
      * @see HttpSessionListener#sessionDestroyed(HttpSessionEvent)
      */

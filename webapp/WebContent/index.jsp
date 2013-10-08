@@ -1,3 +1,16 @@
+<%
+	if(session != null){
+		if(session.getAttribute("isStudent") == "1"){
+			response.sendRedirect("Student/");
+		}if(session.getAttribute("isProfessor") == "1"){
+			response.sendRedirect("Professor/");
+		}if(session.getAttribute("isPartner") == "1"){
+			response.sendRedirect("Partner/");
+		}if(session.getAttribute("isAdmin") == "1"){
+			response.sendRedirect("Admin/");
+		}
+	}
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,7 +21,6 @@
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/lib/bootstrap/css/bootstrap.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/prosubmit.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/login.css">
-
 <script type="text/javascript" src="/ProSubmit/resources/js/jquery.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>

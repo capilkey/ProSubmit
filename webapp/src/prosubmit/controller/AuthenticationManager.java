@@ -5,6 +5,8 @@ package prosubmit.controller;
 
 import java.util.HashMap;
 
+import com.google.gson.Gson;
+
 import prosubmit.db.DBAccess;
 import prosubmit.ldap.LDAPAuthenticate;
 
@@ -17,9 +19,13 @@ public class AuthenticationManager {
 	private DBAccess dbAccess = null;
 	private LDAPAuthenticate ldap = new LDAPAuthenticate(); 
 	
-	public AuthenticationManager(DBAccess dbAccess) {
+	public AuthenticationManager(DBAccess dbAccess) throws NullPointerException{
 		// TODO Auto-generated constructor stub
-		this.dbAccess = dbAccess;
+		if(dbAccess != null){
+			this.dbAccess = dbAccess;
+		}else{
+			throw new NullPointerException("Unable to set dbAccess in class AuthenticationManager upon instantiation. Parameter dbAccess is null");
+		}
 	}
     
 	/**
@@ -33,13 +39,13 @@ public class AuthenticationManager {
 	public boolean validateStudent(String username, String password,HashMap<String,String> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
-		if(ldap.search(username,password)){
-			String sql = "select student_username FROM student WHERE student_username  = " + username;
+		//if(ldap.search(username,password)){
+			String sql = "SELECT * FROM student WHERE student_username  = '" + username + "'";
 			dbAccess.queryDB(info, sql);
-			if(info.get("student_username")!= null){
+			if(info.isEmpty() == false){
 				validated = true;
 			}
-		}
+		//}
 		return validated;
 	}
 	
@@ -54,13 +60,13 @@ public class AuthenticationManager {
 	public boolean validatePofessor(String username, String password,HashMap<String,String> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
-		if(ldap.search(username,password)){
-			String sql = "select * FROM professor WHERE professor_username  = " + username;
+		//if(ldap.search(username,password)){
+			String sql = "select * FROM professor WHERE professor_username  = '" + username +"'";
 			dbAccess.queryDB(info, sql);
 			if(info.get("professor_username")!= null){
 				validated = true;
 			}
-		}
+		//}
 		return validated;
 	}
 
@@ -75,7 +81,7 @@ public class AuthenticationManager {
 	public boolean validatePartner(String username, String password,HashMap<String,String> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
-		String sql = "select * FROM parter WHERE partner_email  = " + username + " AND partner_hashpassword = SHA1(" + password + ")";
+		String sql = "select * FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
 		dbAccess.queryDB(info, sql);
 		if(info.get("partner_id")!= null){
 			validated = true;
@@ -94,13 +100,13 @@ public class AuthenticationManager {
 	public boolean validateAdmin(String username, String password,HashMap<String,String> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
-		if(ldap.search(username,password)){
-			String sql = "select * FROM sustem_admin WHERE user_id  = " + username;
+		//if(ldap.search(username,password)){
+			String sql = "select * FROM system_admin WHERE user_id  = '" + username+"'";
 			dbAccess.queryDB(info, sql);
 			if(info.get("user_id")!= null){
 				validated = true;
 			}
-		}
+		//}
 		return validated;
 	}
 

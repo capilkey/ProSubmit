@@ -13,6 +13,8 @@ import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 
+import com.google.gson.Gson;
+
 import prosubmit.controller.*;
 
 /**
@@ -27,8 +29,12 @@ public class DBAccess {
     private Connection connection = null;
     private ServletContext context;
 
-	public DBAccess(DBConnectionPool dbPool) {
-        this.dbPool = dbPool;
+	public DBAccess(DBConnectionPool dbPool) throws NullPointerException{
+        if(dbPool != null){
+        	this.dbPool = dbPool;
+		}else{
+			throw new NullPointerException("Unable to set dbPool in class DBAccess upon instantiation. Parameter dbPool is null");
+		}
     }
     
 	/**
@@ -58,7 +64,7 @@ public class DBAccess {
     public boolean queryDB(ArrayList<HashMap<String,String>> result, String query) {
     	boolean success = false;
 	    try {
-	    	connection= ((DBConnectionPool)context.getAttribute("DBConnectionPool")).getConnection();
+	    	connection= dbPool.getConnection();
 	        statement = connection.prepareStatement(query);
 	        resultSet = statement.executeQuery();
 	        int colCount = resultSet.getMetaData().getColumnCount();
@@ -71,8 +77,8 @@ public class DBAccess {
 	        }
 	    }catch (SQLException e) {
 	    	System.out.println(e.getMessage());
+	    	e.printStackTrace();
 	    }finally {
-	       //IT SALL GOOD 
 	    	closeConnection();
 	    	success = true;
 	    }
@@ -88,10 +94,13 @@ public class DBAccess {
      */
     public boolean queryDB(HashMap<String, String> record, String sql) {
 		// TODO Auto-generated method stub
-		ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
-		queryDB(results,sql);
-		record = results.get(0);
-    	return false;
+		boolean success = false;
+    	ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
+    	success  = queryDB(results,sql);
+    	if(results.size() > 0){
+			record.putAll(results.get(0));
+		}
+    	return success;
 	}
     
     /**
@@ -102,6 +111,7 @@ public class DBAccess {
     public boolean updateDB(String sql) {
     	boolean success = false;
         try {
+        	connection= dbPool.getConnection();
             statement = connection.prepareStatement(sql);
             statement.executeUpdate();
         }catch (SQLException e) {
@@ -123,6 +133,7 @@ public class DBAccess {
 		// TODO Auto-generated method stub
 		boolean success = false;
 		try{
+			
 			PreparedStatement prpStmt = connection.prepareStatement(sql);
 			for(int i =0;i<params.length;i++){
 				prpStmt.setString(i,params[i]);

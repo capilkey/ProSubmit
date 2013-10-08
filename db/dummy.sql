@@ -1,5 +1,9 @@
 USE pro_submit;
 SET FOREIGN_KEY_CHECKS = 0;
+/**
+*	For this dummy data, users will log in as a partner
+*	with their seneca email address and the password 'prosubmit'
+*/
 DELETE FROM `partner`;
 INSERT INTO `partner` VALUES 
 (1,"Bell Canada","raburrell@myseneca.ca","Ramone","Burrell","Director Of IT","1-416-111-1111","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
@@ -29,7 +33,7 @@ INSERT INTO `student` VALUES
 
 (5,"Antolio","Vivaldi","raburrell@myseneca.ca","alvivaldi",2),
 (6,"Johannes Sebastian","Bach","capilkey@myseneca.ca","jsbach",2),
-(7,"Ludwig Van","Beethoven","cxie8@myseneca.ca","lvbeethoven",3);
+(7,"Ludwig Van","Beethoven","cxie8@myseneca.ca","lvbeethoven",2);
 
 
 DELETE FROM `group`;
@@ -48,17 +52,17 @@ INSERT INTO `project` VALUES
 
 DELETE FROM `professor`;
 INSERT INTO `professor` VALUES
-(1,"raburrell","Ramone","Burrell"),
-(2,"capilkey","Chad","Pilkey"),
-(3,"cxie8","Chaobo","Xie"),
-(4,"xlian3","Xian","Liang");
+(1,"raburrell_prof","Ramone","Burrell"),
+(2,"capilkey_prof","Chad","Pilkey"),
+(3,"cxie8_prof","Chaobo","Xie"),
+(4,"xlian3_prof","Xian","Liang");
 
 DELETE FROM `system_admin`;
 INSERT INTO `system_admin` VALUES
-("raburrell"),
-("capilkey"),
-("cxie8"),
-("xlian3");
+("raburrell_admin"),
+("capilkey_admin"),
+("cxie8_admin"),
+("xlian3_admin");
 
 
 SET FOREIGN_KEY_CHECKS = 1;
