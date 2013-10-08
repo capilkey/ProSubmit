@@ -21,8 +21,6 @@ public final class ProSubmitContextListener implements ServletContextListener{
         // TODO Auto-generated constructor stub
     }
 
-	
-
 	@Override
 	public void contextDestroyed(ServletContextEvent ctxEvnt) {
 		// TODO Auto-generated method stub
@@ -31,7 +29,6 @@ public final class ProSubmitContextListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent ctxEvnt) {
 		// TODO Auto-generated method stub
-		System.out.println(">>>>>>>>>>>>  CONTEXT CREATED  <<<<<<<<<<");
 		context = ctxEvnt.getServletContext();
 		context.setAttribute("dbPool",new DBConnectionPool());
 	}

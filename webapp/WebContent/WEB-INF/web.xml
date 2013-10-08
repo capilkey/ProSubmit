@@ -5,9 +5,9 @@
 	<listener>
 		<listener-class>prosubmit.listener.ProSubmitContextListener</listener-class>
 	</listener>
-	<listener>
+	<!--  <listener>
 		<listener-class>prosubmit.listener.ProSubmitSessionListener</listener-class>
-	</listener>
+	</listener>-->
 	<servlet>
 		<description>
 		</description>

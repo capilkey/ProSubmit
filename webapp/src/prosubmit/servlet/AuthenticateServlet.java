@@ -2,6 +2,7 @@ package prosubmit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.servlet.ServletConfig;
@@ -55,22 +56,44 @@ public final class AuthenticateServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		return config;
 	}
-
+	
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(true);
-		//if(session.isNew()){
-			//session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)context.getAttribute("dbPool")));
-		//}
-		
+		//doGet(request,response);
+	}
+	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("v");
+		if(action != null){
+			if(action.equals("login")){
+				login(request,response);
+			}else if(action.equals("logout")){
+				logout(request,response);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void login(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		response.setHeader("Content-Type",CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
 		
 		if(authManager == null){
-			authManager = new AuthenticationManager((DBAccess)session.getAttribute("dbAccess"));
+			authManager = new AuthenticationManager(new DBAccess(((DBConnectionPool)context.getAttribute("dbPool"))));
 		}
 		HashMap<String,String> userInfo = new HashMap<String,String>();
 		HashMap<String,String> result   = new HashMap<String,String>();
@@ -123,12 +146,16 @@ public final class AuthenticateServlet extends HttpServlet {
 		}
 		out.println(gson.toJson(result));
 	}
-
+	
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void logout(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request,response);
+		
 	}
 }

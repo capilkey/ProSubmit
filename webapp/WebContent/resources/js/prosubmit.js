@@ -14,7 +14,8 @@ ProSubmit.prototype = {
 				type:"POST",
 				data:{
 					username:$("#username").val(),
-					password:$("#password").val()
+					password:$("#password").val(),
+					v:"login"
 				},success:function(response){
 					var success = response.success;
 					var message = response.message;
