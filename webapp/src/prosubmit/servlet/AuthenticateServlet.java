@@ -26,10 +26,10 @@ import prosubmit.db.DBConnectionPool;
  */
 @SuppressWarnings("all")
 public final class AuthenticateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private AuthenticationManager authManager;
-	private final String CONTENT_TYPE = "application/json";
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final long serialVersionUID = 1L;
+    private AuthenticationManager authManager;
+    private final String CONTENT_TYPE = "application/json";
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private ServletConfig config = null;   
     private ServletContext context = null;
     /**
