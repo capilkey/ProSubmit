@@ -136,7 +136,7 @@ public class SystemManager {
 	 * a semester (if the semester exists), false otherwise.
 	 */
 	public boolean removeSemester(String semesterCode){
-		String sql = "SELECT FROM semester WHERE semester code = ?";
+		String sql = "DELETE FROM semester WHERE semester_code = ?";
 		String [] params = {semesterCode};
 		return dbAccess.updateDB(sql,params);
 	}
@@ -184,7 +184,7 @@ public class SystemManager {
 	 * a course (if the course exists), false otherwise
 	 */
 	public boolean removeCourse(String courseId){
-		String sql = "SELECT FROM course WHERE course_id = ?";
+		String sql = "DELETE FROM course WHERE course_id = ?";
 		String [] params = {courseId};
 		return dbAccess.updateDB(sql,params);
 	}
