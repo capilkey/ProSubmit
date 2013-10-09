@@ -52,6 +52,7 @@ CREATE TABLE course(
 DROP TABLE IF EXISTS student;
 CREATE TABLE student(
 	`student_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	`student_bio` TEXT NULL,
 	`student_firstname` VARCHAR(25) NOT NULL,
 	`student_lastname` VARCHAR(25) NOT NULL,
 	`student_email` VARCHAR(50) NOT NULL,
@@ -84,7 +85,7 @@ INSERT INTO `project_status` VALUES
 (5,"Matched","The project proposal has been matched to a student group."),
 (6,"Suspended","The design or development on the project has been suspended."),
 (7,"Developing","The development of the project is ongoing."),
-(7,"Completed","All phases of the project have been completed.");
+(8,"Completed","All phases of the project have been completed.");
 
 DROP TABLE IF EXISTS project_category;
 CREATE TABLE project_category(
