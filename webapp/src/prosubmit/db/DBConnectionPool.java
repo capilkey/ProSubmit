@@ -4,8 +4,10 @@
 package prosubmit.db;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.apache.tomcat.jdbc.pool.DataSource;
+import com.mysql.jdbc.Driver;
 
 import prosubmit.config.Config;
 
@@ -23,6 +25,9 @@ public class DBConnectionPool {
      */
     public DBConnectionPool() {
     	pool = new DataSource();
+    	pool.setDriverClassName("com.mysql.jdbc.Driver");
+    	pool.setMaxActive(Integer.parseInt(Config.getProperty("max_active")));
+    	pool.setMaxIdle(Integer.parseInt(Config.getProperty("max_active")));
     	pool.setUrl(Config.getProperty("url"));
     	pool.setUsername(Config.getProperty("username"));
     	pool.setPassword(Config.getProperty("password"));
@@ -38,7 +43,8 @@ public class DBConnectionPool {
         try {
             connection = pool.getConnection();
         } catch (SQLException e) {
-        	System.out.println(e.getMessage());
+        	System.out.println("Unable to make connection to database. " + e.getMessage() + " " + e.getErrorCode());
+        	e.printStackTrace();
         }
         return connection;
     }

@@ -52,7 +52,17 @@ public class LDAPAuthenticate {
     }
 
     public boolean search(String user, String pass) {
-        if (user.equals("admin") && pass.equals("prosubmit1")) {
+    	
+    	if ((user.equals("raburrell") || user.equals("capilkey") || user.equals("cxie8") || user.equals("xlian3"))&& pass.equals("prosubmit")) {
+            userID = user;
+            givenName = "Student";
+            position = "Student";
+            title = "Student";
+            authenticated = "true";
+            return true;
+        }
+    	/*
+        if (user.equals("admin") && pass.equals("prosubmit")) {
             userID = user;
             givenName = "Administrator";
             position = "Employee";
@@ -60,8 +70,8 @@ public class LDAPAuthenticate {
             authenticated = "true";
             return true;
         }
-
-        if (user.equals("teacher") && pass.equals("prosubmit1")) {
+      
+        if (user.equals("teacher") && pass.equals("prosubmit")) {
             userID = user;
             givenName = "Teacher";
             position = "Employee";
@@ -70,15 +80,15 @@ public class LDAPAuthenticate {
             return true;
         }
 
-        if (user.equals("student") && pass.equals("prosubmit1")) {
+        if ((user.equals("raburrell") || user.equals("capilkey") || user.equals("cxie8") || user.equals("xlian3"))&& pass.equals("prosubmit")) {
             userID = user;
             givenName = "Student";
             position = "Student";
             title = "Student";
             authenticated = "true";
             return true;
-        }
-
+        }*/
+		
         search(user);
 
         if (authenticated.equals("true") && user.toLowerCase().equals(userID.toLowerCase())) {

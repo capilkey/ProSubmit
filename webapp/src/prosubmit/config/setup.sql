@@ -51,12 +51,12 @@ CREATE TABLE course(
 
 DROP TABLE IF EXISTS student;
 CREATE TABLE student(
-	`student_id` VARCHAR(40) NOT NULL PRIMARY KEY,
+	`student_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	`student_firstname` VARCHAR(25) NOT NULL,
 	`student_lastname` VARCHAR(25) NOT NULL,
-	`student_email` VARCHAR(50) NOT NULL UNIQUE,
+	`student_email` VARCHAR(50) NOT NULL,
 	`student_username` VARCHAR(25) NOT NULL,
-	`group_id` INT UNSIGNED NOT NULL REFERENCES `group` (group_id)
+	`group_id` INT UNSIGNED NULL REFERENCES `group` (group_id)
 );
 
 DROP TABLE IF EXISTS `group`;
@@ -67,7 +67,7 @@ CREATE TABLE `group` (
 	`group_desc` TEXT NOT NULL,
 	`semester_code` VARCHAR(20) NOT NULL REFERENCES semester (semester_code),
 	`course_id` VARCHAR(10) NOT NULL REFERENCES course (course_id),
-	`student_id` VARCHAR(40) NOT NULL REFERENCES student(student_id)
+	`student_id` INT UNSIGNED NOT NULL REFERENCES student(student_id)
 );
 
 DROP TABLE IF EXISTS project_status;
@@ -77,14 +77,14 @@ CREATE TABLE project_status(
 	`projstatus_desc` TEXT NOT NULL
 );
 INSERT INTO `project_status` VALUES
-('',"Awaiting Approval","The project proposal has been submitted, but not looked at by a professor yet."),
-('',"Pending Approval","The project proposal has been reviewed by a professor."),
-('',"Approved","The project proposal has been accepted as a valid project."),
-('',"Rejected","The project proposal has been rejected as a valid project."),
-('',"Matched","The project proposal has been matched to a student group."),
-('',"Suspended","The design or development on the project has been suspended."),
-('',"Developing","The development of the project is ongoing."),
-('',"Completed","All phases of the project have been completed.");
+(1,"Awaiting Approval","The project proposal has been submitted, but not looked at by a professor yet."),
+(2,"Pending Approval","The project proposal has been reviewed by a professor."),
+(3,"Approved","The project proposal has been accepted as a valid project."),
+(4,"Rejected","The project proposal has been rejected as a valid project."),
+(5,"Matched","The project proposal has been matched to a student group."),
+(6,"Suspended","The design or development on the project has been suspended."),
+(7,"Developing","The development of the project is ongoing."),
+(7,"Completed","All phases of the project have been completed.");
 
 DROP TABLE IF EXISTS project_category;
 CREATE TABLE project_category(
@@ -93,10 +93,10 @@ CREATE TABLE project_category(
 	`projcategory_desc` TEXT NULL
 );
 INSERT INTO `project_category` (`projcategory_id`,`projcategory_name`) VALUES
-('',"Mobile Application"),
-('',"Web Service"),
-('',"Web Application"),
-('',"General Application");
+(1,"Mobile Application"),
+(2,"Web Service"),
+(3,"Web Application"),
+(4,"General Application");
 
 DROP TABLE IF EXISTS project;
 CREATE TABLE project(
@@ -105,7 +105,7 @@ CREATE TABLE project(
 	`project_title` VARCHAR(100) NOT NULL,
 	`project_desc` TEXT NOT NULL,
 	`project_createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`project_editdate` TIMESTAMP NOT NULL,
+	`project_editdate` TIMESTAMP NULL,
 	`group_id` INT UNSIGNED NULL REFERENCES `group` (`group_id`),
 	`projstatus_id` SMALLINT UNSIGNED NOT NULL REFERENCES project_status (`projstatus_id`),
 	`projcategory_id` SMALLINT UNSIGNED NOT NULL REFERENCES project_category (`projcategory_id`)
