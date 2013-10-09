@@ -53,15 +53,8 @@ public class LDAPAuthenticate {
 
     public boolean search(String user, String pass) {
     	
-    	if ((user.equals("raburrell") || user.equals("capilkey") || user.equals("cxie8") || user.equals("xlian3"))&& pass.equals("prosubmit")) {
-            userID = user;
-            givenName = "Student";
-            position = "Student";
-            title = "Student";
-            authenticated = "true";
-            return true;
-        }
-    	/*
+
+    	
         if (user.equals("admin") && pass.equals("prosubmit")) {
             userID = user;
             givenName = "Administrator";
@@ -87,7 +80,7 @@ public class LDAPAuthenticate {
             title = "Student";
             authenticated = "true";
             return true;
-        }*/
+        }
 		
         search(user);
 
