@@ -5,6 +5,8 @@
 	width:100%;
 	height:40px !important;
 	-webkit-box-shadow:5px 0px 10px #ACACAC;
+	-moz-box-shadow:5px 0px 10px #ACACAC;
+	box-shadow:5px 0px 10px #ACACAC;
 	border-radius:0px !important;
 	border:0;
 	text-align:center;
