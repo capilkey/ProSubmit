@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS tempppartner;
 CREATE TABLE temppartner(
 	`temppartner_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	`partner_company` VARCHAR(100) NOT NULL,
+	`partner_industry` VARCHAR(100) NOT NULL,
 	`partner_email` VARCHAR(40) NOT NULL UNIQUE,
 	`partner_firstname` VARCHAR(25) NOT NULL,
 	`partner_lastname` VARCHAR(25) NOT NULL,
@@ -27,6 +28,7 @@ DROP TABLE IF EXISTS partner;
 CREATE TABLE partner(
 	`partner_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	`partner_company` VARCHAR(100) NOT NULL,
+	`partner_industry` VARCHAR(100) NOT NULL,
 	`partner_email` VARCHAR(40) NOT NULL UNIQUE,
 	`partner_firstname` VARCHAR(25) NOT NULL,
 	`partner_lastname` VARCHAR(25) NOT NULL,

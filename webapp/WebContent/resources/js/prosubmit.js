@@ -87,10 +87,10 @@ ProSubmit.prototype = {
 		*/
 		registerPartner:function(){
 			var isValid = true;
-			var firstname =  $("#firstname");
-			var lastname =  $("#firstname");
-			var email =  $("#email");
-			var company =  $("#company");
+			var firstname =  $("#firstname").val();
+			var lastname =  $("#firstname").val();
+			var email =  $("#email").val();
+			var company =  $("#company").val();
 			var tel =  $("#tel");
 			var password =  $("#password");
 			var confirmPassword =  $("#confirm-password");
@@ -111,7 +111,7 @@ ProSubmit.prototype = {
 				isValid = this.validatePassword(password,confirmPassword);
 			}
 			
-			
+
 			if(isValid){
 				this.mask(function(){
 					$.ajax({
@@ -133,7 +133,7 @@ ProSubmit.prototype = {
 							var message = response.message;
 							
 							if(success == "1"){
-								window.location = "/ProSubmit/Partner/";
+								window.location = "/ProSubmit/Partner/register/?registered=1";
 							}else{
 								proSubmit.unmask(function(){
 									alert(message);
@@ -153,7 +153,26 @@ ProSubmit.prototype = {
 		 */
 		validateNames:function(firstname,lastname){
 			var isValid = true;
-			
+			if(!firstname || !lastname){
+				isValid = false;
+				alert("First and last names must not be empty");
+			}if(isValid){
+				if(firstname.length < 2 || lastname.length < 2){
+					isValid = false;
+					alert("First and last names cannot be less than two charters");
+				}
+			}if(isValid){
+				if(firstname.length > 25 || lastname.length > 25){
+					isValid = false;
+					alert("First and last names cannot be greater than twenty five characters");
+				}
+			}if(isValid){
+				var exp = "^[\w]{1,}[\w-\s]{1,}[\w]$";
+				if(!firstname.match(new RegExp(exp)) || !lastname.match(new RegExp(exp))){
+					isValid = false;
+					alert("First and last names connt have special characters");
+				}
+			}
 			return isValid;
 		},
 		
@@ -173,7 +192,7 @@ ProSubmit.prototype = {
 			var isValid = true;
 			
 			return isValid;
-		}
+		},
 		
 		/**
 		 * 
@@ -182,7 +201,7 @@ ProSubmit.prototype = {
 			var isValid = true;
 			
 			return isValid;
-		}
+		},
 		
 		/**
 		 * 
@@ -191,7 +210,7 @@ ProSubmit.prototype = {
 			var isValid = true;
 			
 			return isValid;
-		}
+		},
 		
 		/**
 		 * 

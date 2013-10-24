@@ -29,8 +29,8 @@
     <rule>
         <note>
         </note>
-        <from>/Partner/register[/]*$</from>
-        <to>/Partner/register.jsp</to>
+        <from>/partner/register[/]*$</from>
+        <to>/partner/register.jsp</to>
     </rule>
     
 	<rule>
