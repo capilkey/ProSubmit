@@ -54,14 +54,17 @@ public class GroupServlet extends HttpServlet {
 		HashMap<String,String> result = new HashMap<String,String>();
 		result.put("success","0");
 		String action = request.getParameter("v");
+		StringBuilder bio = new StringBuilder(request.getParameter("bio"));
+		
 		if(gh == null){
 			gh = new GroupHandler((DBAccess)request.getSession().getAttribute("dbAccess"));
 		}
 		if(action != null){
 			if(action.equals("updateStudentBio")){
-				if(updateStudentBio(request.getParameter("id"),request.getParameter("bio"))){
+				if(updateStudentBio(request.getParameter("student_id"),bio)){
 					result.put("success","1");
 					result.put("message","Student biography successfully updated");
+					result.put("bio",bio.toString());
 				}else{
 					result.put("message","Unable to update student biography");
 				}
@@ -78,9 +81,15 @@ public class GroupServlet extends HttpServlet {
 	 * @param bio
 	 * @return
 	 */
-	private boolean updateStudentBio(String studentId,String bio) {
+	private boolean updateStudentBio(String studentId,StringBuilder bio) {
 		// TODO Auto-generated method stub
-		return gh.updateStudentBio(studentId, bio);
+		if(studentId == null){
+			return false;
+		}else if(bio == null || bio.length() == 0){
+			bio.append("No biography available for this student");
+			System.out.println("CAME HERE");
+		}
+		return gh.updateStudentBio(studentId, bio.toString());
 	}
 
 }

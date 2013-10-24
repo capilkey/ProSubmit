@@ -158,7 +158,7 @@ public class DBAccess {
 			for(int i =1;i<=params.length;i++){
 				prpStmt.setString(i,params[i-1]);
 			}
-			prpStmt.execute();
+			prpStmt.executeUpdate();
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

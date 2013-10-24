@@ -129,6 +129,8 @@ textarea.bio{
 	width:600px;
 	display:block;
 	height:300px;
+	margin-bottom:5px;
+	padding:5px;
 }
 
 #body-mask{

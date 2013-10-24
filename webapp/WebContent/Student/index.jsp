@@ -37,7 +37,7 @@
 				</div>
 				<%
 				if(userInfo.get("student_id") != null && (userInfo.get("student_id").equals(students.get(i).get("student_id")))){
-					%><a href="#" onclick="return proSubmit.updateStudentBio(this,'<%=students.get(i).get("student_id")%>')">Edit Bio</a><%
+					%><a id="edit_student_bio_link_<%=students.get(i).get("student_id")%>" href="#" onclick="return proSubmit.updateStudentBio(this,'<%=students.get(i).get("student_id")%>')">Edit Bio</a><%
 				}
 			}
 		%>

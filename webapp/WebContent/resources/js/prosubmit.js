@@ -44,20 +44,24 @@ ProSubmit.prototype = {
 				});
 			}else{
 				this.mask(function(){
+					var bio = $("#cont_edit_student_bio_"+id + ' textarea').val();
 					$.ajax({
 						url:"/ProSubmit/Group",
 						type:"POST",
 						data:{
 							v:"updateStudentBio",
-							bio:$("#cont_edit_student_bio_"+id + ' textarea').val(),
+							bio:bio,
 							student_id:id
 						},success:function(response){
 							var success = response.success;
 							var message = response.message;
+							bio = response.bio;
 							if(success == '1'){
 								proSubmit.unMask(function(){
 									$("#cont_edit_student_bio_"+id).slideUp("fast",function(){
+										$("#student_bio_"+id).text(bio);
 										$("#student_bio_"+id).slideDown("fast",function(){
+											$("#edit_student_bio_link_"+id).show();
 											alert(message);
 										});
 									});
