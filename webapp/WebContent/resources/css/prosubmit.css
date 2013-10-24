@@ -3,9 +3,109 @@ body{
 	background-color:#FCFCFC;
 	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
-#content{
+#page-content{
 	min-height:1000px;
 	width:1100px;
+	border:4px solid green;
+	margin-top:55px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#page-content div:nth-child(1){
+	border:1px solid purple;
+}
+
+#page-content div:nth-child(2){
+	border:1px solid blue;
+}
+
+.hbox {
+	display: -webkit-box;
+	display: -moz-box;
+	display: flex-box;
+	display:flex;
+	display:inline-flex;
+	display: -webkit-flex;
+    
+    -webkit-flex-direction: row;  
+	box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	-webkit-flex-flow: row;
+	-webkit-box-align: stretch;
+	-moz-box-orient: horizontal;
+	-moz-flex-flow: row;
+	-moz-box-align: stretch;
+	-webkit-box-flex: 1;
+	box-align: stretch;
+	width:100%;
+}
+.hbox > *{
+	width:0;
+}
+
+.vbox {
+	display: -webkit-box;
+	display: -moz-box;
+	display: flex-box;
+	box-orient:vertical;
+	-webkit-box-orient:vertical;
+	-webkit-flex-flow: row;
+	-webkit-box-align: stretch;
+	-moz-box-orient:vertical
+	-moz-flex-flow: row;
+	-moz-box-align: stretch;
+	-webkit-box-flex: 1;
+	box-align: stretch;
+	width:100%;
+}
+
+.flex1{
+	-webkit-box-flex:1;
+	-moz-box-flex:1;
+	box-flex:1;
+    -webkit-flex:1 1 auto;
+    flex:1 1 auto;	 
+}
+
+.flex2{
+	-webkit-box-flex:2;
+	-moz-box-flex:2;
+	box-flex:2;
+    -webkit-flex:2 2 auto;
+    flex:2 2 auto;	 
+}
+
+.flex3{
+	-webkit-box-flex:3;
+	-moz-box-flex:3;
+	box-flex:3;
+    -webkit-flex:3 3 auto;
+    flex:3 3 auto;	 
+}
+
+.flex4{
+	-webkit-box-flex:4;
+	-moz-box-flex:4;
+	box-flex:4;
+    -webkit-flex:4 4 auto;
+    flex:4 4 auto;	 
+}
+
+.flex5{
+	-webkit-box-flex:5;
+	-moz-box-flex:5;
+	box-flex:5;
+    -webkit-flex:5 5 auto;
+    flex:5 5 auto;	 
+}
+
+.flex6{
+	-webkit-box-flex:6;
+	-moz-box-flex:6;
+	box-flex:6;
+    -webkit-flex:6 6 auto;
+    flex:6 6 auto;	 
 }
 
 

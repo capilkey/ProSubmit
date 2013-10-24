@@ -62,7 +62,7 @@ public final class AuthenticateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request,response);
+		doPost(request,response);
 	}
 	
 	/**
@@ -74,7 +74,12 @@ public final class AuthenticateServlet extends HttpServlet {
 			if(action.equals("login")){
 				login(request,response);
 			}else if(action.equals("logout")){
-				logout(request,response);
+				// TODO Auto-generated method stub
+				HttpSession session = request.getSession();
+				session.invalidate();
+				response.sendRedirect("/ProSubmit/login/");
+			}else{
+				System.out.println("UNKNOWN ACTION");
 			}
 		}
 	}
@@ -109,14 +114,14 @@ public final class AuthenticateServlet extends HttpServlet {
 		}else{
 			validated =  authManager.validateStudent(username,password,userInfo);
 			if(validated){
-				result.put("redirect","Student/");
+				result.put("redirect","/ProSubmit/Student/");
 				session.setAttribute("isStudent","1");
 			}
 			
 			if(!validated){
 				validated =  authManager.validatePofessor(username,password,userInfo);
 				if(validated){
-					result.put("redirect","Professor/");
+					result.put("redirect","/ProSubmit/Professor/");
 					session.setAttribute("isProfessor","1");
 				}
 			}
@@ -124,7 +129,7 @@ public final class AuthenticateServlet extends HttpServlet {
 			if(!validated){
 				validated =  authManager.validatePartner(username,password,userInfo);
 				if(validated){
-					result.put("redirect","Partner/");
+					result.put("redirect","/ProSubmit/Partner/");
 					session.setAttribute("isPartner","1");
 				}
 			}
@@ -132,7 +137,7 @@ public final class AuthenticateServlet extends HttpServlet {
 			if(!validated){
 				validated =  authManager.validateAdmin(username,password,userInfo);
 				if(validated){
-					result.put("redirect","Admin/");
+					result.put("redirect","/ProSubmit/Admin/");
 					session.setAttribute("isAdmin","1");
 				}
 			}
@@ -145,17 +150,5 @@ public final class AuthenticateServlet extends HttpServlet {
 			}
 		}
 		out.println(gson.toJson(result));
-	}
-	
-	/**
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	private void logout(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.google.gson.GsonBuilder" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,53 +18,36 @@
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>
 </head>
 <body>
-<div id="nav-bar-container">
-<nav class="navbar navbar-inverse" role="navigation">
-<!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">Brand</a>
-  </div>
-
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li><a href="#">Separated link</a></li>
-          <li><a href="#">One more separated link</a></li>
-        </ul>
-      </li>
-    </ul>
-    <form class="navbar-form navbar-left" role="search">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">Link</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li><a href="#">Separated link</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div><!-- /.navbar-collapse -->
+<nav id="nav-bar" class="navbar navbar-default" role="navigation">
+<div id="nav-contents-container" class="hbox">
+	<div class="flex1"><img src="/ProSubmit/resources/icons/logo-medium.png" alt="LOGO"/></div>
+	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">
+		<ul class="nav navbar-nav">
+			<li><a href="/ProSubmit/projects/">Projects</a></li>
+		  	<li><a href="/ProSubmit/groups/">Groups</a></li>
+		  	<!-- 
+		  	<li class="dropdown" style="display: none">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">TEXT <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href=""></a></li>	
+				</ul>
+		    </li>-->
+		    	
+		    	<li><a href="/">Link</a></li>
+		    	<li><a href="/">Link</a></li>
+		    	<li><a href="/">Link</a></li>
+		    	<li><a href="/">Link</a></li>
+		  </ul>
+	   </div><!-- /.navbar-collapse -->
+			
+	    <div id="log-in-register-content" class="flex1">
+	    	<% 
+	    		HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
+	    	%>
+	    	<% out.println(userInfo.get("username")); %>
+	    	|
+	    	<a href="../Authenticate?v=logout">Logout</a>
+		</div>
+			  
+	</div>
 </nav>
-</div>

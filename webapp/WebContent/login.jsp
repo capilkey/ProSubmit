@@ -29,9 +29,9 @@
 		<form id="loginForm">
 			<h2>ProSubmit Login</h2>
 			<label for="username">Username:</label>
-			<input type="text" id="username" placeHolder="Username" class="form-control"/>
+			<input type="text" id="username" placeHolder="Username" class="form-control" value="raburrell"/>
 			<label for="password">Password:</label>
-			<input type="text" id="password" placeHolder="Password" class="form-control"/><br/><br/>
+			<input type="password" id="password" placeHolder="Password" class="form-control" value="prosubmit"/><br/><br/>
 			<button type="button" class="btn btn-primary" onclick="return proSubmit.login()">Login</button>
 			<br/><br/>
 		</form>
