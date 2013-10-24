@@ -35,6 +35,13 @@
 		<servlet-class>prosubmit.servlet.GroupServlet</servlet-class>
 		 <load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>PartnerServlet</display-name>
+		<servlet-name>PartnerServlet</servlet-name>
+		<servlet-class>prosubmit.servlet.PartnerServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticateServlet</servlet-name>
 		<url-pattern>/Authenticate</url-pattern>
@@ -42,6 +49,10 @@
 	<servlet-mapping>
 		<servlet-name>GroupServlet</servlet-name>
 		<url-pattern>/Group</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PartnerServlet</servlet-name>
+		<url-pattern>/Partner</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

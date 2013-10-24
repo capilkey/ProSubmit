@@ -112,14 +112,14 @@ public final class AuthenticateServlet extends HttpServlet {
 		}else{
 			validated =  authManager.validateStudent(username,password,userInfo);
 			if(validated){
-				result.put("redirect","/ProSubmit/Student/");
+				result.put("redirect","/ProSubmit/student/");
 				session.setAttribute("isStudent","1");
 			}
 			
 			if(!validated){
 				validated =  authManager.validatePofessor(username,password,userInfo);
 				if(validated){
-					result.put("redirect","/ProSubmit/Professor/");
+					result.put("redirect","/ProSubmit/professor/");
 					session.setAttribute("isProfessor","1");
 				}
 			}
@@ -127,7 +127,7 @@ public final class AuthenticateServlet extends HttpServlet {
 			if(!validated){
 				validated =  authManager.validatePartner(username,password,userInfo);
 				if(validated){
-					result.put("redirect","/ProSubmit/Partner/");
+					result.put("redirect","/ProSubmit/partner/");
 					session.setAttribute("isPartner","1");
 				}
 			}
@@ -135,7 +135,7 @@ public final class AuthenticateServlet extends HttpServlet {
 			if(!validated){
 				validated =  authManager.validateAdmin(username,password,userInfo);
 				if(validated){
-					result.put("redirect","/ProSubmit/Admin/");
+					result.put("redirect","/ProSubmit/admin/");
 					session.setAttribute("isAdmin","1");
 				}
 			}

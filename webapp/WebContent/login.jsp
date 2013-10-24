@@ -1,13 +1,13 @@
 <%
 	if(session != null){
 		if(session.getAttribute("isStudent") == "1"){
-			response.sendRedirect("Student/");
+			response.sendRedirect("student/");
 		}if(session.getAttribute("isProfessor") == "1"){
-			response.sendRedirect("Professor/");
+			response.sendRedirect("professor/");
 		}if(session.getAttribute("isPartner") == "1"){
-			response.sendRedirect("Partner/");
+			response.sendRedirect("partner/");
 		}if(session.getAttribute("isAdmin") == "1"){
-			response.sendRedirect("Admin/");
+			response.sendRedirect("admin/");
 		}
 	}
 %>

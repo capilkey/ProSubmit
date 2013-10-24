@@ -147,6 +147,62 @@ ProSubmit.prototype = {
 			}
 			return false;
 		},
+		
+		/**
+		 * 
+		 */
+		validateNames:function(firstname,lastname){
+			var isValid = true;
+			
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateEmail:function(email){
+			var isValid = true;
+			
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validatePartnerCompany:function(company){
+			var isValid = true;
+			
+			return isValid;
+		}
+		
+		/**
+		 * 
+		 */
+		validateAddress:function(companyAddress){
+			var isValid = true;
+			
+			return isValid;
+		}
+		
+		/**
+		 * 
+		 */
+		validateTel:function(tel){
+			var isValid = true;
+			
+			return isValid;
+		}
+		
+		/**
+		 * 
+		 */
+		validatePassword:function(password,confirmPassword){
+			var isValid = true;
+			
+			return isValid;
+		},
+		
+		
 		/**
 		* 
 		*/
