@@ -5,6 +5,8 @@
  */
 ProSubmit = function(){}
 ProSubmit.prototype = {
+		emailRegExp:/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+		urlRegExp:/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/,
 		/**
 		 * 
 		 */
@@ -87,16 +89,19 @@ ProSubmit.prototype = {
 		*/
 		registerPartner:function(){
 			var isValid = true;
+			this.goTop();
 			var firstname =  $("#firstname").val();
-			var lastname =  $("#firstname").val();
+			var lastname =  $("#lastname").val();
 			var email =  $("#email").val();
 			var company =  $("#company").val();
-			var tel =  $("#tel");
-			var password =  $("#password");
-			var confirmPassword =  $("#confirm-password");
-			var companyAddress =  $("#company-address");
-			var jobTitle = $("#job-title");
-			var industry = $("#industry");
+			var url =  $("#url").val();
+			var tel =  $("#tel").val();
+			var extension =  $("#extension").val();
+			var password =  $("#password").val();
+			var confirmPassword =  $("#confirm-password").val();
+			var companyAddress =  $("#company-address").val();
+			var jobTitle = $("#jobtitle").val();
+			var industry = $("#industry").val();
 			
 			isValid = this.validateNames(firstname,lastname);
 			if(isValid){
@@ -104,30 +109,38 @@ ProSubmit.prototype = {
 			}if(isValid){
 				isValid = this.validatePartnerCompany(company);
 			}if(isValid){
+				isValid = this.validateURL(url);
+			}if(isValid){
 				isValid = this.validateAddress(companyAddress);
 			}if(isValid){
 				isValid = this.validateTel(tel);
 			}if(isValid){
+				isValid = this.validateExtension(extension);
+			}if(isValid){
 				isValid = this.validatePassword(password,confirmPassword);
 			}
 			
-
-			if(isValid){
+			if(!isValid){
+				$("#partner-register-error-message").show();
+			}else{
+				$("#partner-register-error-message").hide();
 				this.mask(function(){
 					$.ajax({
 						url:"/ProSubmit/Partner",
 						type:"POST",
 						data:{
 							v:"registerPartner",
-							firstname:firstname,
-							lastname:lastname,
+							firstname:firstname.toUpperCase(),
+							lastname:lastname.toUpperCase(),
 							email:email,
 							company:company,
 							tel:tel,
 							password:hex_md5(password),
-							companyAddess:companyAddess,
+							companyAddress:companyAddress,
 							jobTitle:jobTitle,
 							industry:industry,
+							url:url,
+							extension:extension,
 						},success:function(response){
 							var success = response.success;
 							var message = response.message;
@@ -155,22 +168,22 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!firstname || !lastname){
 				isValid = false;
-				alert("First and last names must not be empty");
+				$("#partner-register-error-message").text("First and last names must not be empty");
 			}if(isValid){
 				if(firstname.length < 2 || lastname.length < 2){
 					isValid = false;
-					alert("First and last names cannot be less than two charters");
+					$("#partner-register-error-message").text("First and last names cannot be less than two charters");
 				}
 			}if(isValid){
 				if(firstname.length > 25 || lastname.length > 25){
 					isValid = false;
-					alert("First and last names cannot be greater than twenty five characters");
+					$("#partner-register-error-message").text("First and last names cannot be greater than twenty five characters");
 				}
-			}if(isValid){
-				var exp = "^[\w]{1,}[\w-\s]{1,}[\w]$";
-				if(!firstname.match(new RegExp(exp)) || !lastname.match(new RegExp(exp))){
+			}if(isValid){ 
+				var exp = /^[A-Za-z][A-Za-z-\s]{1,}[A-Za-z]$/;
+				if(firstname.match(exp) == null || lastname.match(exp) == null){
 					isValid = false;
-					alert("First and last names connt have special characters");
+					$("#partner-register-error-message").text("First and last names connt have special characters or numbers");
 				}
 			}
 			return isValid;
@@ -181,7 +194,15 @@ ProSubmit.prototype = {
 		 */
 		validateEmail:function(email){
 			var isValid = true;
-			
+			if(!email){
+				isValid = false;
+				$("#partner-register-error-message").text("Email cannot be empty");
+			}if(isValid){
+				if(!email.match(this.emailRegExp)){
+					isValid = false;
+					$("#partner-register-error-message").text("Invalid email");
+				}
+			}
 			return isValid;
 		},
 		
@@ -190,7 +211,29 @@ ProSubmit.prototype = {
 		 */
 		validatePartnerCompany:function(company){
 			var isValid = true;
-			
+			if(!company){
+				isValid = false;
+				$("#partner-register-error-message").text("Company cannot be empty");
+			}if(isValid){
+				if(company.length < 2){
+					isValid = false;
+					$("#partner-register-error-message").text("Company name cannot be less than 2 characters");
+				}
+			}
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateURL:function(url){
+			var isValid = true;
+			if(url){
+				if(url.match(this.urlRegExp) == null){
+					isValid = false;
+					$("#partner-register-error-message").text("Invalid URL");
+				}
+			}
 			return isValid;
 		},
 		
@@ -199,7 +242,16 @@ ProSubmit.prototype = {
 		 */
 		validateAddress:function(companyAddress){
 			var isValid = true;
-			
+			if(!companyAddress){
+				isValid = false;
+				$("#partner-register-error-message").text("Company address cannot be empty");
+			}if(isValid){
+				var exp = /^[\w\s\d-'.()&]{1,}$/;
+				if(companyAddress.match() == null){
+					isValid = false;
+					$("#partner-register-error-message").text("Invalid characters found in company address");
+				}
+			}
 			return isValid;
 		},
 		
@@ -207,8 +259,37 @@ ProSubmit.prototype = {
 		 * 
 		 */
 		validateTel:function(tel){
+			tel = tel.replace(/[^\d]{1,}/gi,"");
 			var isValid = true;
-			
+			if(!tel){
+				isValid = false;
+				$("#partner-register-error-message").text("Telephone cannot be empty");
+			}if(isValid){
+				if(tel.length < 10){
+					isValid = false;
+					$("#partner-register-error-message").text("Phone number should be atleast ten digits long");
+				}
+			}if(isValid){
+				if(tel.length > 11){
+					isValid = false;
+					$("#partner-register-error-message").text("Phone number cannot be greater than 11 digits");
+				}
+			}
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateExtension:function(extension){
+			var isValid = true;
+			if(extension){
+				extension = extension.replace(/[^\d]{1,}/);
+				if(!extension){
+					isValid = false;
+					$("#partner-register-error-message").text("Invalid extension");
+				}
+			}
 			return isValid;
 		},
 		
@@ -217,7 +298,20 @@ ProSubmit.prototype = {
 		 */
 		validatePassword:function(password,confirmPassword){
 			var isValid = true;
-			
+			if(!password || !confirmPassword){
+				isValid = false;
+				$("#partner-register-error-message").text("Password and confirm password cannot be empty");
+			}if(isValid){
+				if(password.length < 10){
+					isValid = false;
+					$("#partner-register-error-message").text("Password cannot be less than 10 characters");
+				}
+			}if(isValid){
+				if(password != confirmPassword){
+					isValid = false;
+					$("#partner-register-error-message").text("Passwords do not match");
+				}
+			}
 			return isValid;
 		},
 		
@@ -245,6 +339,13 @@ ProSubmit.prototype = {
 					}
 				});
 			});
+		},
+		
+		/**
+		* 
+		*/
+		goTop:function(){
+			$(document.body).animate({scrollTop:0});
 		}
 };
 

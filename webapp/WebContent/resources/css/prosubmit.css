@@ -146,6 +146,9 @@ textarea.bio{
 	display:none;	
 }
 
+.alert{
+	display:none;
+}
 .cont_edit_student_bio{
 	display:none;
 }

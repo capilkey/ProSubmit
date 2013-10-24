@@ -63,15 +63,15 @@ public class PartnerServlet extends HttpServlet {
 		if(action != null){
 			if(action.equals("registerPartner")){
 				StringBuilder partnerId	= null;
-				String firstname 		= request.getParameter("firstname");
-				String lastname 		= request.getParameter("lastname");
-				String email 			= request.getParameter("email");
-				String password 		= request.getParameter("password");
-				String company 			= request.getParameter("company");
-				String tel			 	= request.getParameter("tel");
-				String companyAddress 	= request.getParameter("companyAddress");
-				String jobTitle 		= request.getParameter("jobTitle");
-				String industry 		= request.getParameter("industry");
+				String firstname = request.getParameter("firstname");
+				String lastname = request.getParameter("lastname");
+				String email = request.getParameter("email");
+				String password = request.getParameter("password");
+				String company 	= request.getParameter("company");
+				String tel	= request.getParameter("tel");
+				String companyAddress = request.getParameter("companyAddress");
+				String jobTitle = request.getParameter("jobTitle");
+				String industry = request.getParameter("industry");
 				 
 				if(partnerManager.addPartner(partnerId,firstname,lastname,email,password,company,tel,companyAddress,jobTitle,industry,info)){
 					result.put("success","1");
