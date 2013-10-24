@@ -121,3 +121,29 @@ h1,h2{
 	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif !important;
 }
 
+textarea{
+	resize: none;
+}
+
+textarea.bio{
+	width:600px;
+	display:block;
+	height:300px;
+}
+
+#body-mask{
+	position:absolute;
+	top:0;
+	bottom:0;
+	margin-bottom:0px;
+	width:100%;
+	height:100%;
+	background-color:#111;
+	opacity:0.3;
+	z-index:9000;
+	display:none;	
+}
+
+.cont_edit_student_bio{
+	display:none;
+}

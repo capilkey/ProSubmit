@@ -78,8 +78,6 @@ public final class AuthenticateServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.invalidate();
 				response.sendRedirect("/ProSubmit/login/");
-			}else{
-				System.out.println("UNKNOWN ACTION");
 			}
 		}
 	}

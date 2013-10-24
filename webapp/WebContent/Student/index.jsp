@@ -1,7 +1,9 @@
 <%
 	if(session == null || session.getAttribute("isStudent") != "1" || session.getAttribute("userInfo") == null){
-		response.sendRedirect("/ProSubmit/login.jsp");
+		response.sendRedirect("/ProSubmit/");
+		return;
 	}
+	String pageTitle = "Home - Student";
 %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
@@ -29,13 +31,15 @@
 				<h3><%=students.get(i).get("student_firstname")+" " + students.get(i).get("student_lastname") %></h3>
 				<em><%=students.get(i).get("student_email") %></em>
 				<p id='student_bio_<%=students.get(i).get("student_id")%>'><%=students.get(i).get("student_bio") %></p>
+				<div id='cont_edit_student_bio_<%=students.get(i).get("student_id")%>' class="cont_edit_student_bio">
+					<textarea class="bio"></textarea>
+					<button type="button" class="btn btn-primary" onclick="return proSubmit.updateStudentBio(null,<%=students.get(i).get("student_id")%>)">Done</button>
+				</div>
 				<%
 				if(userInfo.get("student_id") != null && (userInfo.get("student_id").equals(students.get(i).get("student_id")))){
-					%><a href="#">Edit Bio</a><%
+					%><a href="#" onclick="return proSubmit.updateStudentBio(this,'<%=students.get(i).get("student_id")%>')">Edit Bio</a><%
 				}
 			}
-			//Gson gson = new Gson();
-			//out.println(gson.toJson(userInfo));
 		%>
 		
 	</div>

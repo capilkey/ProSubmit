@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>pageTitle</title>
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/lib/bootstrap/css/bootstrap.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/header.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/footer.css"> 
@@ -27,6 +27,7 @@
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>
 </head>
 <body>
+<div id="body-mask"></div>
 <nav id="nav-bar" class="navbar navbar-default" role="navigation">
 <div id="nav-contents-container" class="hbox">
 	<div class="flex1"><img src="/ProSubmit/resources/icons/logo-medium.png" alt="LOGO"/></div>
@@ -57,11 +58,10 @@
 	   </div><!-- /.navbar-collapse -->
 			
 	    <div id="log-in-register-content" class="flex1">
-	    	<% 
+	    	<% //
 	    		HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
-	    	%>
-	    	<% out.println(userInfo.get("username")); %>
-	    	|
+	   			out.println(userInfo.get("username"));
+	   		%> | 
 	    	<a href="../Authenticate?v=logout">Logout</a>
 		</div>
 			  

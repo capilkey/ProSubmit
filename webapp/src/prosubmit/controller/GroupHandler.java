@@ -173,4 +173,15 @@ public class GroupHandler {
 		return dbAccess.updateDB(sql);
 	}
 	
+	/**
+	 * 
+	 * @param studentId
+	 * @return
+	 */
+	public boolean updateStudentBio(String studentId,String bio){
+		String sql = "UPDATE student SET student_bio = ? WHERE student_id = ?";
+		String [] params = {bio,studentId};
+		return dbAccess.updateDB(sql,params);
+	}
+	
 }
