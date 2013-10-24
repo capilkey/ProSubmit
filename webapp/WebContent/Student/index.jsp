@@ -18,11 +18,26 @@
 		GroupHandler gh = new GroupHandler((DBAccess)session.getAttribute("dbAccess"));
 		gh.getGroup(group,userInfo.get("group_id"));
 		ArrayList<HashMap<String,String>> students = (ArrayList<HashMap<String,String>>)group.get("students");
-		Gson gson = new Gson();
-		out.println(gson.toJson(group));
+		
 	%>
 	<div class="flex4">
 		<h1><%=group.get("group_name")%></h1>
+		<p><%=group.get("group_desc")%></p>
+		<%
+			for(int i=0;i<students.size();i++){
+				%>
+				<h3><%=students.get(i).get("student_firstname")+" " + students.get(i).get("student_lastname") %></h3>
+				<em><%=students.get(i).get("student_email") %></em>
+				<p id='student_bio_<%=students.get(i).get("student_id")%>'><%=students.get(i).get("student_bio") %></p>
+				<%
+				if(userInfo.get("student_id") != null && (userInfo.get("student_id").equals(students.get(i).get("student_id")))){
+					%><a href="#">Edit Bio</a><%
+				}
+			}
+			//Gson gson = new Gson();
+			//out.println(gson.toJson(userInfo));
+		%>
+		
 	</div>
 	<div class="flex1">
 	</div>
