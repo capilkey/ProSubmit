@@ -10,7 +10,7 @@ ProSubmit.prototype = {
 		 */
 		login:function(){
 			$.ajax({
-				url:"Authenticate",
+				url:"/ProSubmit/Authenticate",
 				type:"POST",
 				data:{
 					username:$("#username").val(),

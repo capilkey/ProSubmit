@@ -40,7 +40,7 @@ public class AuthenticationManager {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){
-			String sql = "SELECT * FROM student WHERE student_username  = '" + username + "'";
+			String sql = "SELECT *, CONCAT(student_firstname,' ',student_lastname) as username FROM student WHERE student_username  = '" + username + "'";
 			dbAccess.queryDB(info, sql);
 			if(info.isEmpty() == false){
 				validated = true;
@@ -61,7 +61,7 @@ public class AuthenticationManager {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){
-			String sql = "select * FROM professor WHERE professor_username  = '" + username +"'";
+			String sql = "select *,professor_username as username FROM professor WHERE professor_username  = '" + username +"'";
 			dbAccess.queryDB(info, sql);
 			if(info.isEmpty() == false){
 				validated = true;
@@ -81,7 +81,7 @@ public class AuthenticationManager {
 	public boolean validatePartner(String username, String password,HashMap<String,String> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
-		String sql = "select * FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
+		String sql = "select *,CONCAT(partner_firstname,' ',partner_lastname) as username FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
 		dbAccess.queryDB(info, sql);
 		if(info.isEmpty() == false){
 			validated = true;
@@ -101,7 +101,7 @@ public class AuthenticationManager {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){
-			String sql = "select * FROM system_admin WHERE user_id  = '" + username+"'";
+			String sql = "select *,user_id as username FROM system_admin WHERE user_id  = '" + username+"'";
 			dbAccess.queryDB(info, sql);
 			if(info.isEmpty() == false){
 				validated = true;
