@@ -82,27 +82,6 @@
 	border:0px solid green;
 }
 
-
-
-#post-searh-form{
-	padding:0;
-	float:right !important;
-}
-
-#post-searh-form input[name='search']{
-	width:100px;
-}
-
-.sub-menu-item li a img{
-	visibility: hidden;
-}
-
-.navbar-inverse{
-	width:1100px;
-	margin-left:auto;
-	margin-right:auto;
-}
-
 .navbar-brand,.dropdown-toggle{
 	min-width:100px;
 	text-align:left;
