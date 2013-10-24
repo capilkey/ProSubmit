@@ -92,7 +92,7 @@ public class DBAccess {
      * @return <boolean> true if the operation was successful but
      * false otherwise
      */
-    public boolean queryDB(HashMap<String, String> record, String sql) {
+    public boolean queryDB(HashMap<String, Object> record, String sql) {
 		// TODO Auto-generated method stub
 		boolean success = false;
     	ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();

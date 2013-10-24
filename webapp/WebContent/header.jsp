@@ -1,8 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
+<%@ page import="prosubmit.controller.GroupHandler" %>
+<%@ page import="prosubmit.db.DBAccess" %>
+<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%
+	if(session!=null && session.getAttribute("dbAccess") == null){
+		session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,14 +33,21 @@
 	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">
 		<ul class="nav navbar-nav">
 			<li><a href="/ProSubmit/projects/">Projects</a></li>
-		  	<li><a href="/ProSubmit/groups/">Groups</a></li>
-		  	<!-- 
-		  	<li class="dropdown" style="display: none">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">TEXT <b class="caret"></b></a>
+		  	<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href=""></a></li>	
+					<%  
+						GroupHandler gh = new GroupHandler((DBAccess)session.getAttribute("dbAccess"));
+						ArrayList<HashMap<String,String>> groups = new ArrayList<HashMap<String,String>>();
+						gh.getAllGroups(groups);
+						for(int i = 0;i<groups.size();i++){
+							%>
+							<li><a href=""><%=groups.get(i).get("group_name") %></a></li>
+							<%
+						}
+					%>
 				</ul>
-		    </li>-->
+		    </li>
 		    	
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>

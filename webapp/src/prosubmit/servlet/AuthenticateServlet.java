@@ -95,12 +95,12 @@ public final class AuthenticateServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setHeader("Content-Type",CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
 		if(authManager == null){
 			authManager = new AuthenticationManager(new DBAccess(((DBConnectionPool)context.getAttribute("dbPool"))));
 		}
-		HashMap<String,String> userInfo = new HashMap<String,String>();
+		HashMap<String,Object> userInfo = new HashMap<String,Object>();
 		HashMap<String,String> result   = new HashMap<String,String>();
 		result.put("success","0");
 		result.put("redirect","redirect");

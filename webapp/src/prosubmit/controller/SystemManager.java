@@ -71,9 +71,9 @@ public class SystemManager {
 	 * @return <boolean> true if the query was successful but false
 	 * otherwise
 	 */
-	public boolean getProfessor(HashMap<String,String> professor,String professor_id){
+	public boolean getProfessor(HashMap<String,Object> professor,String professor_id){
 		String sql = "SELECT *" +
-				     "FROM professor" +
+				     "FROM professor" + 
 				     "WHERE professor_id = " + professor_id;
 		return dbAccess.queryDB(professor,sql);
 	}

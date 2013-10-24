@@ -1,5 +1,6 @@
 package prosubmit.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import prosubmit.db.DBAccess;
@@ -7,8 +8,12 @@ import prosubmit.db.DBAccess;
 public class GroupHandler {
 	DBAccess dbAccess = null;
 	
-	public GroupHandler(DBAccess dbAccess){
-		this.dbAccess = dbAccess;
+	public GroupHandler(DBAccess dbAccess) throws NullPointerException {
+		if(dbAccess != null){
+			this.dbAccess = dbAccess;
+		}else{
+			throw new NullPointerException("Unable to set dbAccess in class GroupHandler upon instantiation. Parameter dbAccess is null");
+		}
 	}
 	
 	/**
@@ -16,8 +21,8 @@ public class GroupHandler {
 	 * @param results
 	 * @return
 	 */
-	public boolean getAllGroups(HashMap<String,String> results){
-		String sql = "SELECT * FROM group";
+	public boolean getAllGroups(ArrayList<HashMap<String,String>> results){
+		String sql = "SELECT * FROM `group`";
 		return dbAccess.queryDB(results,sql);
 	}
 	
@@ -27,9 +32,14 @@ public class GroupHandler {
 	 * @param groupID
 	 * @return
 	 */
-	public boolean getGroup(HashMap<String,String> results, String groupID){
-		String sql = "SELECT * FROM group WHERE group_id = " + groupID;
-		return dbAccess.queryDB(results,sql);
+	public boolean getGroup(HashMap<String,Object> group, String groupID){
+		boolean success = false;
+		String sql = "SELECT * FROM `group` WHERE group_id = " + groupID;
+		ArrayList<HashMap<String,String>> students = new ArrayList<HashMap<String,String>>(); 
+		success = dbAccess.queryDB(group,sql);
+		success = getStudentsByGroup(students, groupID);
+		group.put("students",students);
+		return success;
 	}
 	
 	/**
@@ -38,7 +48,7 @@ public class GroupHandler {
 	 * @param groupID
 	 * @return
 	 */
-	public boolean getGroupRanks(HashMap<String,String> results, String groupID){
+	public boolean getGroupRanks(HashMap<String,Object> results, String groupID){
 		String sql = "SELECT * FROM project_rank WHERE group_id = " + groupID;
 		return dbAccess.queryDB(results,sql);
 	}
@@ -48,7 +58,7 @@ public class GroupHandler {
 	 * @param results
 	 * @return
 	 */
-	public boolean getAllStudents(HashMap<String,String> results){
+	public boolean getAllStudents(HashMap<String,Object> results){
 		String sql = "SELECT * FROM student";
 		return dbAccess.queryDB(results,sql);
 	}
@@ -59,20 +69,20 @@ public class GroupHandler {
 	 * @param studentID
 	 * @return
 	 */
-	public boolean getStudent(HashMap<String,String> results, String studentID){
+	public boolean getStudent(HashMap<String,Object> results, String studentID){
 		String sql = "SELECT * FROM student WHERE student_id = " + studentID;
 		return dbAccess.queryDB(results,sql);
 	}
 	
 	/**
 	 * get all of the students in a group from the database
-	 * @param results
+	 * @param students
 	 * @param groupID
 	 * @return
 	 */
-	public boolean getStudentsByGroup(HashMap<String,String> results, String groupID){
+	public boolean getStudentsByGroup(ArrayList<HashMap<String,String>> students, String groupID){
 		String sql = "SELECT * FROM student WHERE group_id = " + groupID;
-		return dbAccess.queryDB(results,sql);
+		return dbAccess.queryDB(students,sql);
 	}
 	
 	/**

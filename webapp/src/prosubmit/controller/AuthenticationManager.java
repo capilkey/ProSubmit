@@ -36,7 +36,7 @@ public class AuthenticationManager {
 	 * @return {boolean} true if the user is validated with the given username
 	 * and password, false otherwise
 	 */
-	public boolean validateStudent(String username, String password,HashMap<String,String> info) {
+	public boolean validateStudent(String username, String password,HashMap<String,Object> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){
@@ -57,7 +57,7 @@ public class AuthenticationManager {
 	 * @return{boolean} true if the user is validated with the given username
 	 * and password, false otherwise
 	 */
-	public boolean validatePofessor(String username, String password,HashMap<String,String> info) {
+	public boolean validatePofessor(String username, String password,HashMap<String,Object> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){
@@ -78,7 +78,7 @@ public class AuthenticationManager {
 	 * @return {boolean} true if the user is validated with the given username
 	 * and password, false otherwise
 	 */
-	public boolean validatePartner(String username, String password,HashMap<String,String> info) {
+	public boolean validatePartner(String username, String password,HashMap<String,Object> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		String sql = "select *,CONCAT(partner_firstname,' ',partner_lastname) as username FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
@@ -97,7 +97,7 @@ public class AuthenticationManager {
 	 * @return {boolean} true if the user is validated with the given username
 	 * and password, false otherwise
 	 */
-	public boolean validateAdmin(String username, String password,HashMap<String,String> info) {
+	public boolean validateAdmin(String username, String password,HashMap<String,Object> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){

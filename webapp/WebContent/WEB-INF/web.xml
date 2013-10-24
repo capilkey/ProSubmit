@@ -6,6 +6,9 @@
 	<listener>
 		<listener-class>prosubmit.listener.ProSubmitContextListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>prosubmit.listener.ProSubmitSessionListener</listener-class>
+	</listener>
 	<filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
