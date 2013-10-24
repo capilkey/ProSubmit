@@ -81,6 +81,72 @@ ProSubmit.prototype = {
 			}
 			return false;
 		},
+		
+		/**
+		* 
+		*/
+		registerPartner:function(){
+			var isValid = true;
+			var firstname =  $("#firstname");
+			var lastname =  $("#firstname");
+			var email =  $("#email");
+			var company =  $("#company");
+			var tel =  $("#tel");
+			var password =  $("#password");
+			var confirmPassword =  $("#confirm-password");
+			var companyAddress =  $("#company-address");
+			var jobTitle = $("#job-title");
+			var industry = $("#industry");
+			
+			isValid = this.validateNames(firstname,lastname);
+			if(isValid){
+				isValid = this.validateEmail(email);
+			}if(isValid){
+				isValid = this.validatePartnerCompany(company);
+			}if(isValid){
+				isValid = this.validateAddress(companyAddress);
+			}if(isValid){
+				isValid = this.validateTel(tel);
+			}if(isValid){
+				isValid = this.validatePassword(password,confirmPassword);
+			}
+			
+			
+			if(isValid){
+				this.mask(function(){
+					$.ajax({
+						url:"/ProSubmit/Partner",
+						type:"POST",
+						data:{
+							v:"registerPartner",
+							firstname:firstname,
+							lastname:lastname,
+							email:email,
+							company:company,
+							tel:tel,
+							password:hex_md5(password),
+							companyAddess:companyAddess,
+							jobTitle:jobTitle,
+							industry:industry,
+						},success:function(response){
+							var success = response.success;
+							var message = response.message;
+							
+							if(success == "1"){
+								window.location = "/ProSubmit/Partner/";
+							}else{
+								proSubmit.unmask(function(){
+									alert(message);
+								});
+							}
+						},error:function(jqXHR,textStatus){
+							alert(textStatus);
+						}
+					});
+				});
+			}
+			return false;
+		},
 		/**
 		* 
 		*/

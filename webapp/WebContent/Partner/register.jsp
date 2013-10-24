@@ -9,6 +9,7 @@
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/prosubmit.css"> 
 
 <script type="text/javascript" src="/ProSubmit/resources/js/jquery.js"></script>
+<script type="text/javascript" src="/ProSubmit/resources/js/md5.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>
 </head>
@@ -19,7 +20,8 @@
 	
 	<form id="partner-register" action="" class="box-shadow">
 		<img src="/ProSubmit/resources/icons/logo-lg.png"/>
-		<h3>Register to Become a Partner with Us</h3>
+		<h4>Register to become a partner with us</h4>
+		<div id="partner-register-error-message" class="alert alert-danger"></div>
 		<label for="firstname">First Name:</label>
 		<input id="firstname" type="text" class="form-control"/>
 		
@@ -44,8 +46,8 @@
 		<label for="tel">Tel:</label>
 		<input id="tel" type="text" class="form-control"/>
 		
-		<label for="comp-addredd">Company Address:</label>
-		<input id="comp-address" type="text" class="form-control"/>
+		<label for="company-addredd">Company Address:</label>
+		<input id="company-address" type="text" class="form-control"/>
 		<br/>
 		<button type="button" class="btn btn-primary" onclick="return proSubmit.registerPartner()">Register Now!</button>
 		<br/><br/>
