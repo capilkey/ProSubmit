@@ -38,7 +38,7 @@ ProSubmit.prototype = {
 		updateStudentBio:function(el,id){
 			if(el){
 				$("#student_bio_"+id).slideUp("fast",function(){
-					$("#cont_edit_student_bio_"+id + ' textarea').text($("#student_bio_"+id).text());
+					$("#cont_edit_student_bio_"+id + ' textarea').val($("#student_bio_"+id).text());
 					$("#cont_edit_student_bio_"+id).slideDown("fast");
 					$(el).hide();
 				});
@@ -49,10 +49,24 @@ ProSubmit.prototype = {
 						type:"POST",
 						data:{
 							v:"updateStudentBio",
-							bio:$("#cont_edit_student_bio_"+id + ' textarea').text(),
+							bio:$("#cont_edit_student_bio_"+id + ' textarea').val(),
 							student_id:id
-						},success:function(){
-							
+						},success:function(response){
+							var success = response.success;
+							var message = response.message;
+							if(success == '1'){
+								proSubmit.unMask(function(){
+									$("#cont_edit_student_bio_"+id).slideUp("fast",function(){
+										$("#student_bio_"+id).slideDown("fast",function(){
+											alert(message);
+										});
+									});
+								})
+							}else{
+								proSubmit.unMask(function(){
+									alert(message);
+								});
+							}
 						},
 						error:function(jqXHR,textStatus){
 							alert(textStatus);
@@ -67,17 +81,25 @@ ProSubmit.prototype = {
 		* 
 		*/
 		mask:function(callback){
-			$("#body-mask").slideDown("fast",function(){
-				if(callback){
-					callback();
-				}
+			$("#body-mask").show("fast",function(){
+				$("#body-mask").animate({opacity:0.3},"fast",function(){
+					if(callback){
+						callback();
+					}
+				});
 			});
 		},
 		/**
 		* 
 		*/
 		unMask:function(callback){
-			$("#body-mask").slideUp("fast",function(){});
+			$("#body-mask").animate({opacity:0},"fast",function(){
+				$(this).hide("fast",function(){
+					if(callback){
+						callback();
+					}
+				});
+			});
 		}
 };
 

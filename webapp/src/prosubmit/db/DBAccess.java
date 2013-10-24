@@ -36,6 +36,24 @@ public class DBAccess {
 			throw new NullPointerException("Unable to set dbPool in class DBAccess upon instantiation. Parameter dbPool is null");
 		}
     }
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean openConnection(){
+		boolean opened = false;
+			connection = dbPool.getConnection();
+		try {
+			if(connection != null && connection.isClosed() == false){
+				opened = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return opened;
+	}
     
 	/**
 	 * 
@@ -64,7 +82,7 @@ public class DBAccess {
     public boolean queryDB(ArrayList<HashMap<String,String>> result, String query) {
     	boolean success = false;
 	    try {
-	    	connection= dbPool.getConnection();
+	    	openConnection();
 	        statement = connection.prepareStatement(query);
 	        resultSet = statement.executeQuery();
 	        int colCount = resultSet.getMetaData().getColumnCount();
@@ -111,7 +129,7 @@ public class DBAccess {
     public boolean updateDB(String sql) {
     	boolean success = false;
         try {
-        	connection= dbPool.getConnection();
+        	openConnection();
             statement = connection.prepareStatement(sql);
             statement.executeUpdate();
         }catch (SQLException e) {
@@ -121,6 +139,8 @@ public class DBAccess {
         }
         return success;
     }
+    
+    
 
     /**
      * 
@@ -133,12 +153,12 @@ public class DBAccess {
 		// TODO Auto-generated method stub
 		boolean success = false;
 		try{
-			
+			openConnection();
 			PreparedStatement prpStmt = connection.prepareStatement(sql);
-			for(int i =0;i<params.length;i++){
-				prpStmt.setString(i,params[i]);
+			for(int i =1;i<=params.length;i++){
+				prpStmt.setString(i,params[i-1]);
 			}
-			statement.executeUpdate();
+			prpStmt.execute();
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

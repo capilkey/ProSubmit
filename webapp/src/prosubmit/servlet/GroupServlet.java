@@ -59,7 +59,7 @@ public class GroupServlet extends HttpServlet {
 		}
 		if(action != null){
 			if(action.equals("updateStudentBio")){
-				if(updateStudentBio(request.getParameter("id"),request.getParameter("bio")) == true){
+				if(updateStudentBio(request.getParameter("id"),request.getParameter("bio"))){
 					result.put("success","1");
 					result.put("message","Student biography successfully updated");
 				}else{

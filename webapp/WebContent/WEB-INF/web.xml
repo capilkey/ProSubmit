@@ -25,6 +25,7 @@
 		<display-name>AuthenticateServlet</display-name>
 		<servlet-name>AuthenticateServlet</servlet-name>
 		<servlet-class>prosubmit.servlet.AuthenticateServlet</servlet-class>
+		 <load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
 		<description>
@@ -32,6 +33,7 @@
 		<display-name>GroupServlet</display-name>
 		<servlet-name>GroupServlet</servlet-name>
 		<servlet-class>prosubmit.servlet.GroupServlet</servlet-class>
+		 <load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticateServlet</servlet-name>
