@@ -81,7 +81,7 @@ public class AuthenticationManager {
 	public boolean validatePartner(String username, String password,HashMap<String,Object> info) {
 		// TODO Auto-generated method stub
 		boolean validated = false;
-		String sql = "select *,CONCAT(partner_firstname,' ',partner_lastname) as username FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
+		String sql = "select *,CONCAT(firstname,' ',lastname) as username FROM partner WHERE email  = '" + username + "' AND password = '" + password + "'";
 		dbAccess.queryDB(sql,info);
 		if(info.isEmpty() == false){
 			validated = true;

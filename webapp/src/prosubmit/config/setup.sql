@@ -21,9 +21,9 @@ CREATE TABLE temppartner(
 	`telephone` VARCHAR(20) NOT NULL,
 	`extension` CHAR(10) NULL,
 	`companyaddress` VARCHAR(200) NOT NULL,
-	`hashpassword` VARCHAR(100) NOT NULL,
+	`password` VARCHAR(100) NOT NULL,
 	`createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`authtoken` VARCHAR(200) NOT NULL,
+	`authtoken` VARCHAR(200) NOT NULL UNIQUE,
 	`expires` TIMESTAMP NULL
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE partner(
   `telephone` VARCHAR(20) NOT NULL,
   `extension` CHAR(10) NULL,
   `companyaddress` VARCHAR(200) NOT NULL,
-  `hashpassword` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
   `createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

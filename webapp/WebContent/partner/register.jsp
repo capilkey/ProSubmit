@@ -1,4 +1,8 @@
-
+<%
+	if(session != null && ((String)session.getAttribute("isPartner")).equals("1")){
+		response.sendRedirect("/ProSubmit/partner");
+	} 
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.HashMap" %>
@@ -117,7 +121,8 @@
 					PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
 					HashMap<String,Object> info = new HashMap<String,Object>();
 					if(partnerManager.completeRegistration(request.getParameter("token"),info)){ 
-						response.sendRedirect("Authenticate?v=login&username="+ info.get("email") + "&password=" + info.get("password"));
+						session.removeAttribute("registrationInfo");
+						response.sendRedirect("/ProSubmit/Authenticate?v=login&ajax=0&username="+ info.get("email") + "&password=" + info.get("password"));
 						return;
 					}else{
 						%>	

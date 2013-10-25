@@ -57,7 +57,7 @@ public final class PartnerManager {
 			HashMap<String,String> keys = new HashMap<String,String>();
 			String authToken = b64.encodeBase64String(Long.toString(System.currentTimeMillis()).getBytes());
 			String sql = "INSERT INTO temppartner " +
-					"(company_name,industry,company_url,email,firstname,lastname,jobtitle,telephone,extension,companyaddress,hashpassword,authtoken,createdate,expires) " +
+					"(company_name,industry,company_url,email,firstname,lastname,jobtitle,telephone,extension,companyaddress,password,authtoken,createdate,expires) " +
 					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,current_timestamp,NOW() + INTERVAL 2 HOUR)";
 		
 			String [] params = new String [] {company,industry,url,email,firstname,
@@ -91,7 +91,42 @@ public final class PartnerManager {
 	 */
 	public boolean completeRegistration(String token,HashMap<String,Object> info){
 		boolean completed = false;
+		HashMap<String,Object> tempPartner = new HashMap<String,Object>();
+		HashMap<String,String> keys = new HashMap<String,String>();
 		
+		String sql = "SELECT * FROM temppartner WHERE authtoken = ?";
+		String [] params = {token};
+		completed = dbAccess.queryDB(sql, params,tempPartner);
+		
+		if(completed){
+			
+			sql = "INSERT INTO partner (company_name,industry,company_url,email,firstname,lastname,jobtitle,telephone,extension,companyaddress,password,createdate) " +
+					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+			params = new String [] {
+					(String)tempPartner.get("company_name"),
+					(String)tempPartner.get("industry"),
+					(String)tempPartner.get("company_url"),
+					(String)tempPartner.get("email"),
+					(String)tempPartner.get("firstname"),
+					(String)tempPartner.get("lastname"),
+					(String)tempPartner.get("jobtitle"),
+					(String)tempPartner.get("telephone"),
+					(String)tempPartner.get("extension"),
+					(String)tempPartner.get("companyaddress"),
+					(String)tempPartner.get("password"),
+					(String)tempPartner.get("createdate")};
+			completed = dbAccess.updateDB(sql, params, keys);
+			if(completed){
+				sql = "DELETE FROM temppartner WHERE authtoken = ?";
+				params = new String [] {token};
+				completed = dbAccess.updateDB(sql, params);
+				if(completed){
+					sql = "SELECT * FROM partner WHERE partner_id = ?";
+					params = new String [] {keys.get("GENERATED_KEY")};
+					completed = dbAccess.queryDB(sql,params,info);
+				}
+			}
+		}
 		return completed;
 	}
 	
@@ -128,7 +163,6 @@ public final class PartnerManager {
 				exists = true;
 			}
 		}
-			
 		return exists;
 	}
 }

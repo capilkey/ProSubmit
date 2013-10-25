@@ -101,10 +101,11 @@ public final class AuthenticateServlet extends HttpServlet {
 		HashMap<String,Object> userInfo = new HashMap<String,Object>();
 		HashMap<String,String> result   = new HashMap<String,String>();
 		result.put("success","0");
-		result.put("redirect","redirect");
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String ajax = request.getParameter("ajax");
+		
 		boolean validated = false;
 		
 		if(username == null || password == null || username.length() == 0 || password.length() == 0){
@@ -147,6 +148,12 @@ public final class AuthenticateServlet extends HttpServlet {
 				result.put("message","Incorrect username and/or password");
 			}
 		}
-		out.println(gson.toJson(result));
+		if(ajax == null || ajax.equals("1")){
+			out.println(gson.toJson(result)); 
+		}else{
+			response.sendRedirect(result.get("redirect"));
+			return;
+		}
+		
 	}
 }

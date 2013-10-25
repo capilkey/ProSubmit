@@ -34,7 +34,7 @@
 			<input type="password" id="password" placeHolder="Password" class="form-control" value="prosubmit"/><br/><br/>
 			<button type="button" class="btn btn-primary" onclick="return proSubmit.login()">Login</button>
 			<br/><br/>
-			Do you want to be a partner but not registered? Click <a href="partner/register/">here</a>
+			Do you want to be a partner but not registered? Click <a href="/ProSubmit/partner/register/">here</a>
 		</form>
 </body>
 </html>
