@@ -51,6 +51,25 @@
         <to>/partner/account.jsp</to>
     </rule>
     
+    <!-- 
+			PROJECTS
+		 -->
+		 <rule>
+        <note>
+        </note>
+        <from>/projects[/]*$</from>
+        <to>/projects.jsp</to>
+    </rule>
+		
+		<!-- 
+			GROUPS
+		 -->
+		 <rule>
+        <note></note>
+        <from>/group/([\d]{1,})-(.*)[/]*$</from>
+        <to>/view_group.jsp?group_id=$1</to>
+    </rule>
+    
     <outbound-rule>
         <note>
             The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)

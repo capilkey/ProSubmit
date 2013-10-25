@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>pageTitle</title>
+<title>${pageTitle}</title>
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/lib/bootstrap/css/bootstrap.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/header.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/footer.css"> 
@@ -41,9 +41,9 @@
 						GroupHandler gh = new GroupHandler((DBAccess)session.getAttribute("dbAccess"));
 						ArrayList<HashMap<String,String>> groups = new ArrayList<HashMap<String,String>>();
 						gh.getAllGroups(groups);
-						for(int i = 0;i<groups.size();i++){
+						for(int i = 0;i<groups.size() && i < 15;i++){
 							%>
-							<li><a href=""><%=groups.get(i).get("group_name") %></a></li>
+							<li><a href="/ProSubmit/group/<%=groups.get(i).get("group_id") + "-"+groups.get(i).get("group_name").replace(" ","_") %>/"><%=groups.get(i).get("group_name") %></a></li>
 							<%
 						}
 					%>
@@ -69,7 +69,7 @@
 	    		}
 	   			
 	   		%> | 
-	    	<a href="../Authenticate?v=logout">Logout</a>
+	    	<a href="/ProSubmit//Authenticate?v=logout">Logout</a>
 		</div>
 			  
 	</div>
