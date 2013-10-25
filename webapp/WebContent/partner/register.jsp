@@ -1,5 +1,5 @@
 <%
-	if(session != null && ((String)session.getAttribute("isPartner")).equals("1")){
+	if(session != null && session.getAttribute("isPartner")!=null && ((String)session.getAttribute("isPartner")).equals("1")){
 		response.sendRedirect("/ProSubmit/partner");
 	} 
 %>

@@ -11,12 +11,12 @@ body{
 	margin-right:auto;
 }
 
-#page-content div:nth-child(1){
+#page-content > div:nth-child(1){
 	border:1px solid purple;
 	padding:20px;
 }
 
-#page-content div:nth-child(2){
+#page-content > div:nth-child(2){
 	border:1px solid blue;
 }
 

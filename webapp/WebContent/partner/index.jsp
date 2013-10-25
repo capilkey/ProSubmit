@@ -3,7 +3,7 @@
 		response.sendRedirect("/ProSubmit/");
 		return;
 	}
-	String pageTitle = "Home - Partner";
+	String pageTitle = "Partner - Home";
 %>
 <jsp:include page="../header.jsp"></jsp:include>
 <div id="page-content" class="hbox">

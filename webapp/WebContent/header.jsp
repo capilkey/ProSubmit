@@ -60,7 +60,14 @@
 	    <div id="log-in-register-content" class="flex1">
 	    	<% //
 	    		HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
-	   			out.println(userInfo.get("username"));
+	    		if(session.getAttribute("isPartner") != null){
+	    			out.println("<a href='/ProSubmit/partner/account/'>");
+	    			out.println(userInfo.get("username"));
+    				out.println("</a>");
+	    		}else{
+	    			out.println(userInfo.get("username"));
+	    		}
+	   			
 	   		%> | 
 	    	<a href="../Authenticate?v=logout">Logout</a>
 		</div>

@@ -57,7 +57,7 @@ public final class PartnerManager {
 			HashMap<String,String> keys = new HashMap<String,String>();
 			String authToken = b64.encodeBase64String(Long.toString(System.currentTimeMillis()).getBytes());
 			String sql = "INSERT INTO temppartner " +
-					"(company_name,industry,company_url,email,firstname,lastname,jobtitle,telephone,extension,companyaddress,password,authtoken,createdate,expires) " +
+					"(company_name,industry,company_url,email,firstname,lastname,job_title,telephone,extension,company_address,password,authtoken,createdate,expires) " +
 					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,current_timestamp,NOW() + INTERVAL 2 HOUR)";
 		
 			String [] params = new String [] {company,industry,url,email,firstname,
@@ -100,7 +100,7 @@ public final class PartnerManager {
 		
 		if(completed){
 			
-			sql = "INSERT INTO partner (company_name,industry,company_url,email,firstname,lastname,jobtitle,telephone,extension,companyaddress,password,createdate) " +
+			sql = "INSERT INTO partner (company_name,industry,company_url,email,firstname,lastname,job_title,telephone,extension,company_address,password,createdate) " +
 					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 			params = new String [] {
 					(String)tempPartner.get("company_name"),
@@ -109,10 +109,10 @@ public final class PartnerManager {
 					(String)tempPartner.get("email"),
 					(String)tempPartner.get("firstname"),
 					(String)tempPartner.get("lastname"),
-					(String)tempPartner.get("jobtitle"),
+					(String)tempPartner.get("job_title"),
 					(String)tempPartner.get("telephone"),
 					(String)tempPartner.get("extension"),
-					(String)tempPartner.get("companyaddress"),
+					(String)tempPartner.get("company_address"),
 					(String)tempPartner.get("password"),
 					(String)tempPartner.get("createdate")};
 			completed = dbAccess.updateDB(sql, params, keys);
@@ -223,11 +223,25 @@ public final class PartnerManager {
 		// TODO Auto-generated method stub
 		boolean updated = false;
 		if(partnerExists(partner_id)){
-			
+			String sql = "UPDATE partner SET company_name = ?,industry = ?,company_url = ?,email = ?,firstname = ?, lastname = ?,job_title = ?, telephone = ?,extension = ?,company_address = ? WHERE partner_id = ?";
+			String [] params = {company_name,
+								industry,
+								company_url,
+								email,
+								firstname,
+								lastname,
+								job_title,
+								telephone,
+								extension,
+								company_address};
+			if(dbAccess.updateDB(sql, params)){
+				info.put("message","Partner successfully updated");
+			}else{
+				info.put("message","Unable to update partner");
+			}
 		}else{
 			info.put("message","Partner does not exist");
 		}
-		
 		return updated;  
 	}
 	

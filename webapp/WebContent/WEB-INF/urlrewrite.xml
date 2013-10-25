@@ -26,12 +26,7 @@
         <to>/login.jsp</to>
     </rule>
     
-    <rule>
-        <note>
-        </note>
-        <from>/partner/register[/]*$</from>
-        <to>/partner/register.jsp</to>
-    </rule>
+   
     
 	<rule>
         <note>
@@ -40,7 +35,22 @@
         <to>/login.jsp</to>
     </rule>
     
-
+		<!-- 
+			PARTNER
+		 -->
+	 	<rule>
+        <note>
+        </note>
+        <from>/partner/register[/]*$</from>
+        <to>/partner/register.jsp</to>
+    </rule> 
+     <rule>
+        <note>
+        </note>
+        <from>/partner/account[/]*$</from>
+        <to>/partner/account.jsp</to>
+    </rule>
+    
     <outbound-rule>
         <note>
             The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)

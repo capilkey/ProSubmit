@@ -69,12 +69,12 @@ public class PartnerServlet extends HttpServlet {
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
 				String company 	= request.getParameter("company");
-				String tel	= request.getParameter("tel");
-				String companyAddress = request.getParameter("companyAddress");
-				String jobTitle = request.getParameter("jobTitle");
+				String tel	= request.getParameter("telephone");
+				String companyAddress = request.getParameter("company_address");
+				String jobTitle = request.getParameter("job_title");
 				String industry = request.getParameter("industry");
 				String extension = request.getParameter("extension");
-				String url = request.getParameter("url");
+				String url = request.getParameter("company_url");
 				
 				if(partnerManager.addPartner(partnerId,firstname,lastname,email,password,company,tel,companyAddress,jobTitle,industry,extension,url,info)){
 					result.put("success","1");

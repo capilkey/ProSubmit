@@ -101,13 +101,13 @@ ProSubmit.prototype = {
 			var lastname =  $("#lastname").val();
 			var email =  $("#email").val();
 			var company =  $("#company").val();
-			var url =  $("#url").val();
-			var tel =  $("#tel").val();
+			var company_url =  $("#url").val();
+			var telephone =  $("#tel").val();
 			var extension =  $("#extension").val();
 			var password =  $("#password").val();
-			var confirmPassword =  $("#confirm-password").val();
-			var companyAddress =  $("#company-address").val();
-			var jobTitle = $("#jobtitle").val();
+			var confirm_password =  $("#confirm-password").val();
+			var company_address =  $("#company-address").val();
+			var job_title = $("#jobtitle").val();
 			var industry = $("#industry option:selected").attr("value");
 			
 			isValid = this.validateNames(firstname,lastname);
@@ -116,15 +116,15 @@ ProSubmit.prototype = {
 			}if(isValid){
 				isValid = this.validatePartnerCompany(company);
 			}if(isValid){
-				isValid = this.validateURL(url);
+				isValid = this.validateURL(company_url);
 			}if(isValid){
-				isValid = this.validateAddress(companyAddress);
+				isValid = this.validateAddress(company_address);
 			}if(isValid){
-				isValid = this.validateTel(tel);
+				isValid = this.validateTel(telephone);
 			}if(isValid){
 				isValid = this.validateExtension(extension);
 			}if(isValid){
-				isValid = this.validatePassword(password,confirmPassword);
+				isValid = this.validatePassword(password,confirm_password);
 			}
 			
 			if(!isValid){
@@ -141,12 +141,12 @@ ProSubmit.prototype = {
 							lastname:lastname.toUpperCase(),
 							email:email,
 							company:company,
-							tel:tel,
+							telephone:telephone,
 							password:hex_md5(password),
-							companyAddress:companyAddress,
-							jobTitle:jobTitle,
+							company_address:company_address,
+							job_title:job_title,
 							industry:industry,
-							url:url,
+							company_url:company_url,
 							extension:extension,
 						},success:function(response){
 							var success = response.success;
@@ -236,10 +236,10 @@ ProSubmit.prototype = {
 		/**
 		 * 
 		 */
-		validateURL:function(url){
+		validateURL:function(company_url){
 			var isValid = true;
-			if(url){
-				if(url.match(this.urlRegExp) == null){
+			if(company_url){
+				if(company_url.match(this.urlRegExp) == null){
 					isValid = false;
 					$("#partner-register-error-message").text("Invalid URL");
 				}
@@ -250,14 +250,14 @@ ProSubmit.prototype = {
 		/**
 		 * 
 		 */
-		validateAddress:function(companyAddress){
+		validateAddress:function(company_address){
 			var isValid = true;
-			if(!companyAddress){
+			if(!company_address){
 				isValid = false;
 				$("#partner-register-error-message").text("Company address cannot be empty");
 			}if(isValid){
 				var exp = /^[\w\s\d-'.()&]{1,}$/;
-				if(companyAddress.match() == null){
+				if(company_address.match() == null){
 					isValid = false;
 					$("#partner-register-error-message").text("Invalid characters found in company address");
 				}
