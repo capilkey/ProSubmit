@@ -165,4 +165,87 @@ public final class PartnerManager {
 		}
 		return exists;
 	}
+	
+	   
+	 
+	/**
+	 *  
+	 * @param partner_id
+	 * @param info 
+	 * @return
+	 */
+	public boolean deleteParter(String partner_id, HashMap<String, Object> info) {
+		// TODO Auto-generated method stub
+		boolean deleted = false;
+		if(partnerExists(partner_id)){
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			String sql = "SELECT partner_id FROM partner WHERE partner_id = ? AND active = FALSE";
+			String [] params = {partner_id};
+			dbAccess.queryDB(sql, params,result);
+			if(result.isEmpty()){
+				result.clear();
+				sql = "UPDATE partner SET active = FALSE WHERE partner_id = ?";
+				params = new String[] {partner_id};
+				if(dbAccess.queryDB(sql, params,result)){
+					result.put("message","Partner successfully deleted");
+					deleted = true;
+				}
+			}else{
+				info.put("message","Unable to delete partner which is already inactive");
+			}
+		}else{
+			info.put("message","Unable to delete partner that does not exist");
+		}
+		return deleted;
+	}
+	
+	/**
+	 * 
+	 * @param partner_id
+	 * @param company_name
+	 * @param industry
+	 * @param company_url
+	 * @param email
+	 * @param firstname
+	 * @param lastname
+	 * @param job_title
+	 * @param telephone
+	 * @param extension
+	 * @param company_address
+	 * @param info
+	 * @return
+	 */
+	public boolean updateParter(String partner_id, String company_name,
+			String industry, String company_url, String email,
+			String firstname, String lastname, String job_title,
+			String telephone, String extension, String company_address,
+			HashMap<String, Object> info) {
+		// TODO Auto-generated method stub
+		boolean updated = false;
+		if(partnerExists(partner_id)){
+			
+		}else{
+			info.put("message","Partner does not exist");
+		}
+		
+		return updated;  
+	}
+	
+	/**
+	 * 
+	 * @param partner_id
+	 * @return
+	 */
+	private boolean partnerExists(String partner_id) {
+		// TODO Auto-generated method stub
+		boolean exists = false;
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String sql = "SELECT partner_id FROM partner WHERE partner_id = ?";
+		String [] params = {partner_id};
+		dbAccess.queryDB(sql, params, result);
+		if(!result.isEmpty()){
+			exists = true;
+		}
+		return exists;
+	}
 }

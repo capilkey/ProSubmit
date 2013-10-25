@@ -11,12 +11,17 @@ ProSubmit.prototype = {
 		 * 
 		 */
 		login:function(){
+			var username = $("#username").val();
+			var password = $("#password").val();
+			if(this.validateEmail(username)){
+				password = hex_md5(password);
+			}
 			$.ajax({
 				url:"/ProSubmit/Authenticate",
 				type:"POST",
 				data:{
-					username:$("#username").val(),
-					password:$("#password").val(),
+					username:username,
+					password:password,
 					v:"login"
 				},success:function(response){
 					var success = response.success;

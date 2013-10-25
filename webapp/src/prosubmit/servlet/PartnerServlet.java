@@ -56,6 +56,7 @@ public class PartnerServlet extends HttpServlet {
 		
 		result.put("success","0");
 		String action = request.getParameter("v");
+		String ajax = request.getParameter("ajax");
 		
 		if(partnerManager == null){
 			partnerManager = new PartnerManager((DBAccess)request.getSession(true).getAttribute("dbAccess"));
@@ -82,11 +83,34 @@ public class PartnerServlet extends HttpServlet {
 				}else{
 					result.put("message",(String)info.get("message"));
 				}
+			}else if(action.equals("delete") || action.equals("deletePartner")){
+				if(partnerManager.deleteParter(request.getParameter("partner_id"),info)){
+					result.put("success","1");
+				}
+				result.put("message",(String)info.get("message"));
+			}else if(action.equals("update") || action.equals("updatePartner")){
+				if(partnerManager.updateParter(request.getParameter("partner_id"),request.getParameter("company_name"),
+											request.getParameter("industry"),request.getParameter("company_url"),
+											request.getParameter("email"),request.getParameter("firstname"),
+											request.getParameter("lastname"),request.getParameter("job_title"),
+											request.getParameter("telephone"),request.getParameter("extension"),
+											request.getParameter("company_address"),info)){
+					result.put("success","1");
+				}
+				result.put("message",(String)info.get("message"));
 			}else{
 				result.put("message","Unknown action");
-			}
+			} 
 		}
-		out.println(gson.toJson(result));
+		if(ajax == null || ajax.equals("1")){
+			out.println(gson.toJson(result)); 
+		}else{
+			if(result.get("redirect") != null){
+				response.sendRedirect(result.get("redirect"));
+			}
+			return;
+		}
+	
 	}
 
 }

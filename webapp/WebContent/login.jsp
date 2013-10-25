@@ -22,6 +22,7 @@
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/prosubmit.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/login.css">
 <script type="text/javascript" src="/ProSubmit/resources/js/jquery.js"></script>
+<script type="text/javascript" src="/ProSubmit/resources/js/md5.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>
 </head>
@@ -29,9 +30,9 @@
 		<form id="loginForm">
 			<h2>ProSubmit Login</h2>
 			<label for="username">Username:</label>
-			<input type="text" id="username" placeHolder="Username" class="form-control" value="raburrell"/>
+			<input type="text" id="username" placeHolder="Username" class="form-control" value="burrellramone@gmail.com"/>
 			<label for="password">Password:</label>
-			<input type="password" id="password" placeHolder="Password" class="form-control" value="prosubmit"/><br/><br/>
+			<input type="password" id="password" placeHolder="Password" class="form-control" value="prosubmit123"/><br/><br/>
 			<button type="button" class="btn btn-primary" onclick="return proSubmit.login()">Login</button>
 			<br/><br/>
 			Do you want to be a partner but not registered? Click <a href="/ProSubmit/partner/register/">here</a>
