@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="prosubmit.db.DBAccess" %>
 <%@ page import="prosubmit.db.DBConnectionPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
@@ -16,6 +18,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Register Partner</title>
+<link rel="icon" href="/ProSubmit/favicon.ico"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/lib/bootstrap/css/bootstrap.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/prosubmit.css"> 
 
@@ -93,6 +96,22 @@
 		<button type="button" class="btn btn-primary" onclick="return proSubmit.registerPartner()">Register Now!</button>
 		<br/><br/>
 	</form>
-	<%}%>
+	<%}else{
+			HashMap<String,String> registrationInfo = (HashMap<String,String>)session.getAttribute("registrationInfo");		
+			if(registrationInfo == null || registrationInfo.isEmpty()){	
+				response.sendRedirect("/ProSubmit/");
+				return;
+			}else{
+				//Gson gson = new Gson();
+				//System.out.println(gson.toJson(registrationInfo));
+				%>
+					<div class="registration-info box-shadow">
+						<h1><%=registrationInfo.get("firstname") +" "+ registrationInfo.get("lastname")%></h1>
+						<p>Your account has successfully been created. Your registration link, which will expire at <strong><%=registrationInfo.get("expires")%></strong>, 
+						has been sent to the address <strong><%=registrationInfo.get("email")%></strong>. Please open the link to complete your registration.</p>
+					</div>
+				<%
+			}
+	}%>
 </body>
 </html>

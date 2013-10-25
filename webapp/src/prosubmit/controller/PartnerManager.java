@@ -18,9 +18,10 @@ import prosubmit.db.DBAccess;
  */
 @SuppressWarnings("all")
 public final class PartnerManager {
-	DBAccess dbAccess = null;
-	Base64 b64 = new Base64();
+	private DBAccess dbAccess = null;
+	private Base64 b64 = new Base64();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private SystemManager systemManager = null;
 	
 	/**
 	 * 
@@ -28,6 +29,7 @@ public final class PartnerManager {
 	 */
 	public PartnerManager(DBAccess dbAccess){
 		this.dbAccess = dbAccess;
+		systemManager = new SystemManager(dbAccess);
 	}
 	
 	/**
@@ -62,10 +64,12 @@ public final class PartnerManager {
 								lastname,jobTitle,telephone,extension,
 								companyAddress,password,authToken};
 			success = dbAccess.updateDB(sql,params,keys);
-			if(success){
+			if(success && !keys.isEmpty()){
 				sql = "SELECT * FROM temppartner WHERE temppartner_id = ?";
-				params = new String [] {keys.get("temppartner_id")};
+				params = new String [] {keys.get("GENERATED_KEY")};
 				success = dbAccess.queryDB(sql,params,info);
+				
+				systemManager.sendEmail();
 			}
 		}else{
 			info.put("message","Unable to create partner. Email address already exists");
