@@ -1,8 +1,11 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="prosubmit.db.DBAccess" %>
 <%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.controller.SystemManager" %>
  <%
   if(session!=null && session.getAttribute("dbAccess") == null){
     session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
@@ -61,8 +64,18 @@
       <input id="url" type="text" class="form-control"/>
 			
 			<label for="industry">Industry:</label>
-			<select>
-
+			<select id="industry" class="form-control">
+        <% 
+            SystemManager systemManager = new SystemManager((DBAccess)session.getAttribute("dbAccess"));
+        		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
+        		systemManager.getIndustries(industries); 
+        		for(int i =0;i<industries.size();i++){
+        			%>
+        				<option value='<%=industries.get(i).get("id")%>'><%=industries.get(i).get("industry")%></option>
+        			<%
+        		}
+        		
+        %>
 			</select>
 			<label for="jobtitle">Job Title:</label>
 			<input id="jobtitle" type="text" class="form-control"/>

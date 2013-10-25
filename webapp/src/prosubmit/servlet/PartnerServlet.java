@@ -80,7 +80,7 @@ public class PartnerServlet extends HttpServlet {
 					result.put("message","Partner successfully registered");
 					session.setAttribute("registrationInfo",info);
 				}else{
-					result.put("message","Unable to create partner");
+					result.put("message",(String)info.get("message"));
 				}
 			}else{
 				result.put("message","Unknown action");

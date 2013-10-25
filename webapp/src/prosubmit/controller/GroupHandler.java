@@ -23,7 +23,7 @@ public class GroupHandler {
 	 */
 	public boolean getAllGroups(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT * FROM `group`";
-		return dbAccess.queryDB(results,sql);
+		return dbAccess.queryDB(sql,results);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class GroupHandler {
 		boolean success = false;
 		String sql = "SELECT * FROM `group` WHERE group_id = " + groupID;
 		ArrayList<HashMap<String,String>> students = new ArrayList<HashMap<String,String>>(); 
-		success = dbAccess.queryDB(group,sql);
+		success = dbAccess.queryDB(sql,group);
 		success = getStudentsByGroup(students, groupID);
 		group.put("students",students);
 		return success;
@@ -50,7 +50,7 @@ public class GroupHandler {
 	 */
 	public boolean getGroupRanks(HashMap<String,Object> results, String groupID){
 		String sql = "SELECT * FROM project_rank WHERE group_id = " + groupID;
-		return dbAccess.queryDB(results,sql);
+		return dbAccess.queryDB(sql,results);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class GroupHandler {
 	 */
 	public boolean getAllStudents(HashMap<String,Object> results){
 		String sql = "SELECT * FROM student";
-		return dbAccess.queryDB(results,sql);
+		return dbAccess.queryDB(sql,results);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class GroupHandler {
 	 */
 	public boolean getStudent(HashMap<String,Object> results, String studentID){
 		String sql = "SELECT * FROM student WHERE student_id = " + studentID;
-		return dbAccess.queryDB(results,sql);
+		return dbAccess.queryDB(sql,results);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class GroupHandler {
 	 */
 	public boolean getStudentsByGroup(ArrayList<HashMap<String,String>> students, String groupID){
 		String sql = "SELECT * FROM student WHERE group_id = " + groupID;
-		return dbAccess.queryDB(students,sql);
+		return dbAccess.queryDB(sql,students);
 	}
 	
 	/**

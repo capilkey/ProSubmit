@@ -103,7 +103,7 @@ ProSubmit.prototype = {
 			var confirmPassword =  $("#confirm-password").val();
 			var companyAddress =  $("#company-address").val();
 			var jobTitle = $("#jobtitle").val();
-			var industry = $("#industry").val();
+			var industry = $("#industry option:selected").attr("value");
 			
 			isValid = this.validateNames(firstname,lastname);
 			if(isValid){
@@ -150,12 +150,15 @@ ProSubmit.prototype = {
 							if(success == "1"){
 								window.location = "/ProSubmit/Partner/register/?registered=1";
 							}else{
-								proSubmit.unmask(function(){
-									alert(message);
+								proSubmit.unMask(function(){
+									$("#partner-register-error-message").text(message);
+									$("#partner-register-error-message").show();
 								});
 							}
 						},error:function(jqXHR,textStatus){
-							alert(textStatus);
+							proSubmit.unMask(function(){
+								alert(message);
+							});
 						}
 					});
 				});

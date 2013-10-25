@@ -41,7 +41,7 @@ public class DBAccess {
 	 * 
 	 * @return
 	 */
-	public boolean openConnection(){
+	private boolean openConnection(){
 		boolean opened = false;
 			connection = dbPool.getConnection();
 		try {
@@ -59,7 +59,7 @@ public class DBAccess {
 	 * 
 	 * @return
 	 */
-    public boolean closeConnection() {
+    private boolean closeConnection() {
         boolean success = false;
         try {
             if (statement  != null) { statement.close(); }
@@ -74,13 +74,13 @@ public class DBAccess {
     }
 
     /**
-     * @param result
      * @param query
+     * @param result
      * @return <boolean> true if the operation was successful
      * but false otherwise
      */
-    public boolean queryDB(ArrayList<HashMap<String,String>> result, String query) {
-    	boolean success = false;
+    public boolean queryDB(String query,ArrayList<HashMap<String,String>> result) {
+    	boolean success = true;
 	    try {
 	    	openConnection();
 	        statement = connection.prepareStatement(query);
@@ -96,25 +96,58 @@ public class DBAccess {
 	    }catch (SQLException e) {
 	    	System.out.println(e.getMessage());
 	    	e.printStackTrace();
+	    	success = false;
 	    }finally {
 	    	closeConnection();
-	    	success = true;
 	    }
 	    return success;
     }
     
     /**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @param result
+	 * @return
+	 */
+	public boolean queryDB(String sql, String[] params,HashMap<String, Object> result) {
+		// TODO Auto-generated method stub
+		boolean success = true;
+		try{
+			openConnection();
+			PreparedStatement prpStmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			for(int i =1;i<=params.length;i++){
+				prpStmt.setString(i,params[i-1]);
+			}
+			resultSet = prpStmt.executeQuery();
+			if(resultSet.next()){
+				int colCount = resultSet.getMetaData().getColumnCount();
+	            for (int i=1; i<=colCount; i++) {
+	                result.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
+	            }
+			}
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			success = false;
+		}finally{
+			closeConnection();
+		}
+		return success;
+	}
+    
+    /**
      * Gets a single record of an entity from the database
-     * @param professor
      * @param sql
+     * @param record
      * @return <boolean> true if the operation was successful but
      * false otherwise
      */
-    public boolean queryDB(HashMap<String, Object> record, String sql) {
+    public boolean queryDB(String sql,HashMap<String, Object> record) {
 		// TODO Auto-generated method stub
 		boolean success = false;
     	ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
-    	success  = queryDB(results,sql);
+    	success  = queryDB(sql,results);
     	if(results.size() > 0){
 			record.putAll(results.get(0));
 		}
@@ -127,15 +160,16 @@ public class DBAccess {
      * false otherwise
      */ 
     public boolean updateDB(String sql) {
-    	boolean success = false;
+    	boolean success = true;
         try {
         	openConnection();
             statement = connection.prepareStatement(sql);
             statement.executeUpdate();
         }catch (SQLException e) {
         	e.printStackTrace();
+        	success = false;
         }finally {
-            success = true;
+            closeConnection();
         }
         return success;
     }
@@ -152,7 +186,7 @@ public class DBAccess {
      */
 	public boolean updateDB(String sql, String[] params,HashMap<String,String> keys) {
 		// TODO Auto-generated method stub
-		boolean success = false;
+		boolean success = true;
 		try{
 			openConnection();
 			PreparedStatement prpStmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -162,7 +196,7 @@ public class DBAccess {
 			prpStmt.executeUpdate();
 			
 			if(keys != null){
-				int i = 0;
+				int i = 1;
 				ResultSet rs = prpStmt.getGeneratedKeys();
 				while(rs.next()){
 					keys.put(rs.getMetaData().getColumnName(i),rs.getString(i));
@@ -172,14 +206,23 @@ public class DBAccess {
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			success = false;
 		}finally{
-			success = true;
+			closeConnection();
 		}
 		return success;
 	}
-
+	
+	/**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
 	public boolean updateDB(String sql, String[] params) {
 		// TODO Auto-generated method stub
 		return updateDB(sql,params,null);
 	}
+	
+	
 }

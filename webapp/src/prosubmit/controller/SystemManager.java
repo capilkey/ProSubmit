@@ -12,6 +12,7 @@ import prosubmit.db.DBAccess;
  * @author ramone
  *
  */
+@SuppressWarnings("all")
 public class SystemManager {
 	DBAccess dbAccess  = null;
 	
@@ -75,7 +76,7 @@ public class SystemManager {
 		String sql = "SELECT *" +
 				     "FROM professor" + 
 				     "WHERE professor_id = " + professor_id;
-		return dbAccess.queryDB(professor,sql);
+		return dbAccess.queryDB(sql,professor);
 	}
 	
 	/**
@@ -161,7 +162,7 @@ public class SystemManager {
 	 */
 	public boolean getSemesters(ArrayList<HashMap<String,String>> semesters){
 		String sql = "SELECT * FROM semester";
-		return dbAccess.queryDB(semesters,sql);
+		return dbAccess.queryDB(sql,semesters);
 	}
 	
 	/**
@@ -209,7 +210,17 @@ public class SystemManager {
 	 */
 	public boolean getCourses(ArrayList<HashMap<String,String>> courses){
 		String sql = "SELECT * from course";
-		return dbAccess.queryDB(courses,sql);
+		return dbAccess.queryDB(sql,courses);
+	}
+	
+	/**
+	 * 
+	 * @param industries
+	 * @return
+	 */
+	public boolean getIndustries(ArrayList<HashMap<String,String>> industries){
+		String sql = "SELECT * from industry";
+		return dbAccess.queryDB(sql,industries);
 	}
 	
 	

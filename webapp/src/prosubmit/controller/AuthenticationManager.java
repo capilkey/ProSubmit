@@ -41,7 +41,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		//if(ldap.search(username,password)){
 			String sql = "SELECT *, CONCAT(student_firstname,' ',student_lastname) as username FROM student WHERE student_username  = '" + username + "'";
-			dbAccess.queryDB(info, sql);
+			dbAccess.queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;
 			}
@@ -62,7 +62,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		//if(ldap.search(username,password)){
 			String sql = "select *,professor_username as username FROM professor WHERE professor_username  = '" + username +"'";
-			dbAccess.queryDB(info, sql);
+			dbAccess.queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;
 			}
@@ -82,7 +82,7 @@ public class AuthenticationManager {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		String sql = "select *,CONCAT(partner_firstname,' ',partner_lastname) as username FROM partner WHERE partner_email  = '" + username + "' AND partner_hashpassword = SHA1('" + password + "')";
-		dbAccess.queryDB(info, sql);
+		dbAccess.queryDB(sql,info);
 		if(info.isEmpty() == false){
 			validated = true;
 		}
@@ -102,7 +102,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		//if(ldap.search(username,password)){
 			String sql = "select *,user_id as username FROM system_admin WHERE user_id  = '" + username+"'";
-			dbAccess.queryDB(info, sql);
+			dbAccess.queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;
 			}
