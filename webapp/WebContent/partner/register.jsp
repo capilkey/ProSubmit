@@ -8,6 +8,7 @@
 <%@ page import="prosubmit.db.DBAccess" %>
 <%@ page import="prosubmit.db.DBConnectionPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
+<%@ page import="prosubmit.controller.PartnerManager" %>
  <%
   if(session!=null && session.getAttribute("dbAccess") == null){
     session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
@@ -49,7 +50,7 @@
 			
 			<label for="email">Email:</label>
 			<input id="email" type="email" class="form-control" value="burrellramone@gmail.com"/>
-			
+							
 			<label for="password">Password:</label>
 			<input id="password" type="text" class="form-control" maxLength="50" value="prosubmit123"/>
 			
@@ -102,15 +103,30 @@
 				response.sendRedirect("/ProSubmit/");
 				return;
 			}else{
-				//Gson gson = new Gson();
-				//System.out.println(gson.toJson(registrationInfo));
-				%>
-					<div class="registration-info box-shadow">
-						<h1><%=registrationInfo.get("firstname") +" "+ registrationInfo.get("lastname")%></h1>
-						<p>Your account has successfully been created. Your registration link, which will expire at <strong><%=registrationInfo.get("expires")%></strong>, 
-						has been sent to the address <strong><%=registrationInfo.get("email")%></strong>. Please open the link to complete your registration.</p>
-					</div>
-				<%
+				if(request.getParameter("token") == null){
+					//Gson gson = new Gson();
+					//System.out.println(gson.toJson(registrationInfo));
+					%>
+						<div class="registration-info box-shadow">
+							<h1><%=registrationInfo.get("firstname") +" "+ registrationInfo.get("lastname")%></h1>
+							<p>Your account has successfully been created. Your registration link, which will expire at <strong><%=registrationInfo.get("expires")%></strong>, 
+							has been sent to the address <strong><%=registrationInfo.get("email")%></strong>. Please open the link to complete your registration.</p>
+						</div>
+					<%
+				}else{
+					PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
+					HashMap<String,Object> info = new HashMap<String,Object>();
+					if(partnerManager.completeRegistration(request.getParameter("token"),info)){ 
+						response.sendRedirect("Authenticate?v=login&username="+ info.get("email") + "&password=" + info.get("password"));
+						return;
+					}else{
+						%>	
+						<div class="registration-info box-shadow">
+							<p>Unable to complete registration. Link is either invalid or it has expired</p>
+						</div>
+						<%
+					}
+				}
 			}
 	}%>
 </body>

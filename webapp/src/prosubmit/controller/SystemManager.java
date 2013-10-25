@@ -222,7 +222,18 @@ public class SystemManager {
 		String sql = "SELECT * from industry";
 		return dbAccess.queryDB(sql,industries);
 	}
-	
-	
-	
+
+	/**
+	 * 
+	 * @param to
+	 * @param subject
+	 * @param body
+	 * @return
+	 */
+	public boolean sendEmail(String to, String subject, String body) {
+		// TODO Auto-generated method stub
+		boolean sent = true;
+		
+		return sent;
+	}
 }

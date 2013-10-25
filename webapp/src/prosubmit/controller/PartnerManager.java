@@ -69,12 +69,30 @@ public final class PartnerManager {
 				params = new String [] {keys.get("GENERATED_KEY")};
 				success = dbAccess.queryDB(sql,params,info);
 				
-				systemManager.sendEmail();
+				if(success){
+					String to = email;
+					String subject = "Registration Completion";
+					String body = "";
+					  
+					systemManager.sendEmail(to,subject,body);
+				}
 			}
 		}else{
 			info.put("message","Unable to create partner. Email address already exists");
 		}
 		return success;
+	}
+	
+	/**
+	 * 
+	 * @param token
+	 * @param info
+	 * @return
+	 */
+	public boolean completeRegistration(String token,HashMap<String,Object> info){
+		boolean completed = false;
+		
+		return completed;
 	}
 	
 	/**
