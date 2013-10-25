@@ -146,19 +146,29 @@ public class DBAccess {
      * 
      * @param sql
      * @param params
+     * @param keys
      * @return <boolean> true if the operation was successful 
      * but false otherwise
      */
-	public boolean updateDB(String sql, String[] params) {
+	public boolean updateDB(String sql, String[] params,HashMap<String,String> keys) {
 		// TODO Auto-generated method stub
 		boolean success = false;
 		try{
 			openConnection();
-			PreparedStatement prpStmt = connection.prepareStatement(sql);
+			PreparedStatement prpStmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			for(int i =1;i<=params.length;i++){
 				prpStmt.setString(i,params[i-1]);
 			}
 			prpStmt.executeUpdate();
+			
+			if(keys != null){
+				int i = 0;
+				ResultSet rs = prpStmt.getGeneratedKeys();
+				while(rs.next()){
+					keys.put(rs.getMetaData().getColumnName(i),rs.getString(i));
+					i++;
+				}
+			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,5 +176,10 @@ public class DBAccess {
 			success = true;
 		}
 		return success;
+	}
+
+	public boolean updateDB(String sql, String[] params) {
+		// TODO Auto-generated method stub
+		return updateDB(sql,params,null);
 	}
 }

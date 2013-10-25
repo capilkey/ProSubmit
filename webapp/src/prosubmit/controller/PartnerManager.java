@@ -37,22 +37,30 @@ public final class PartnerManager {
 	 * @param companyAddress
 	 * @param jobTitle
 	 * @param industry 
+	 * @param url 
+	 * @param extension 
 	 * @param info 
 	 * @return
 	 */
 	public boolean addPartner(StringBuilder partnerId,String firstname, String lastname, String email,
 			String password, String company, String telephone, String companyAddress,
-			String jobTitle, String industry, HashMap<String, Object> info) {
+			String jobTitle, String industry, String extension, String url, HashMap<String, Object> info) {
 		// TODO Auto-generated method stub
 		boolean partnerRegistered = false;
+		HashMap<String,String> keys = new HashMap<String,String>();
 		String authToken = b64.encodeBase64String(Long.toString(System.currentTimeMillis()).getBytes());
-		String sql = "INSERT INTO temppartner VALUES('',?,?,?,?,?,?,?,?,?,current_timestamp,?)";
-
-		String [] params = {company,industry,email,firstname,
-							lastname,jobTitle,telephone,companyAddress,
-							password,authToken};
-		dbAccess.updateDB(sql, params);
+		String sql = "INSERT INTO temppartner " +
+				"(company_name,industry,company_url,email,firstname,lastname,jobtitle,telephone,extension,companyaddress,hashpassword,authtoken,createdate,expires) " +
+				"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,current_timestamp,NOW() + INTERVAL 2 HOUR)";
+	
+		String [] params = new String [] {company,industry,url,email,firstname,
+							lastname,jobTitle,telephone,extension,
+							companyAddress,password,authToken};
+		partnerRegistered = dbAccess.updateDB(sql,params,keys);
 		
+		sql = "SELECT * FROM temppartner WHERE temppartner_id = ?";
+		params = new String [] {keys.get("temppartner_id")};
+		partnerRegistered = dbAccess.queryDB(info,sql);
 		return partnerRegistered;
 	}
 	

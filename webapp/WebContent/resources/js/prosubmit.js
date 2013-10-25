@@ -75,7 +75,9 @@ ProSubmit.prototype = {
 							}
 						},
 						error:function(jqXHR,textStatus){
-							alert(textStatus);
+							proSubmit.unMask(function(){
+								alert(message);
+							});
 						}
 					});
 				});

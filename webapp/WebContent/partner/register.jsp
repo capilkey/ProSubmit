@@ -1,5 +1,13 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="prosubmit.db.DBAccess" %>
+<%@ page import="prosubmit.db.DBConnectionPool" %>
+ <%
+  if(session!=null && session.getAttribute("dbAccess") == null){
+    session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
+  }
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,7 +26,7 @@
 	<a id="home-icon-link" href="/ProSubmit/" title="Home">
 		<img src="/ProSubmit/resources/icons/home.png" alt="Home"/>
 	</a>
-	
+	<%if(request.getParameter("registered") == null){ %>
 	<form id="partner-register" action="" class="box-shadow">
 		<img src="/ProSubmit/resources/icons/logo-lg.png"/>
 		<h4>Register to become a partner with us</h4>
@@ -52,6 +60,10 @@
 			<label for="url">URL:</label>
       <input id="url" type="text" class="form-control"/>
 			
+			<label for="industry">Industry:</label>
+			<select>
+
+			</select>
 			<label for="jobtitle">Job Title:</label>
 			<input id="jobtitle" type="text" class="form-control"/>
 			
@@ -68,5 +80,6 @@
 		<button type="button" class="btn btn-primary" onclick="return proSubmit.registerPartner()">Register Now!</button>
 		<br/><br/>
 	</form>
+	<%}%>
 </body>
 </html>

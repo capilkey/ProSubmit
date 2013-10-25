@@ -58,7 +58,7 @@ public class PartnerServlet extends HttpServlet {
 		String action = request.getParameter("v");
 		
 		if(partnerManager == null){
-			partnerManager = new PartnerManager((DBAccess)request.getSession().getAttribute("dbAccess"));
+			partnerManager = new PartnerManager((DBAccess)request.getSession(true).getAttribute("dbAccess"));
 		}
 		if(action != null){
 			if(action.equals("registerPartner")){
@@ -72,8 +72,10 @@ public class PartnerServlet extends HttpServlet {
 				String companyAddress = request.getParameter("companyAddress");
 				String jobTitle = request.getParameter("jobTitle");
 				String industry = request.getParameter("industry");
-				 
-				if(partnerManager.addPartner(partnerId,firstname,lastname,email,password,company,tel,companyAddress,jobTitle,industry,info)){
+				String extension = request.getParameter("extension");
+				String url = request.getParameter("url");
+				
+				if(partnerManager.addPartner(partnerId,firstname,lastname,email,password,company,tel,companyAddress,jobTitle,industry,extension,url,info)){
 					result.put("success","1");
 					result.put("message","Partner successfully registered");
 					session.setAttribute("registrationInfo",info);

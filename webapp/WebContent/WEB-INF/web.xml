@@ -41,6 +41,7 @@
 		<display-name>PartnerServlet</display-name>
 		<servlet-name>PartnerServlet</servlet-name>
 		<servlet-class>prosubmit.servlet.PartnerServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticateServlet</servlet-name>
