@@ -103,7 +103,6 @@ public class PartnerServlet extends HttpServlet {
 						session.setAttribute("userInfo",partnerInfo);
 					}
 					result.put("success","1");
-					
 				}
 				result.put("message",(String)info.get("message"));
 			}else if(action.equals("is_password")){
@@ -123,8 +122,13 @@ public class PartnerServlet extends HttpServlet {
 				}else{
 					result.put("message",(String)info.get("message"));
 				}
-				
-			}else{
+			}else if(action.equals("send_reset_password_link")){
+				if(partnerManager.resetPassword(request.getParameter("email"),info)){
+					result.put("success","1");
+				} 
+				result.put("message",(String)info.get("message"));
+			}
+			else{
 				result.put("message","Unknown action");
 			} 
 		}

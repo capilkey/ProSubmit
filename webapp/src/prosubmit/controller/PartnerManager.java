@@ -75,7 +75,7 @@ public final class PartnerManager{
 				if(success){
 					String to = email;
 					String subject = "Registration Completion";
-					String body = "";
+					StringBuilder body = new StringBuilder();
 					  
 					systemManager.sendEmail(to,subject,body);
 				}
@@ -176,7 +176,7 @@ public final class PartnerManager{
 		if(result.get("email") != null){
 			exists = true;
 		}if(!exists){
-			sql = "SELECT email FROM partner WHERE email = ?";
+			sql = "SELECT email FROM partner WHERE email = ? AND active = TRUE";
 			params = new String [] {email};
 			dbAccess.queryDB(sql,params,result);
 			if(result.get("email") != null){
@@ -352,6 +352,42 @@ public final class PartnerManager{
 		}else{
 			info.put("message","Partner does not exist");
 		}
-		return updated;
+		return updated; 
+	}
+	
+	/**
+	 * 
+	 * @param email
+	 * @param info
+	 * @return
+	 */
+	public boolean resetPassword(String email, HashMap<String, Object> info) {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		if(emailExists(email)){
+			String to = email;
+			String subject = "Password Reset Request";
+			StringBuilder message = new StringBuilder();
+			if(createPasswordResetRequest(email)){
+				if(systemManager.sendEmail(to,subject,message)){
+					info.put("message","Error while sending email to " + email);
+				}
+			}else{
+				info.put("message","Unable to create password reset request");
+			}
+		}else{
+			info.put("message","Email address could not be found in our system");
+		}
+		return success;
+	}
+	 
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
+	private boolean createPasswordResetRequest(String email) {
+		// TODO Auto-generated method stub
+		return false;
 	} 
 }

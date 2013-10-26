@@ -227,12 +227,12 @@ public class SystemManager {
 	 * 
 	 * @param to
 	 * @param subject
-	 * @param body
+	 * @param message
 	 * @return
 	 */
-	public boolean sendEmail(String to, String subject, String body) {
+	public boolean sendEmail(String to, String subject, StringBuilder message) {
 		// TODO Auto-generated method stub
-		boolean sent = true;
+		boolean sent = true; 
 		
 		return sent;
 	}
