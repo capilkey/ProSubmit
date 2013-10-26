@@ -277,13 +277,48 @@ ProSubmit.prototype = {
 					error:function(jqXHR,textStatus){
 						alert(textStatus);
 					}
-					
 				});
 			}
-			
 			return false;
 		},
 		
+		/**
+		 * 
+		 */
+		resetPassword:function(){
+			var email = $("#email").val();
+			var isValid = true;
+			isValid = this.validateEmail(email);
+			if(!isValid){
+				$("#partner-reset-password-email-form .alert-danger").show();
+			}else{
+				$("#partner-reset-password-email-form .alert-danger").hide();
+				$.ajax({
+					url:"/ProSubmit/Partner",
+					type:"GET",
+					data:{
+						v:"send_reset_password_link",
+						email:email
+					},
+					success:function(response){
+						var success = response.success;
+						var message = response.message;
+						console.log(response);
+						if(success == "1"){
+							$("#partner-reset-password-email-form .alert-info").text(message);
+							$("#partner-reset-password-email-form .alert-info").show();
+						}else{
+							$("#partner-reset-password-email-form .alert-danger").text(message);
+							$("#partner-reset-password-email-form .alert-danger").show();
+						}
+					},
+					error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			return false;
+		},
 		
 		
 		/**
@@ -321,11 +356,11 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!email){
 				isValid = false;
-				$("#partner-register .alert,#partner-edit-info-form .alert").text("Email cannot be empty");
+				$("form .alert-danger").text("Email cannot be empty");
 			}if(isValid){
 				if(!email.match(this.emailRegExp)){
 					isValid = false;
-					$("#partner-register .alert,#partner-edit-info-form .alert").text("Invalid email");
+					$("form .alert-danger").text("Invalid email");
 				}
 			}
 			return isValid;

@@ -39,16 +39,16 @@
 			PARTNER
 		 -->
 	 	<rule>
-        <note>
-        </note>
         <from>/partner/register[/]*$</from>
         <to>/partner/register.jsp</to>
     </rule> 
-     <rule>
-        <note>
-        </note>
+    <rule>
         <from>/partner/account[/]*$</from>
         <to>/partner/account.jsp</to>
+    </rule>
+    <rule>
+        <from>/partner/reset_password[/]*$</from>
+        <to>/partner/reset_password.jsp</to>
     </rule>
     
     <!-- 
