@@ -3,6 +3,7 @@
  */
 package prosubmit.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.codec.binary.*;
@@ -17,11 +18,12 @@ import prosubmit.db.DBAccess;
  *
  */
 @SuppressWarnings("all")
-public final class PartnerManager {
+public final class PartnerManager{
 	private DBAccess dbAccess = null;
 	private Base64 b64 = new Base64();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private SystemManager systemManager = null;
+	private ProjectManager projectManager = null;
 	
 	/**
 	 * 
@@ -30,6 +32,7 @@ public final class PartnerManager {
 	public PartnerManager(DBAccess dbAccess){
 		this.dbAccess = dbAccess;
 		systemManager = new SystemManager(dbAccess);
+		projectManager = new ProjectManager(dbAccess);
 	}
 	
 	/**
@@ -143,6 +146,23 @@ public final class PartnerManager {
 	
 	/**
 	 * 
+	 * @param partnerId
+	 * @param partner
+	 * @param getProjects
+	 * @return
+	 */
+	public boolean getPartner(String partnerId, HashMap<String,Object> partner, boolean getProjects){
+		boolean success = false;
+		if(getPartner(partnerId,partner)){
+			ArrayList<HashMap<String,Object>> projects = new ArrayList<HashMap<String,Object>>();
+			projectManager.getPartnerProjects(partnerId, projects);
+			partner.put("projects",projects);
+		}
+		return success;
+	}
+	
+	/**
+	 * 
 	 * @param email
 	 * @return
 	 */
@@ -233,9 +253,11 @@ public final class PartnerManager {
 								job_title,
 								telephone,
 								extension,
-								company_address};
+								company_address,
+								partner_id};
 			if(dbAccess.updateDB(sql, params)){
 				info.put("message","Partner successfully updated");
+				updated = true;
 			}else{
 				info.put("message","Unable to update partner");
 			}

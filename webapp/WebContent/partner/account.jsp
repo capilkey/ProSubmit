@@ -17,34 +17,97 @@
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
-<jsp:include page="../header.jsp"></jsp:include>
+<jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
 		<div class="flex4">
 			<%
+				PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
 				HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
+				HashMap<String,Object> partner = new HashMap<String,Object>(); 
+				
+				partnerManager.getPartner(partner_id, partner,true);
+				
 				Gson gson = new Gson();
-				//out.println(gson.toJson(userInfo));
+				out.println(gson.toJson(partner));
 			%>
 			<h1>Account Information</h1>
 			<div class="panel panel-default">
 			  <div class="panel-body">
 			    <div>
-						<h3><%=userInfo.get("username")%> (<%=userInfo.get("job_title")%>)</h3> 
-						<span><%=userInfo.get("company_name")%></span><br/>
-						<span><%=userInfo.get("email")%></span><br/>
-						<span><%=userInfo.get("telephone")%> ex:<%=userInfo.get("extension")%></span><br/>
-						<span><%=userInfo.get("company_address")%></span><br/>
+						<h3><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
+						<span><%=partner.get("company_name")%></span><br/>
+						<span><%=partner.get("email")%></span><br/>
+						<span><%=partner.get("telephone")%> ex:<%=partner.get("extension")%></span><br/>
+						<span><%=partner.get("company_address")%></span><br/>
 					</div>
 			  </div>
-			  <div class="panel-footer"><a href="#">Edit</a></div>
+			  <div class="panel-footer">
+			  	<a id="edit-partner-link" href="#">Edit</a>
+			  	
+			  	<form id="partner-edit-info-form" action="">
+						<div id="partner-register-update-info-error-message" class="alert alert-danger"></div>
+					
+						<fieldset>
+				    <legend>Personalia:</legend>
+				    	<input id="partner_id" type="hidden" value="<%=partner.get("partner_id")%>"/>
+				    	
+							<label for="firstname">First Name:</label>
+							<input id="firstname" type="text" class="form-control" maxLength="25" value="<%=partner.get("firstname")%>"/>
+							
+							<label for="lastname">Last Name:</label>
+							<input id="lastname" type="text" class="form-control" maxLength="25" value="<%=partner.get("lastname")%>"/>
+							
+							<label for="email">Email:</label>
+							<input id="email" type="email" class="form-control" value="<%=partner.get("email")%>"/>
+						</fieldset><br/>
+				
+				    <fieldset>
+				    <legend>Company:</legend>
+				    
+							<label for="company">Company:</label>
+							<input id="company" type="text" class="form-control" maxLength="100" value="<%=partner.get("company_name")%>"/>
+							
+							<label for="url">URL:</label>
+				      <input id="url" type="text" class="form-control" value="<%=partner.get("company_url")%>"/>
+							
+							<label for="industry">Industry:</label>
+							<select id="industry" class="form-control">
+				        <% 
+				            SystemManager systemManager = new SystemManager((DBAccess)session.getAttribute("dbAccess"));
+				        		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
+				        		systemManager.getIndustries(industries); 
+				        		for(int i =0;i<industries.size();i++){
+				        			%>
+				        				<option value='<%=industries.get(i).get("id")%>'><%=industries.get(i).get("industry")%></option>
+				        			<%
+				        		}
+				        		
+				        %>
+							</select>
+							<label for="jobtitle">Job Title:</label>
+							<input id="jobtitle" type="text" class="form-control" maxLength="50" value="<%=partner.get("job_title")%>"/>
+							
+							<label for="tel">Tel:</label>
+							<input id="tel" type="text" class="form-control" maxLength="16" value="<%=partner.get("telephone")%>"/>
+							
+							<label for="extension">Ext:</label> 
+					    <input id="extension" type="text" class="form-control" maxLength="10" value='<%=partner.get("extension")%>'/>
+					    
+							<label for="company-addredd">Company Address:</label>
+							<input id="company-address" type="text" class="form-control" value='<%=partner.get("company_address")%>'/>
+						</fieldset>
+						<br/>
+						<button type="button" class="btn btn-primary" onclick="return proSubmit.updatePartner()">Update Info!</button>
+						<br/><br/>
+					</form>
+					
+			  </div>
 			</div>
 			<hr/>
 			
 			
 			<%
-				ProjectManager projectManager = new ProjectManager((DBAccess)session.getAttribute("dbAccess"));
-				ArrayList<HashMap<String,String>> projects = new ArrayList<HashMap<String,String>>();
-				projectManager.getPartnerProjects(partner_id, projects);
+				ArrayList<HashMap<String,Object>> projects = (ArrayList<HashMap<String,Object>>) partner.get("projects");
 				//out.println(gson.toJson(projects));
 				if(projects.size() > 0){
 					%>
@@ -67,11 +130,11 @@
 					  </tr>
 					<%
 					for(int i = 0;i<projects.size();i++){
-							HashMap<String,String> project = projects.get(i);
+							HashMap<String,Object> project = projects.get(i);
 							%>
 								<tr>
 									<td>#<%=i+1%></td>
-									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + project.get("project_title").replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
+									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
 									<td><%=project.get("project_createdate")%></td>
 									<td><%=project.get("projstatus_name")%></td>
 								</tr>

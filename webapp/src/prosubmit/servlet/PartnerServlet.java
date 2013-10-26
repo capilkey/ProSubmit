@@ -62,7 +62,7 @@ public class PartnerServlet extends HttpServlet {
 			partnerManager = new PartnerManager((DBAccess)request.getSession(true).getAttribute("dbAccess"));
 		}
 		if(action != null){
-			if(action.equals("registerPartner")){
+			if(action.equals("register")){
 				StringBuilder partnerId	= null;
 				String firstname = request.getParameter("firstname");
 				String lastname = request.getParameter("lastname");
@@ -90,13 +90,20 @@ public class PartnerServlet extends HttpServlet {
 				}
 				result.put("message",(String)info.get("message"));
 			}else if(action.equals("update") || action.equals("updatePartner")){
-				if(partnerManager.updateParter(request.getParameter("partner_id"),request.getParameter("company_name"),
+				String partner_id = request.getParameter("partner_id");
+				if(partnerManager.updateParter(partner_id,request.getParameter("company_name"),
 											request.getParameter("industry"),request.getParameter("company_url"),
 											request.getParameter("email"),request.getParameter("firstname"),
 											request.getParameter("lastname"),request.getParameter("job_title"),
 											request.getParameter("telephone"),request.getParameter("extension"),
 											request.getParameter("company_address"),info)){
+					if(session.getAttribute("isPartner") != null){
+						HashMap<String,Object> partnerInfo = new HashMap<String,Object>(); 
+						partnerManager.getPartner(partner_id,partnerInfo);
+						session.setAttribute("userInfo",partnerInfo);
+					}
 					result.put("success","1");
+					
 				}
 				result.put("message",(String)info.get("message"));
 			}else{

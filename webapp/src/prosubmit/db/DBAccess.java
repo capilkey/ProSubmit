@@ -113,33 +113,40 @@ public class DBAccess {
 	public boolean queryDB(String sql, String[] params,HashMap<String, Object> result) {
 		// TODO Auto-generated method stub
 		boolean success = true;
-		ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String,Object>> results = new ArrayList<HashMap<String,Object>>();
     	success  = queryDB(sql,params,results);
     	if(results.size() > 0){
 			result.putAll(results.get(0));
+		}else{
+			System.out.println("SIZE OF ARRAY IS 0");
 		}
 		return success;
 	}
     
-	public boolean queryDB(String sql, String[] params,ArrayList<HashMap<String,String>> results) {
+	/**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @param results
+	 * @return
+	 */
+	public boolean queryDB(String sql, String[] params,ArrayList<HashMap<String,Object>> results) {
 		boolean success = true;
 		try{
 			openConnection();
-			PreparedStatement prpStmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement prpStmt = connection.prepareStatement(sql);
 			for(int i =1;i<=params.length;i++){
 				prpStmt.setString(i,params[i-1]);
 			}
 			resultSet = prpStmt.executeQuery();
-			if(resultSet.next()){
-				int colCount = resultSet.getMetaData().getColumnCount();
-		        while (resultSet.next()){
-		        	HashMap<String,String> row = new HashMap<String,String>();
-		            for (int i=1; i<=colCount; i++) {
-		                row.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
-		            }
-		            results.add(row);
-		        }
-			}
+			int colCount = resultSet.getMetaData().getColumnCount();
+	        while (resultSet.next()){
+	        	HashMap<String,Object> row = new HashMap<String,Object>();
+	            for (int i=1; i<=colCount; i++) {
+	                row.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
+	            }
+	            results.add(row);
+	        }
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

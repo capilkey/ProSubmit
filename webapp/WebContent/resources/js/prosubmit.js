@@ -107,8 +107,17 @@ ProSubmit.prototype = {
 		* 
 		*/
 		registerPartner:function(){
+			return this.updatePartner("/ProSubmit/Partner/register/?registered=1");
+		},
+		/**
+		* 
+		*/
+		updatePartner:function(redirect){
+			var isUpdate = redirect == null ? true : false;
+			var v = isUpdate ? "update" : "register";
 			var isValid = true;
 			this.goTop();
+			var partner_id = $("#partner_id").val();
 			var firstname =  $("#firstname").val();
 			var lastname =  $("#lastname").val();
 			var email =  $("#email").val();
@@ -135,41 +144,50 @@ ProSubmit.prototype = {
 				isValid = this.validateTel(telephone);
 			}if(isValid){
 				isValid = this.validateExtension(extension);
-			}if(isValid){
+			}if(!isUpdate && isValid){
 				isValid = this.validatePassword(password,confirm_password);
+			}if(isValid){
+				isValid = this.validateJobTitle(job_title);
 			}
 			
 			if(!isValid){
-				$("#partner-register-error-message").show();
+				$("#partner-register-update-info-error-message").show();
 			}else{
-				$("#partner-register-error-message").hide();
+				$("#partner-register-update-info-error-message").hide();
 				this.mask(function(){
 					$.ajax({
 						url:"/ProSubmit/Partner",
 						type:"POST",
 						data:{
-							v:"registerPartner",
+							v:v,
+							partner_id:partner_id,
 							firstname:firstname.toUpperCase(),
 							lastname:lastname.toUpperCase(),
 							email:email,
-							company:company,
+							company_name:company,
 							telephone:telephone,
-							password:hex_md5(password),
+							password:(v == "register") ? hex_md5(password) : null,
 							company_address:company_address,
 							job_title:job_title,
 							industry:industry,
 							company_url:company_url,
 							extension:extension,
 						},success:function(response){
+							console.log(response);
 							var success = response.success;
 							var message = response.message;
 							
 							if(success == "1"){
-								window.location = "/ProSubmit/Partner/register/?registered=1";
+								if(redirect){
+									window.location = redirect;
+								}else{
+									window.location.reload();
+								}
+								
 							}else{
 								proSubmit.unMask(function(){
-									$("#partner-register-error-message").text(message);
-									$("#partner-register-error-message").show();
+									$("#partner-register-update-info-error-message").text(message);
+									$("#partner-register-update-info-error-message").show();
 								});
 							}
 						},error:function(jqXHR,textStatus){
@@ -224,22 +242,22 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!firstname || !lastname){
 				isValid = false;
-				$("#partner-register-error-message").text("First and last names must not be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("First and last names must not be empty");
 			}if(isValid){
 				if(firstname.length < 2 || lastname.length < 2){
 					isValid = false;
-					$("#partner-register-error-message").text("First and last names cannot be less than two charters");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("First and last names cannot be less than two charters");
 				}
 			}if(isValid){
 				if(firstname.length > 25 || lastname.length > 25){
 					isValid = false;
-					$("#partner-register-error-message").text("First and last names cannot be greater than twenty five characters");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("First and last names cannot be greater than twenty five characters");
 				}
 			}if(isValid){ 
-				var exp = /^[A-Za-z][A-Za-z-\s]{1,}[A-Za-z]$/;
+				var exp = /^[\w\s-]{1,}[\w]$/;
 				if(firstname.match(exp) == null || lastname.match(exp) == null){
 					isValid = false;
-					$("#partner-register-error-message").text("First and last names connt have special characters or numbers");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("First and last names connot have special characters or numbers");
 				}
 			}
 			return isValid;
@@ -252,11 +270,11 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!email){
 				isValid = false;
-				$("#partner-register-error-message").text("Email cannot be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("Email cannot be empty");
 			}if(isValid){
 				if(!email.match(this.emailRegExp)){
 					isValid = false;
-					$("#partner-register-error-message").text("Invalid email");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Invalid email");
 				}
 			}
 			return isValid;
@@ -269,11 +287,11 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!company){
 				isValid = false;
-				$("#partner-register-error-message").text("Company cannot be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("Company cannot be empty");
 			}if(isValid){
 				if(company.length < 2){
 					isValid = false;
-					$("#partner-register-error-message").text("Company name cannot be less than 2 characters");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Company name cannot be less than 2 characters");
 				}
 			}
 			return isValid;
@@ -287,7 +305,7 @@ ProSubmit.prototype = {
 			if(company_url){
 				if(company_url.match(this.urlRegExp) == null){
 					isValid = false;
-					$("#partner-register-error-message").text("Invalid URL");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Invalid URL");
 				}
 			}
 			return isValid;
@@ -300,12 +318,12 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!company_address){
 				isValid = false;
-				$("#partner-register-error-message").text("Company address cannot be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("Company address cannot be empty");
 			}if(isValid){
 				var exp = /^[\w\s\d-'.()&]{1,}$/;
 				if(company_address.match() == null){
 					isValid = false;
-					$("#partner-register-error-message").text("Invalid characters found in company address");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Invalid characters found in company address");
 				}
 			}
 			return isValid;
@@ -319,16 +337,16 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!tel){
 				isValid = false;
-				$("#partner-register-error-message").text("Telephone cannot be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("Telephone cannot be empty");
 			}if(isValid){
 				if(tel.length < 10){
 					isValid = false;
-					$("#partner-register-error-message").text("Phone number should be atleast ten digits long");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Phone number should be atleast ten digits long");
 				}
 			}if(isValid){
 				if(tel.length > 11){
 					isValid = false;
-					$("#partner-register-error-message").text("Phone number cannot be greater than 11 digits");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Phone number cannot be greater than 11 digits");
 				}
 			}
 			return isValid;
@@ -343,7 +361,7 @@ ProSubmit.prototype = {
 				extension = extension.replace(/[^\d]{1,}/);
 				if(!extension){
 					isValid = false;
-					$("#partner-register-error-message").text("Invalid extension");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Invalid extension");
 				}
 			}
 			return isValid;
@@ -356,17 +374,29 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!password || !confirmPassword){
 				isValid = false;
-				$("#partner-register-error-message").text("Password and confirm password cannot be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("Password and confirm password cannot be empty");
 			}if(isValid){
 				if(password.length < 10){
 					isValid = false;
-					$("#partner-register-error-message").text("Password cannot be less than 10 characters");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Password cannot be less than 10 characters");
 				}
 			}if(isValid){
 				if(password != confirmPassword){
 					isValid = false;
-					$("#partner-register-error-message").text("Passwords do not match");
+					$("#partner-register .alert,#partner-edit-info-form .alert").text("Passwords do not match");
 				}
+			}
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateJobTitle:function(job_title){
+			var isValid = true;
+			if(!job_title){
+				isValid =  false;
+				$("#partner-register .alert,#partner-edit-info-form .alert").text("Specify a job title");
 			}
 			return isValid;
 		},
@@ -415,6 +445,11 @@ ProSubmit.prototype = {
 $(document).ready(function(){
 	$("#account-cancel-link").click(function(){
 		proSubmit.cancelAccount();
+		return false;
+	});
+	
+	$("#edit-partner-link").click(function(){
+		$("#partner-edit-info-form").toggle("fast");
 		return false;
 	});
 });

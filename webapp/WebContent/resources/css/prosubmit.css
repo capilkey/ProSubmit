@@ -197,3 +197,12 @@ form .alert{
 	border:4px solid #e7e7e7;
 	margin-bottom:50px;
 }
+
+#partner-edit-info-form{
+	width:600px;
+	height:auto;
+	margin-left:auto;
+	margin-right:auto;
+	padding:20px;
+	display:none;'
+}

@@ -25,7 +25,7 @@ public final class ProjectManager {
 	 * @param projects
 	 * @return
 	 */
-	public boolean getPartnerProjects(String partner_id,ArrayList<HashMap<String,String>> projects){
+	public boolean getPartnerProjects(String partner_id,ArrayList<HashMap<String,Object>> projects){
 		String sql = "SELECT *,projstatus_name as status FROM project JOIN project_status USING(projstatus_id) WHERE project.partner_id = ?";
 		String [] params = {partner_id};
 		return dbAccess.queryDB(sql, params,projects);

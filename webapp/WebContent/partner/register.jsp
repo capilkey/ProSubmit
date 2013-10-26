@@ -56,10 +56,10 @@
 			<input id="email" type="email" class="form-control" value="burrellramone@gmail.com"/>
 							
 			<label for="password">Password:</label>
-			<input id="password" type="text" class="form-control" maxLength="50" value="prosubmit123"/>
+			<input id="password" type="password" class="form-control" maxLength="50" value="prosubmit123"/>
 			
 			<label for="confirm-password">Confirm Password:</label>
-			<input id="confirm-password" type="text" class="form-control" maxLength="50" value="prosubmit123"/>
+			<input id="confirm-password" type="password" class="form-control" maxLength="50" value="prosubmit123"/>
 		</fieldset><br/>
 
     <fieldset>
@@ -86,7 +86,7 @@
         %>
 			</select>
 			<label for="jobtitle">Job Title:</label>
-			<input id="jobtitle" type="text" class="form-control"/>
+			<input id="jobtitle" type="text" class="form-control" maxLength="16"/>
 			
 			<label for="tel">Tel:</label>
 			<input id="tel" type="text" class="form-control" maxLength="16" value="1-416-555-3333"/>
