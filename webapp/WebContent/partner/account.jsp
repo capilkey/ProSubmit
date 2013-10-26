@@ -22,13 +22,11 @@
 		<div class="flex4">
 			<%
 				PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
-				HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
 				HashMap<String,Object> partner = new HashMap<String,Object>(); 
-				
 				partnerManager.getPartner(partner_id, partner,true);
 				
 				Gson gson = new Gson();
-				out.println(gson.toJson(partner));
+				//out.println(gson.toJson(partner));
 			%>
 			<h1>Account Information</h1>
 			<div class="panel panel-default">
@@ -77,8 +75,9 @@
 				        		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
 				        		systemManager.getIndustries(industries); 
 				        		for(int i =0;i<industries.size();i++){
+				        			HashMap<String,String> industry = (HashMap<String,String>)industries.get(i);
 				        			%>
-				        				<option value='<%=industries.get(i).get("id")%>'><%=industries.get(i).get("industry")%></option>
+				        				<option value='<%=industry.get("id")%>' <%if(industry.get("id").equals(partner.get("industry"))){%>selected<%}%>><%=industry.get("industry")%></option>
 				        			<%
 				        		}
 				        		
@@ -162,7 +161,7 @@
 							Whether or not cancellation is capable or not.
 							Please note, one you have cancelled your account it can no longer be retrieved.
 						</div>
-						<div id="cancellation-failure-message" class="alert alert-danger hidden"></div>
+						<div id="cancellation-failure-message" class="alert alert-danger no-show"></div>
 						<label>Reason</label><em>**Please tell us why you want you want to cancel your account**</em>
 						<textarea id="cancellation-reason"></textarea>
 						<a id="account-cancel-link" href="#" class="btn btn-danger">Cancel</a> 

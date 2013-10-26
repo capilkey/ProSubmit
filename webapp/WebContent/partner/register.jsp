@@ -47,13 +47,13 @@
     <legend>Personalia:</legend>
     
 			<label for="firstname">First Name:</label>
-			<input id="firstname" type="text" class="form-control" maxLength="25" value="Sujit"/>
+			<input id="firstname" type="text" class="form-control" maxLength="25" value="Damion"/>
 			
 			<label for="lastname">Last Name:</label>
-			<input id="lastname" type="text" class="form-control" maxLength="25" value="Jagdev"/>
+			<input id="lastname" type="text" class="form-control" maxLength="25" value="Marley"/>
 			
 			<label for="email">Email:</label>
-			<input id="email" type="email" class="form-control" value="burrellramone@gmail.com"/>
+			<input id="email" type="email" class="form-control" value="burrellramone2@gmail.com"/>
 							
 			<label for="password">Password:</label>
 			<input id="password" type="password" class="form-control" maxLength="50" value="prosubmit123"/>
@@ -86,7 +86,7 @@
         %>
 			</select>
 			<label for="jobtitle">Job Title:</label>
-			<input id="jobtitle" type="text" class="form-control" maxLength="16"/>
+			<input id="jobtitle" type="text" class="form-control" maxLength="16" value="Manager"/>
 			
 			<label for="tel">Tel:</label>
 			<input id="tel" type="text" class="form-control" maxLength="16" value="1-416-555-3333"/>

@@ -121,7 +121,7 @@ ProSubmit.prototype = {
 			var firstname =  $("#firstname").val();
 			var lastname =  $("#lastname").val();
 			var email =  $("#email").val();
-			var company =  $("#company").val();
+			var company_name =  $("#company").val();
 			var company_url =  $("#url").val();
 			var telephone =  $("#tel").val();
 			var extension =  $("#extension").val();
@@ -135,7 +135,7 @@ ProSubmit.prototype = {
 			if(isValid){
 				isValid = this.validateEmail(email);
 			}if(isValid){
-				isValid = this.validatePartnerCompany(company);
+				isValid = this.validatePartnerCompany(company_name);
 			}if(isValid){
 				isValid = this.validateURL(company_url);
 			}if(isValid){
@@ -151,9 +151,9 @@ ProSubmit.prototype = {
 			}
 			
 			if(!isValid){
-				$("#partner-register-update-info-error-message").show();
+				$("#partner-register .alert,#partner-edit-info-form .alert").show();
 			}else{
-				$("#partner-register-update-info-error-message").hide();
+				$("#partner-register .alert,#partner-edit-info-form .alert").hide();
 				this.mask(function(){
 					$.ajax({
 						url:"/ProSubmit/Partner",
@@ -164,7 +164,7 @@ ProSubmit.prototype = {
 							firstname:firstname.toUpperCase(),
 							lastname:lastname.toUpperCase(),
 							email:email,
-							company_name:company,
+							company_name:company_name,
 							telephone:telephone,
 							password:(v == "register") ? hex_md5(password) : null,
 							company_address:company_address,
@@ -203,8 +203,8 @@ ProSubmit.prototype = {
 		 */
 		cancelAccount:function(){
 			if(confirm("Are you sure you want yo cancel this account?")){
-				this.mask(function(){
-					var cancellation_reason = $("#cancellation_reason"); 
+				//this.mask(function(){
+					var cancellation_reason = $("#cancellation_reason").val(); 
 					$.ajax({
 						url:'/ProSubmit/Partner',
 						type:"POST",
@@ -213,22 +213,21 @@ ProSubmit.prototype = {
 							cancelltion_reason:cancellation_reason
 						},
 						success:function(response){
+							console.log(response);
 							var success = response.success;
 							var message = response.message;
 							if(success == "1"){
 								proSubmit.logout();
 							}else{
-								proSubmit.unMask(function(){
-									$("#cancellation-failure-message").show();
-									$("#cancellation-failure-message").text(message);
-								});
+								$("#cancellation-failure-message").show();
+								$("#cancellation-failure-message").text(message);
 							}
 						},
 						error:function(jqXHR,textStatus){
 							proSubmit.ajaxErrorFn(textStatus);
 						}
 					});
-				});
+				//});
 			}
 			
 			return false;

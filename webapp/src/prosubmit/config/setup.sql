@@ -41,7 +41,8 @@ CREATE TABLE partner(
   `extension` CHAR(10) NULL,
   `company_address` VARCHAR(200) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
-  `createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` SMALLINT(1) NOT NULL DEFAULT TRUE
 );
 
 DROP TABLE IF EXISTS semester;
@@ -230,7 +231,7 @@ CREATE TABLE industry(
 ("Law Enforcement"),
 ("Law Practice"),
 ("Legal Services"),
-("Legislative Office"),
+("Legislative Office"),/**************************************/
 ("Leisure, Travel &amp; Tourism"),
 ("Libraries"),
 ("Logistics and Supply Chain"),
@@ -305,3 +306,6 @@ CREATE TABLE industry(
 ("Writing and Editing");
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
+/**************************************/
+/*			VIEWS													*/
+/**************************************/

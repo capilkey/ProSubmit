@@ -136,7 +136,7 @@ textarea.bio{
 }
 
 #body-mask{
-	position:absolute;
+	position:fixed;
 	top:0;
 	bottom:0;
 	margin-bottom:0px;
@@ -155,8 +155,9 @@ form .alert{
 	display:none;
 }
 
-.hidden{
+.no-show{
 	display:none;
+	visibility:visible ;
 }
 
 .box-shadow{

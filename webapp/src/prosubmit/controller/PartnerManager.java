@@ -52,8 +52,8 @@ public final class PartnerManager{
 	 * @return
 	 */
 	public boolean addPartner(StringBuilder partnerId,String firstname, String lastname, String email,
-			String password, String company, String telephone, String companyAddress,
-			String jobTitle, String industry, String extension, String url, HashMap<String, Object> info) {
+			String password, String company_name, String telephone, String company_address,
+			String job_title, String industry, String extension, String url, HashMap<String, Object> info) {
 		// TODO Auto-generated method stub
 		boolean success = false;
 		if(!emailExists(email)){
@@ -63,9 +63,9 @@ public final class PartnerManager{
 					"(company_name,industry,company_url,email,firstname,lastname,job_title,telephone,extension,company_address,password,authtoken,createdate,expires) " +
 					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,current_timestamp,NOW() + INTERVAL 2 HOUR)";
 		
-			String [] params = new String [] {company,industry,url,email,firstname,
-								lastname,jobTitle,telephone,extension,
-								companyAddress,password,authToken};
+			String [] params = new String [] {company_name,industry,url,email,firstname,
+								lastname,job_title,telephone,extension,
+								company_address,password,authToken};
 			success = dbAccess.updateDB(sql,params,keys);
 			if(success && !keys.isEmpty()){
 				sql = "SELECT * FROM temppartner WHERE temppartner_id = ?";
@@ -198,27 +198,50 @@ public final class PartnerManager{
 		// TODO Auto-generated method stub
 		boolean deleted = false;
 		if(partnerExists(partner_id)){
-			HashMap<String,Object> result = new HashMap<String,Object>();
-			String sql = "SELECT partner_id FROM partner WHERE partner_id = ? AND active = FALSE";
-			String [] params = {partner_id};
-			dbAccess.queryDB(sql, params,result);
-			if(result.isEmpty()){
-				result.clear();
-				sql = "UPDATE partner SET active = FALSE WHERE partner_id = ?";
-				params = new String[] {partner_id};
-				if(dbAccess.queryDB(sql, params,result)){
-					result.put("message","Partner successfully deleted");
-					deleted = true;
+			if(!hasActiveProjects(partner_id)){
+				HashMap<String,Object> result = new HashMap<String,Object>();
+				String sql = "SELECT partner_id FROM partner WHERE partner_id = ? AND active = FALSE";
+				String [] params = {partner_id};
+				dbAccess.queryDB(sql, params,result);
+				if(result.isEmpty()){
+					result.clear();
+					sql = "UPDATE partner SET active = FALSE WHERE partner_id = ?";
+					params = new String[] {partner_id};
+					if(dbAccess.updateDB(sql, params)){
+						result.put("message","Partner successfully deleted");
+						deleted = true;
+					}
+				}else{
+					info.put("message","Unable to delete partner which is already inactive");
 				}
 			}else{
-				info.put("message","Unable to delete partner which is already inactive");
+				info.put("message","Unable to delete. There is at least one active project.");
 			}
+			
 		}else{
 			info.put("message","Unable to delete partner that does not exist");
 		}
 		return deleted;
 	}
 	
+	/**
+	 * 
+	 * @param partner_id
+	 * @return
+	 */
+	private boolean hasActiveProjects(String partner_id) {
+		// TODO Auto-generated method stub
+		boolean  hasProjects = false;
+		HashMap<String,Object> project = new HashMap<String,Object>();
+		String sql = "SELECT project_id FROM project WHERE partner_id = ? LIMIT 1";
+		String []  params = {partner_id};
+		dbAccess.queryDB(sql, params,project);
+		if(!project.isEmpty()){
+			hasProjects = true;
+		}
+		return hasProjects;
+	}
+
 	/**
 	 * 
 	 * @param partner_id

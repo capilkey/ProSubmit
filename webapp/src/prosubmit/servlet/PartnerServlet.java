@@ -68,7 +68,7 @@ public class PartnerServlet extends HttpServlet {
 				String lastname = request.getParameter("lastname");
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
-				String company 	= request.getParameter("company");
+				String company 	= request.getParameter("company_name");
 				String tel	= request.getParameter("telephone");
 				String companyAddress = request.getParameter("company_address");
 				String jobTitle = request.getParameter("job_title");
