@@ -13,7 +13,7 @@
 <%@ page import="prosubmit.db.DBConnectionPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
- <%
+<%
   if(session!=null && session.getAttribute("dbAccess") == null){
     session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
   }

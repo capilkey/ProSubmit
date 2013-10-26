@@ -304,6 +304,14 @@ CREATE TABLE industry(
 ("Wine and Spirits"),
 ("Wireless"),
 ("Writing and Editing");
+
+DROP TABLE IF EXISTS `password_reset_request`;
+CREATE TABLE `password_reset_request`(
+	`request_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	`email` VARCHAR(40) NOT NULL,
+	`token` VARCHAR(200) NOT NULL,
+	`expires` TIMESTAMP NOT NULL
+);
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
 /**************************************/

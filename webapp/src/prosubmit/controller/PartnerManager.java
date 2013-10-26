@@ -5,6 +5,7 @@ package prosubmit.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.codec.binary.*;
 
@@ -58,7 +59,7 @@ public final class PartnerManager{
 		boolean success = false;
 		if(!emailExists(email)){
 			HashMap<String,String> keys = new HashMap<String,String>();
-			String authToken = b64.encodeBase64String(Long.toString(System.currentTimeMillis()).getBytes());
+			String authToken = getToken();
 			String sql = "INSERT INTO temppartner " +
 					"(company_name,industry,company_url,email,firstname,lastname,job_title,telephone,extension,company_address,password,authtoken,createdate,expires) " +
 					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,current_timestamp,NOW() + INTERVAL 2 HOUR)";
@@ -76,7 +77,6 @@ public final class PartnerManager{
 					String to = email;
 					String subject = "Registration Completion";
 					StringBuilder body = new StringBuilder();
-					  
 					systemManager.sendEmail(to,subject,body);
 				}
 			}
@@ -159,6 +159,20 @@ public final class PartnerManager{
 			partner.put("projects",projects);
 		}
 		return success;
+	}
+	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
+	private HashMap<? extends String, ? extends Object> getByEmail(String email) {
+		// TODO Auto-generated method stub
+		HashMap<String,Object> partner = new HashMap<String,Object>();
+		String sql = "SELECT * from partner WHERE email = ? AND active = TRUE";
+		String [] params = {email};
+		dbAccess.queryDB(sql, params,partner);
+		return partner;
 	}
 	
 	/**
@@ -370,6 +384,9 @@ public final class PartnerManager{
 			StringBuilder message = new StringBuilder();
 			if(createPasswordResetRequest(email)){
 				if(systemManager.sendEmail(to,subject,message)){
+					info.put("message","Link successfully sent to " + email + ". Please visit this link within 2 hours before it expires.");
+					success = true;
+				}else{
 					info.put("message","Error while sending email to " + email);
 				}
 			}else{
@@ -380,6 +397,7 @@ public final class PartnerManager{
 		}
 		return success;
 	}
+	
 	 
 	/**
 	 * 
@@ -388,6 +406,83 @@ public final class PartnerManager{
 	 */
 	private boolean createPasswordResetRequest(String email) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean created = false;
+		String token = getToken();
+		String sql = "INSERT INTO password_reset_request (email,token,expires) VALUES(?,?,NOW() + INTERVAL 2 HOUR)";
+		String [] params = {email,token};
+		if(dbAccess.updateDB(sql, params)){
+			created = true;
+		}
+		return created;
+	}
+	
+	/**
+	 * 
+	 * @param token
+	 * @param password
+	 * @param info
+	 * @return
+	 */
+	public boolean completePasswordReset(String token, String password,
+			HashMap<String, Object> info) {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		HashMap<String,Object> passwordResetRequest = getPasswordResetRequest(token);
+		if(!passwordResetRequest.isEmpty()){
+			String email = (String)passwordResetRequest.get("email");
+			passwordResetRequest.putAll(getByEmail(email));
+			String sql = "UPDATE partner SET password = ? WHERE email = ? AND active = TRUE";
+			String [] params = {password,email};
+			if(dbAccess.updateDB(sql, params)){
+				if(deletePasswordResetRequest(token)){
+					info.put("username",email);
+					info.put("password",password);
+					info.put("message","Your password has successfully been reset");
+					success = true;
+				}
+			}else{
+				info.put("message","Unable to change password");
+			}
+		}else{
+			info.put("message","Unable to find password reset request. The token might have expired. Please send another request to reset your password");
+		}
+		return success;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param token
+	 * @return
+	 */
+	private boolean deletePasswordResetRequest(String token) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM password_reset_request WHERE token = ?";
+		String [] params = {token};
+		return dbAccess.updateDB(sql,params);
+	}
+
+	/**
+	 * 
+	 * @param token
+	 * @return
+	 */
+	private HashMap<String, Object> getPasswordResetRequest(String token) {
+		// TODO Auto-generated method stub
+		HashMap<String,Object> passwordResetRequest = new HashMap<String,Object>();
+		String sql = "SELECT * from password_reset_request WHERE token = ?";
+		String [] params = {token};
+		dbAccess.queryDB(sql,params,passwordResetRequest);
+		return passwordResetRequest;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private String getToken(){
+		return b64.encodeBase64String(Long.toString(System.currentTimeMillis()).getBytes());
 	} 
+	
 }

@@ -3,6 +3,7 @@
  * @author ramone
  * @date 22nd September 2013
  */
+var ANIMATION_SPEED = 200;
 ProSubmit = function(){}
 ProSubmit.prototype = {
 		emailRegExp:/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -22,12 +23,10 @@ ProSubmit.prototype = {
 		/**
 		 * 
 		 */
-		login:function(){
-			var username = $("#username").val();
-			var password = $("#password").val();
-			if(this.validateEmail(username)){
-				password = hex_md5(password);
-			}
+		login:function(u,p){
+			var username = u || $("#username").val();
+			var password = p || $("#password").val();
+			password = hex_md5(password);
 			$.ajax({
 				url:"/ProSubmit/Authenticate",
 				type:"POST",
@@ -48,6 +47,7 @@ ProSubmit.prototype = {
 					alert(textStatus);
 				}
 			});
+			return false;
 		},
 		
 		
@@ -320,6 +320,45 @@ ProSubmit.prototype = {
 			return false;
 		},
 		
+		/**
+		 * 
+		 */
+		completePasswordReset:function(){
+			var isValid = true;
+			var token = $("#token").val();
+			var password = $("#password").val();
+			var confirm_password = $("#confirm_password").val();
+			
+			isValid = this.validatePassword(password, confirm_password);
+			if(!isValid){
+				$("#partner-create-password-form .alert-danger").slideDown(ANIMATION_SPEED);
+			}else{
+				$.ajax({
+					url:"/ProSubmit/Partner",
+					type:'POST',
+					data:{
+						v:"complete_password_reset",
+						token:token,
+						password:hex_md5(password),
+					},
+					success:function(response){
+						var success = response.success;
+						var message = response.message;
+						var username = response.username;
+						if(success == "1"){
+							proSubmit.login(username,$("#password").val());
+						}else{
+							$("#partner-create-password-form .alert-danger").text(message);
+							$("#partner-create-password-form .alert-danger").show();
+						}
+					},
+					error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			return false;
+		},
 		
 		/**
 		 * 
@@ -460,16 +499,16 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!password || !confirmPassword){
 				isValid = false;
-				$("#partner-register .alert,#partner-edit-info-form .alert,#partner-update-password-form .alert-danger").text("Password and confirm password cannot be empty");
+				$("form .alert-danger").text("Password and confirm password cannot be empty");
 			}if(isValid){
 				if(password.length < 10){
 					isValid = false;
-					$("#partner-register .alert,#partner-edit-info-form .alert,#partner-update-password-form .alert-danger").text("Password cannot be less than 10 characters");
+					$("form .alert-danger").text("Password cannot be less than 10 characters");
 				}
 			}if(isValid){
 				if(password != confirmPassword){
 					isValid = false;
-					$("#partner-register .alert,#partner-edit-info-form .alert").text("Passwords do not match");
+					$("#form .alert-danger").text("Passwords do not match");
 				}
 			}
 			return isValid;

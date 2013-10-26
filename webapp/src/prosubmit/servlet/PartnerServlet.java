@@ -92,11 +92,11 @@ public class PartnerServlet extends HttpServlet {
 				result.put("message",(String)info.get("message"));
 			}else if(action.equals("update") || action.equals("updatePartner")){
 				if(partnerManager.updateParter(partner_id,request.getParameter("company_name"),
-											request.getParameter("industry"),request.getParameter("company_url"),
-											request.getParameter("email"),request.getParameter("firstname"),
-											request.getParameter("lastname"),request.getParameter("job_title"),
-											request.getParameter("telephone"),request.getParameter("extension"),
-											request.getParameter("company_address"),info)){
+						request.getParameter("industry"),request.getParameter("company_url"),
+						request.getParameter("email"),request.getParameter("firstname"),
+						request.getParameter("lastname"),request.getParameter("job_title"),
+						request.getParameter("telephone"),request.getParameter("extension"),
+						request.getParameter("company_address"),info)){
 					if(session.getAttribute("isPartner") != null){
 						HashMap<String,Object> partnerInfo = new HashMap<String,Object>(); 
 						partnerManager.getPartner(partner_id,partnerInfo);
@@ -126,6 +126,15 @@ public class PartnerServlet extends HttpServlet {
 				if(partnerManager.resetPassword(request.getParameter("email"),info)){
 					result.put("success","1");
 				} 
+				result.put("message",(String)info.get("message"));
+			}else if(action.equals("complete_password_reset")){
+				String token = request.getParameter("token");
+				String password =  request.getParameter("password");
+				if(partnerManager.completePasswordReset(token,password,info)){
+					result.put("username",(String)info.get("username"));
+					result.put("password",(String)info.get("password"));
+					result.put("success","1"); 
+				}
 				result.put("message",(String)info.get("message"));
 			}
 			else{

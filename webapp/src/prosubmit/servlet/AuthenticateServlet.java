@@ -148,12 +148,14 @@ public final class AuthenticateServlet extends HttpServlet {
 				result.put("message","Incorrect username and/or password");
 			}
 		}
+
 		if(ajax == null || ajax.equals("1")){
 			out.println(gson.toJson(result)); 
 		}else{
 			response.sendRedirect(result.get("redirect"));
 			return;
 		}
+		
 		
 	}
 }
