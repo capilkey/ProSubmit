@@ -12,7 +12,7 @@ body{
 }
 
 #page-content > div:nth-child(1){
-	border:1px solid purple;
+	border:0px solid purple;
 	padding:20px;
 }
 
@@ -123,14 +123,16 @@ h1,h2{
 
 textarea{
 	resize: none;
+	width:500px;
+	display:block;
+	margin-bottom:5px;
+	height:100px;
+	padding:5px;
 }
 
 textarea.bio{
 	width:600px;
-	display:block;
 	height:300px;
-	margin-bottom:5px;
-	padding:5px;
 }
 
 #body-mask{
@@ -146,10 +148,14 @@ textarea.bio{
 	display:none;	
 }
 
-.alert{
+form .alert{
 	display:none;
 }
 .cont_edit_student_bio{
+	display:none;
+}
+
+.hidden{
 	display:none;
 }
 

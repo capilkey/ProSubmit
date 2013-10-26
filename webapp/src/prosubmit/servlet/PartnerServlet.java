@@ -84,7 +84,8 @@ public class PartnerServlet extends HttpServlet {
 					result.put("message",(String)info.get("message"));
 				}
 			}else if(action.equals("delete") || action.equals("deletePartner")){
-				if(partnerManager.deleteParter(request.getParameter("partner_id"),info)){
+				String partner_id = request.getParameter("partner_id") == null ? ((HashMap<String,String>)session.getAttribute("userInfo")).get("partner_id") : request.getParameter("partner_id");
+				if(partnerManager.deleteParter(partner_id,info)){
 					result.put("success","1");
 				}
 				result.put("message",(String)info.get("message"));

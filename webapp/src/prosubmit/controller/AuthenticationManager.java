@@ -61,7 +61,7 @@ public class AuthenticationManager {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		//if(ldap.search(username,password)){
-			String sql = "select *,professor_username as username FROM professor WHERE professor_username  = '" + username +"'";
+			String sql = "SELECT *,professor_username as username FROM professor WHERE professor_username  = '" + username +"'";
 			dbAccess.queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;

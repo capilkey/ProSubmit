@@ -54,12 +54,14 @@
     <!-- 
 			PROJECTS
 		 -->
-		 <rule>
-        <note>
-        </note>
-        <from>/projects[/]*$</from>
-        <to>/projects.jsp</to>
-    </rule>
+	 	<rule>
+       <from>/projects[/]*$</from>
+       <to>/projects.jsp</to>
+   	</rule>
+   	<rule>
+       <from>/project/([\d]{1,})-(.*)[/]*$</from>
+       <to>/view_project.jsp?project_id=$1</to>
+   	</rule>
 		
 		<!-- 
 			GROUPS

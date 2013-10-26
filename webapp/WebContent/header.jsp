@@ -63,7 +63,7 @@
 	    		if(session.getAttribute("isPartner") != null){
 	    			out.println("<a href='/ProSubmit/partner/account/'>");
 	    			out.println(userInfo.get("username"));
-    				out.println("</a>");
+    				out.println("<span class='badge'>Partner</span></a>");
 	    		}else{
 	    			out.println(userInfo.get("username"));
 	    		}

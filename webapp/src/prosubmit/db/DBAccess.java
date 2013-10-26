@@ -113,6 +113,16 @@ public class DBAccess {
 	public boolean queryDB(String sql, String[] params,HashMap<String, Object> result) {
 		// TODO Auto-generated method stub
 		boolean success = true;
+		ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
+    	success  = queryDB(sql,params,results);
+    	if(results.size() > 0){
+			result.putAll(results.get(0));
+		}
+		return success;
+	}
+    
+	public boolean queryDB(String sql, String[] params,ArrayList<HashMap<String,String>> results) {
+		boolean success = true;
 		try{
 			openConnection();
 			PreparedStatement prpStmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -122,9 +132,13 @@ public class DBAccess {
 			resultSet = prpStmt.executeQuery();
 			if(resultSet.next()){
 				int colCount = resultSet.getMetaData().getColumnCount();
-	            for (int i=1; i<=colCount; i++) {
-	                result.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
-	            }
+		        while (resultSet.next()){
+		        	HashMap<String,String> row = new HashMap<String,String>();
+		            for (int i=1; i<=colCount; i++) {
+		                row.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
+		            }
+		            results.add(row);
+		        }
 			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -135,7 +149,6 @@ public class DBAccess {
 		}
 		return success;
 	}
-    
     /**
      * Gets a single record of an entity from the database
      * @param sql

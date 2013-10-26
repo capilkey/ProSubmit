@@ -7,6 +7,18 @@ ProSubmit = function(){}
 ProSubmit.prototype = {
 		emailRegExp:/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 		urlRegExp:/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/,
+		emptyFn:function(){},
+		
+		/**
+		 * 
+		 */
+		ajaxErrorFn:function(message){
+			this.unMask(function(){
+				alert(message);
+			});
+		},
+		
+		
 		/**
 		 * 
 		 */
@@ -161,15 +173,49 @@ ProSubmit.prototype = {
 								});
 							}
 						},error:function(jqXHR,textStatus){
-							proSubmit.unMask(function(){
-								alert(message);
-							});
+							proSubmit.ajaxErrorFn(textStatus);
 						}
 					});
 				});
 			}
 			return false;
 		},
+		/**
+		 * 
+		 */
+		cancelAccount:function(){
+			if(confirm("Are you sure you want yo cancel this account?")){
+				this.mask(function(){
+					var cancellation_reason = $("#cancellation_reason"); 
+					$.ajax({
+						url:'/ProSubmit/Partner',
+						type:"POST",
+						data:{
+							v:"delete",
+							cancelltion_reason:cancellation_reason
+						},
+						success:function(response){
+							var success = response.success;
+							var message = response.message;
+							if(success == "1"){
+								proSubmit.logout();
+							}else{
+								proSubmit.unMask(function(){
+									$("#cancellation-failure-message").show();
+									$("#cancellation-failure-message").text(message);
+								});
+							}
+						},
+						error:function(jqXHR,textStatus){
+							proSubmit.ajaxErrorFn(textStatus);
+						}
+					});
+				});
+			}
+			
+			return false;
+		},
+		
 		
 		/**
 		 * 
@@ -354,12 +400,22 @@ ProSubmit.prototype = {
 		/**
 		* 
 		*/
+		logout:function(){
+			window.location = "/ProSubmit//Authenticate?v=logout";
+		},
+		
+		/**
+		* 
+		*/
 		goTop:function(){
 			$(document.body).animate({scrollTop:0});
 		}
 };
 
 $(document).ready(function(){
-
+	$("#account-cancel-link").click(function(){
+		proSubmit.cancelAccount();
+		return false;
+	});
 });
 var proSubmit = new ProSubmit();

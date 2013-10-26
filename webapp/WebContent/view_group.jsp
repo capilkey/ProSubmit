@@ -21,6 +21,8 @@
 		<h1><%=group.get("group_name")%></h1>
 		<p><%=group.get("group_desc")%></p>
 		<%
+			Gson gson = new Gson();
+		out.println(gson.toJson(userInfo));
 			for(int i=0;i<students.size();i++){
 				%>
 				<h3><%=students.get(i).get("student_firstname")+" " + students.get(i).get("student_lastname") %></h3>
