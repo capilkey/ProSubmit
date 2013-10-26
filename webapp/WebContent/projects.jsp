@@ -1,12 +1,108 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%
+	if(session == null || session.getAttribute("isPartner") != "1" || session.getAttribute("userInfo") == null){
+		response.sendRedirect("/ProSubmit/");
+		return;
+	}
+	String pageTitle = "Partner - Home";
+%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.google.gson.GsonBuilder" %>
+<%@ page import="prosubmit.db.DBAccess" %>
+<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.controller.SystemManager" %>
+<%@ page import="prosubmit.controller.PartnerManager" %>
+<%@ page import="prosubmit.controller.ProjectManager" %>
+<%
+  if(session!=null && session.getAttribute("dbAccess") == null){
+    session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
+  }
+%>
+<jsp:include page="/header.jsp"></jsp:include>
+<div id="page-content" class="hbox">
+	<%
+		ProjectManager projectManager = new ProjectManager((DBAccess)session.getAttribute("dbAccess"));
+		SystemManager systemMamager = new SystemManager((DBConnectionPool)session.getServletContext().getAttribute("dbPool"));
+		
+		ArrayList<HashMap<String,String>> projectStatuses = systemMamager.getProjectStatuses();
+		ArrayList<HashMap<String,String>> projectCategories = systemMamager.getProjectCategories();
+	%>
+	<div id="" class="flex4">
+		<div class="panel panel-default">
+			  <div class="panel-body">
+			  	 <table class="table">
+					  <tr>
+					  	<th>Keyword</th>
+					  	<th>Category</th>
+					  	<th>Status</th>
+					  </tr>
+					  <tr>
+					  	<td><input id="keyword" type="text" class="form-control"/></td>
+					  	<td>
+					  		<select id="category" class="form-control" multiple>
+					  			<%for(int i = 0;i<projectCategories.size();i++){
+						  			HashMap<String,String> category = projectCategories.get(i);
+						  		%>
+						  			<option value="<%=category.get("projcategory_id")%>"><%=category.get("projcategory_name")%></option>
+						  		<%}%>
+					  		</select>
+					  	</td>
+					  	<td>
+					  		<select id="status" class="form-control" multiple>
+					  			<%for(int i = 0;i<projectStatuses.size();i++){
+						  			HashMap<String,String> status = projectStatuses.get(i);
+						  		%>
+						  			<option value="<%=status.get("projstatus_id")%>"><%=status.get("projstatus_name")%></option>
+						  		<%}%>
+					  		</select>
+					  	</td>
+					  </tr>
+					  </table>
+					  <button type="button" class="btn btn-primary" onclick="return proSubmit.searchProjects()">Search!</button>
+				</div>
+		</div>
+		<div id="search-results">
+			<%
+				ArrayList<HashMap<String,String>> projects = projectManager.getProjects();
+				//out.println(gson.toJson(projects));
+				if(projects.size() > 0){
+					%>
+						<div class="panel panel-default">
+					  <!-- Default panel contents -->
+					  <div class="panel-body">
+					  <h3 style="display:inline"><%=projects.size()%> Project(s)</h3>
+					  </div>
+				   	<!-- Table -->
+					  <table class="table">
+					  <tr>
+					  	<th>#</th>
+					  	<th>Name</th>
+					  	<th>Created</th>
+					  	<th>Status</th>
+					  </tr>
+					<%
+					for(int i = 0;i<projects.size();i++){
+							HashMap<String,String> project = projects.get(i);
+							%>
+								<tr>
+									<td>#<%=i+1%></td>
+									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
+									<td><%=project.get("project_createdate")%></td>
+									<td><%=project.get("projstatus_name")%></td>
+								</tr>
+							<%
+					}
+					%>
+				</table>
+				</div>
+				<%}%>
+		</div>
+	
+	</div>
+	
+	<div id="" class="flex1">
+	</div>
 
-</body>
-</html>
+</div>
+<jsp:include page="/footer.jsp"></jsp:include>

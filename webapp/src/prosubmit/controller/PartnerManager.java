@@ -32,10 +32,10 @@ public final class PartnerManager{
 	 */
 	public PartnerManager(DBAccess dbAccess){
 		this.dbAccess = dbAccess;
-		systemManager = new SystemManager(dbAccess);
+		systemManager = new SystemManager(dbAccess.getPool());
 		projectManager = new ProjectManager(dbAccess);
 	}
-	
+	 
 	/**
 	 * @param partnerId
 	 * @param firstname

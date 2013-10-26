@@ -110,9 +110,9 @@
 				//out.println(gson.toJson(projects));
 				if(projects.size() > 0){
 					%>
-						<div class="panel panel-default">
-					  <!-- Default panel contents -->
-					  <div class="panel-body">
+					<div class="panel panel-default">
+				  <!-- Default panel contents -->
+				  <div class="panel-body">
 					  <h3 style="display:inline">My Projects (<%=projects.size()%>)</h3>
 					    <p>
 					    	The below lists the various projects which you have submitted to ProSubmit.

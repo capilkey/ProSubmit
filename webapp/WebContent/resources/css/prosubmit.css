@@ -108,7 +108,9 @@ body{
     flex:6 6 auto;	 
 }
 
-
+.inline{
+	display:inline !important;
+}
 
 label{
 	display:block;

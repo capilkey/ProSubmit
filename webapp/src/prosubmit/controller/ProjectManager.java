@@ -30,4 +30,15 @@ public final class ProjectManager {
 		String [] params = {partner_id};
 		return dbAccess.queryDB(sql, params,projects);
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<HashMap<String,String>> getProjects(){
+		ArrayList<HashMap<String,String>> projects = new ArrayList<HashMap<String,String>>();
+		String sql = "SELECT * FROM project";
+		dbAccess.queryDB(sql,projects);
+		return projects;
+	}
 }

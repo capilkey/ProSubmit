@@ -3,13 +3,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 /**
 *	For this dummy data, users will log in as a partner
 *	with their seneca email address and the password 'prosubmit'
-*/
+*
 DELETE FROM `partner`;
 INSERT INTO `partner` VALUES 
 (1,"Bell Canada","raburrell@myseneca.ca","Ramone","Burrell","Director Of IT","1-416-111-1111","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
 (2,"Rogers Canada","capilkey@myseneca.ca","Chad","Pilkey","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
 ("","Facebook","cxie8@myseneca.ca","Chaobo","Xie","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
-("","Twitter","xlian3@myseneca.ca","Xing","Liang","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp);
+("","Twitter","xlian3@myseneca.ca","Xing","Liang","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp);*/
 
 DELETE FROM `semester`;
 INSERT INTO `semester` VALUES

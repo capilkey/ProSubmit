@@ -241,6 +241,11 @@ public class DBAccess {
 		// TODO Auto-generated method stub
 		return updateDB(sql,params,null);
 	}
+
+	public DBConnectionPool getPool() {
+		// TODO Auto-generated method stub
+		return this.dbPool;
+	}
 	
 	
 }
