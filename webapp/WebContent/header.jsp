@@ -22,6 +22,7 @@
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/footer.css"> 
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/prosubmit.css"> 
 
+<script type="text/javascript" src="/ProSubmit/resources/js/md5.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/jquery.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>

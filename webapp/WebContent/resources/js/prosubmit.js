@@ -233,6 +233,58 @@ ProSubmit.prototype = {
 			return false;
 		},
 		
+		/**
+		 * 
+		 */
+		updatePassword:function(){
+			var isValid = true;
+			var partner_id = $("#partner_id").val();
+			var current_password = $("#current_password").val();
+			var password = $("#password").val();
+			var confirm_password = $("#confirm_password").val(); 
+			isValid = this.validatePassword(password, confirm_password);
+			if(isValid){
+				if(current_password.length == 0){
+					isValid = false;
+					$("#partner-update-password-form .alert-danger").text("Current password cannot be empty");
+				}
+			}
+			if(!isValid){
+				$("#partner-update-password-form .alert-danger").show();
+			}else{
+				$("#partner-update-password-form .alert-danger").hide();
+				$.ajax({
+					url:"/ProSubmit/Partner",
+					type:"POST",
+					data:{
+						v:"update_password",
+						partner_id:partner_id,
+						current_password:hex_md5(current_password),
+						password:hex_md5(password)
+					},
+					success:function(response){
+						var success = response.success;
+						var message = response.message;
+						console.log(response);
+						if(success == "1"){
+							$("#partner-update-password-form .alert-info").text(message);
+							$("#partner-update-password-form .alert-info").show();
+						}else{
+							$("#partner-update-password-form .alert-danger").text(message);
+							$("#partner-update-password-form .alert-danger").show();
+						}
+					},
+					error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+					
+				});
+			}
+			
+			return false;
+		},
+		
+		
 		
 		/**
 		 * 
@@ -373,11 +425,11 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!password || !confirmPassword){
 				isValid = false;
-				$("#partner-register .alert,#partner-edit-info-form .alert").text("Password and confirm password cannot be empty");
+				$("#partner-register .alert,#partner-edit-info-form .alert,#partner-update-password-form .alert-danger").text("Password and confirm password cannot be empty");
 			}if(isValid){
 				if(password.length < 10){
 					isValid = false;
-					$("#partner-register .alert,#partner-edit-info-form .alert").text("Password cannot be less than 10 characters");
+					$("#partner-register .alert,#partner-edit-info-form .alert,#partner-update-password-form .alert-danger").text("Password cannot be less than 10 characters");
 				}
 			}if(isValid){
 				if(password != confirmPassword){
@@ -450,6 +502,40 @@ $(document).ready(function(){
 	$("#edit-partner-link").click(function(){
 		$("#partner-edit-info-form").toggle("fast");
 		return false;
+	});
+	
+	$("#current_password").blur(function(){
+		var current_password = $(this).val();
+		if(current_password){
+			$("#partner-update-password-form .alert-danger").hide();
+			$("#partner-update-password-form .alert-info").hide();
+			$.ajax({
+				url:"/ProSubmit/Partner",
+				type:"GET",
+				data:{
+					v:"is_password",
+					partner_id:$("#partner_id").val(),
+					password:hex_md5(current_password)
+				},success:function(response){
+					var success = response.success;
+					var message = response.message;
+					var is_password = response.is_password;
+					//console.log(response);
+					if(success == "1"){
+						if(is_password == "0"){
+							$("#partner-update-password-form .alert-danger").text("Password specified does not match the one on record");
+							$("#partner-update-password-form .alert-danger").show();
+						}
+					}else{
+						$("#partner-update-password-form .alert-danger").text(message);
+						$("#partner-update-password-form .alert-danger").show();
+					}
+				},error:function(jqXHR,textStatus){
+					alert(textStatus);
+				}
+				
+			});
+		}
 	});
 });
 var proSubmit = new ProSubmit();

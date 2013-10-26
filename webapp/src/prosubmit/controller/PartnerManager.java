@@ -305,6 +305,53 @@ public final class PartnerManager{
 		if(!result.isEmpty()){
 			exists = true;
 		}
-		return exists;
+		return exists; 
 	}
+	
+	/**
+	 *  
+	 * @param partner_id
+	 * @param password
+	 * @return
+	 */
+	public boolean isPassword(String partner_id, String password) {
+		// TODO Auto-generated method stub
+		boolean isPassword = false;
+		HashMap<String,Object> partner = new HashMap<String,Object>();
+		String sql = "SELECT password from partner WHERE password = ? AND partner_id = ?";
+		String [] params = {password,partner_id};
+		dbAccess.queryDB(sql, params, partner);
+		if(!partner.isEmpty()){
+			isPassword = true;
+		}
+		return isPassword;
+	}
+
+	/**
+	 * 
+	 * @param partner_id
+	 * @param current_password
+	 * @param password
+	 * @param info
+	 * @return
+	 */
+	public boolean updatePassword(String partner_id, String current_password,
+		String password, HashMap<String, Object> info) {
+		// TODO Auto-generated method stub
+		boolean updated = false;
+		if(partnerExists(partner_id)){
+			if(isPassword(partner_id,current_password)){
+				String sql = "UPDATE partner SET password = ? WHERE partner_id = ?";
+				String [] params = {password,partner_id};
+				if(dbAccess.updateDB(sql,params)){
+					updated = true;
+				}
+			}else{
+				info.put("message","Current password does not match the one speccified");
+			}
+		}else{
+			info.put("message","Partner does not exist");
+		}
+		return updated;
+	} 
 }

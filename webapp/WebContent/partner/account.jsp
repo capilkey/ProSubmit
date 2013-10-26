@@ -32,7 +32,7 @@
 			<div class="panel panel-default">
 			  <div class="panel-body">
 			    <div>
-						<h3><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
+						<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
 						<span><%=partner.get("company_name")%></span><br/>
 						<span><%=partner.get("email")%></span><br/>
 						<span><%=partner.get("telephone")%> ex:<%=partner.get("extension")%></span><br/>
@@ -151,10 +151,33 @@
 			%>
 			<hr/>
 			
+			<div class="panel panel-default">
+			  <div class="panel-body">
+			  	<h3 style="display:inline">Change Password</h3>
+			  	<br/><br/>
+			  	<form id="partner-update-password-form">
+			  		<div class="alert alert-danger no-show"></div>
+			  		<div class="alert alert-info no-show"></div>
+			  		
+			  		<label for="current_password">Current Password</label>
+			  		<input id="current_password" type="password" class="form-control" size="50"/>
+			  		
+			  		<label for="password">Passsword:</label>
+			  		<input id="password" type="password" class="form-control" size="50"/>
+			  		
+			  		<label for="confirm_passord">Confirm Password:</label>
+			  		<input id="confirm_password" type="password" class="form-control" size="50"/>
+			  		<br/>
+			  		<button type="button" class="btn btn-primary" onclick="return proSubmit.updatePassword()">Change Now!</button>
+			  	</form>
+			  </div>
+			</div>
+			<hr/>
+			
 			
 			<div class="panel panel-warning">
 			  <div class="panel-body">
-			  	<h3>Account Cancellation</h3>
+			  	<h3 style="display:inline">Account Cancellation</h3>
 			  	<div>
 						<div class="alert alert-warning">
 							Account cancellation is dependent on the status of your project. You will be notified

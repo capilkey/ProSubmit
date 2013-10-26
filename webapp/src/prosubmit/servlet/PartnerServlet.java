@@ -53,6 +53,7 @@ public class PartnerServlet extends HttpServlet {
 		
 		HashMap<String,String> result = new HashMap<String,String>();
 		HashMap<String,Object> info = new HashMap<String,Object>();
+		String partner_id = request.getParameter("partner_id");
 		
 		result.put("success","0");
 		String action = request.getParameter("v");
@@ -84,13 +85,12 @@ public class PartnerServlet extends HttpServlet {
 					result.put("message",(String)info.get("message"));
 				}
 			}else if(action.equals("delete") || action.equals("deletePartner")){
-				String partner_id = request.getParameter("partner_id") == null ? ((HashMap<String,String>)session.getAttribute("userInfo")).get("partner_id") : request.getParameter("partner_id");
+				partner_id = partner_id == null ? ((HashMap<String,String>)session.getAttribute("userInfo")).get("partner_id") : request.getParameter("partner_id");
 				if(partnerManager.deleteParter(partner_id,info)){
 					result.put("success","1");
 				}
 				result.put("message",(String)info.get("message"));
 			}else if(action.equals("update") || action.equals("updatePartner")){
-				String partner_id = request.getParameter("partner_id");
 				if(partnerManager.updateParter(partner_id,request.getParameter("company_name"),
 											request.getParameter("industry"),request.getParameter("company_url"),
 											request.getParameter("email"),request.getParameter("firstname"),
@@ -106,6 +106,24 @@ public class PartnerServlet extends HttpServlet {
 					
 				}
 				result.put("message",(String)info.get("message"));
+			}else if(action.equals("is_password")){
+				String password = request.getParameter("password");
+				if(partnerManager.isPassword(partner_id,password)){
+					result.put("is_password","1");
+				}else{
+					result.put("is_password","0");
+				}
+				result.put("success","1");
+			}else if(action.equals("update_password")){
+				String current_password = request.getParameter("current_password");
+				String password = request.getParameter("password");
+				if(partnerManager.updatePassword(partner_id,current_password,password,info)){
+					result.put("message","Password successfully updated");
+					result.put("success","1");
+				}else{
+					result.put("message",(String)info.get("message"));
+				}
+				
 			}else{
 				result.put("message","Unknown action");
 			} 

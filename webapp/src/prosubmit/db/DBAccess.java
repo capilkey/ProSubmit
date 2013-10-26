@@ -117,8 +117,6 @@ public class DBAccess {
     	success  = queryDB(sql,params,results);
     	if(results.size() > 0){
 			result.putAll(results.get(0));
-		}else{
-			System.out.println("SIZE OF ARRAY IS 0");
 		}
 		return success;
 	}
