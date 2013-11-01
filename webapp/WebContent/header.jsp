@@ -5,13 +5,7 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="prosubmit.controller.GroupHandler" %>
-<%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
-<%
-	if(session!=null && session.getAttribute("dbAccess") == null){
-		session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
-	}
-%>
+<%@ page import="prosubmit.db.DBPool" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,7 +33,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<%  
-						GroupHandler gh = new GroupHandler((DBAccess)session.getAttribute("dbAccess"));
+						GroupHandler gh = new GroupHandler((DBPool)session.getServletContext().getAttribute("dbPool"));
 						ArrayList<HashMap<String,String>> groups = new ArrayList<HashMap<String,String>>();
 						gh.getAllGroups(groups);
 						for(int i = 0;i<groups.size() && i < 15;i++){
@@ -54,11 +48,10 @@
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
-		    	<li><a href="/">Link</a></li>
 		  </ul>
 	   </div><!-- /.navbar-collapse -->
 			
-	    <div id="log-in-register-content" class="flex1">
+	    <div id="log-in-register-content" class="flex2">
 	    	<% //
 	    		HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
 	    		if(session.getAttribute("isPartner") != null){

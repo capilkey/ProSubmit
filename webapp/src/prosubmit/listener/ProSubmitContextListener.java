@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import prosubmit.db.DBConnectionPool;
+import prosubmit.db.DBPool;
  
 /**
  * Application Lifecycle Listener implementation class ProSubmitContextListener
@@ -30,7 +30,7 @@ public final class ProSubmitContextListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent ctxEvnt) {
 		// TODO Auto-generated method stub
 		context = ctxEvnt.getServletContext();
-		context.setAttribute("dbPool",new DBConnectionPool());
+		context.setAttribute("dbPool",new DBPool());
 	}
 	
 }

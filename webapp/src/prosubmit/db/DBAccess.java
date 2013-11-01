@@ -23,13 +23,13 @@ import prosubmit.controller.*;
  */
 @SuppressWarnings("all")
 public class DBAccess {
-	private DBConnectionPool dbPool = null;
+	private DBPool dbPool = null;
     private PreparedStatement statement = null;
     private ResultSet resultSet = null;
     private Connection connection = null;
     private ServletContext context;
 
-	public DBAccess(DBConnectionPool dbPool) throws NullPointerException{
+	public DBAccess(DBPool dbPool) throws NullPointerException{
         if(dbPool != null){
         	this.dbPool = dbPool;
 		}else{
@@ -171,6 +171,8 @@ public class DBAccess {
 		}
     	return success;
 	}
+
+	
     
     /**
      * @param statement
@@ -242,10 +244,11 @@ public class DBAccess {
 		return updateDB(sql,params,null);
 	}
 
-	public DBConnectionPool getPool() {
+	public DBPool getPool() {
 		// TODO Auto-generated method stub
 		return this.dbPool;
 	}
+
 	
 	
 }

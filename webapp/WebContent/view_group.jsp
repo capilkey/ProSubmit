@@ -1,19 +1,24 @@
 <%
+	if(session == null || session.getAttribute("userInfo") == null){
+		response.sendRedirect("/ProSubmit/");
+		return;
+	}
+
 	String groupId = request.getParameter("group_id");
 	HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
 	HashMap<String,Object> group = new HashMap<String,Object>();
 	
-	GroupHandler gh = new GroupHandler((DBAccess)session.getAttribute("dbAccess"));
+	GroupHandler gh = new GroupHandler((DBPool)session.getServletContext().getAttribute("dbPool"));
 	gh.getGroup(group,groupId);
 	ArrayList<HashMap<String,String>> students = (ArrayList<HashMap<String,String>>)group.get("students");
 	String pageTitle = "Group - " + group.get("group_name");
-%>
+%> 
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="prosubmit.controller.GroupHandler" %>
-<%@ page import="prosubmit.db.DBAccess" %>
+<%@ page import="prosubmit.db.DBPool" %>
 
 <jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">

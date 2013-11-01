@@ -13,14 +13,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 
 /**
  * @author ramone
  *
  */
 @SuppressWarnings("all")
-public final class PartnerManager{
-	private DBAccess dbAccess = null;
+public final class PartnerManager extends DBAccess{
 	private Base64 b64 = new Base64();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private SystemManager systemManager = null;
@@ -30,10 +30,10 @@ public final class PartnerManager{
 	 * 
 	 * @param dbAccess
 	 */
-	public PartnerManager(DBAccess dbAccess){
-		this.dbAccess = dbAccess;
-		systemManager = new SystemManager(dbAccess.getPool());
-		projectManager = new ProjectManager(dbAccess);
+	public PartnerManager(DBPool pool){
+		super(pool);
+		systemManager = new SystemManager(pool);
+		projectManager = new ProjectManager(pool);
 	}
 	 
 	/**
@@ -67,11 +67,11 @@ public final class PartnerManager{
 			String [] params = new String [] {company_name,industry,url,email,firstname,
 								lastname,job_title,telephone,extension,
 								company_address,password,authToken};
-			success = dbAccess.updateDB(sql,params,keys);
+			success = updateDB(sql,params,keys);
 			if(success && !keys.isEmpty()){
 				sql = "SELECT * FROM temppartner WHERE temppartner_id = ?";
 				params = new String [] {keys.get("GENERATED_KEY")};
-				success = dbAccess.queryDB(sql,params,info);
+				success = queryDB(sql,params,info);
 				
 				if(success){
 					String to = email;
@@ -99,7 +99,7 @@ public final class PartnerManager{
 		
 		String sql = "SELECT * FROM temppartner WHERE authtoken = ?";
 		String [] params = {token};
-		completed = dbAccess.queryDB(sql, params,tempPartner);
+		completed = queryDB(sql, params,tempPartner);
 		
 		if(completed){
 			
@@ -118,15 +118,15 @@ public final class PartnerManager{
 					(String)tempPartner.get("company_address"),
 					(String)tempPartner.get("password"),
 					(String)tempPartner.get("createdate")};
-			completed = dbAccess.updateDB(sql, params, keys);
+			completed = updateDB(sql, params, keys);
 			if(completed){
 				sql = "DELETE FROM temppartner WHERE authtoken = ?";
 				params = new String [] {token};
-				completed = dbAccess.updateDB(sql, params);
+				completed = updateDB(sql, params);
 				if(completed){
 					sql = "SELECT * FROM partner WHERE partner_id = ?";
 					params = new String [] {keys.get("GENERATED_KEY")};
-					completed = dbAccess.queryDB(sql,params,info);
+					completed = queryDB(sql,params,info);
 				}
 			}
 		}
@@ -141,7 +141,7 @@ public final class PartnerManager{
 	public boolean getPartner(String partnerId, HashMap<String,Object> info) {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * from partner WHERE partner_id = " + partnerId;
-		return dbAccess.queryDB(sql,info);
+		return queryDB(sql,info);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public final class PartnerManager{
 		HashMap<String,Object> partner = new HashMap<String,Object>();
 		String sql = "SELECT * from partner WHERE email = ? AND active = TRUE";
 		String [] params = {email};
-		dbAccess.queryDB(sql, params,partner);
+		queryDB(sql, params,partner);
 		return partner;
 	}
 	
@@ -185,14 +185,14 @@ public final class PartnerManager{
 		String sql = "SELECT email FROM temppartner WHERE email = ?";
 		String [] params = {email};
 		HashMap<String,Object> result = new HashMap<String,Object>();
-		dbAccess.queryDB(sql,params,result);
+		queryDB(sql,params,result);
 		 
 		if(result.get("email") != null){
 			exists = true;
 		}if(!exists){
 			sql = "SELECT email FROM partner WHERE email = ? AND active = TRUE";
 			params = new String [] {email};
-			dbAccess.queryDB(sql,params,result);
+			queryDB(sql,params,result);
 			if(result.get("email") != null){
 				exists = true;
 			}
@@ -216,12 +216,12 @@ public final class PartnerManager{
 				HashMap<String,Object> result = new HashMap<String,Object>();
 				String sql = "SELECT partner_id FROM partner WHERE partner_id = ? AND active = FALSE";
 				String [] params = {partner_id};
-				dbAccess.queryDB(sql, params,result);
+				queryDB(sql, params,result);
 				if(result.isEmpty()){
 					result.clear();
 					sql = "UPDATE partner SET active = FALSE WHERE partner_id = ?";
 					params = new String[] {partner_id};
-					if(dbAccess.updateDB(sql, params)){
+					if(updateDB(sql, params)){
 						result.put("message","Partner successfully deleted");
 						deleted = true;
 					}
@@ -249,7 +249,7 @@ public final class PartnerManager{
 		HashMap<String,Object> project = new HashMap<String,Object>();
 		String sql = "SELECT project_id FROM project WHERE partner_id = ? LIMIT 1";
 		String []  params = {partner_id};
-		dbAccess.queryDB(sql, params,project);
+		queryDB(sql, params,project);
 		if(!project.isEmpty()){
 			hasProjects = true;
 		}
@@ -292,7 +292,7 @@ public final class PartnerManager{
 								extension,
 								company_address,
 								partner_id};
-			if(dbAccess.updateDB(sql, params)){
+			if(updateDB(sql, params)){
 				info.put("message","Partner successfully updated");
 				updated = true;
 			}else{
@@ -315,7 +315,7 @@ public final class PartnerManager{
 		HashMap<String,Object> result = new HashMap<String,Object>();
 		String sql = "SELECT partner_id FROM partner WHERE partner_id = ?";
 		String [] params = {partner_id};
-		dbAccess.queryDB(sql, params, result);
+		queryDB(sql, params, result);
 		if(!result.isEmpty()){
 			exists = true;
 		}
@@ -334,7 +334,7 @@ public final class PartnerManager{
 		HashMap<String,Object> partner = new HashMap<String,Object>();
 		String sql = "SELECT password from partner WHERE password = ? AND partner_id = ?";
 		String [] params = {password,partner_id};
-		dbAccess.queryDB(sql, params, partner);
+		queryDB(sql, params, partner);
 		if(!partner.isEmpty()){
 			isPassword = true;
 		}
@@ -357,7 +357,7 @@ public final class PartnerManager{
 			if(isPassword(partner_id,current_password)){
 				String sql = "UPDATE partner SET password = ? WHERE partner_id = ?";
 				String [] params = {password,partner_id};
-				if(dbAccess.updateDB(sql,params)){
+				if(updateDB(sql,params)){
 					updated = true;
 				}
 			}else{
@@ -410,7 +410,7 @@ public final class PartnerManager{
 		String token = getToken();
 		String sql = "INSERT INTO password_reset_request (email,token,expires) VALUES(?,?,NOW() + INTERVAL 2 HOUR)";
 		String [] params = {email,token};
-		if(dbAccess.updateDB(sql, params)){
+		if(updateDB(sql, params)){
 			created = true;
 		}
 		return created;
@@ -433,7 +433,7 @@ public final class PartnerManager{
 			passwordResetRequest.putAll(getByEmail(email));
 			String sql = "UPDATE partner SET password = ? WHERE email = ? AND active = TRUE";
 			String [] params = {password,email};
-			if(dbAccess.updateDB(sql, params)){
+			if(updateDB(sql, params)){
 				if(deletePasswordResetRequest(token)){
 					info.put("username",email);
 					info.put("password",password);
@@ -460,7 +460,7 @@ public final class PartnerManager{
 		// TODO Auto-generated method stub
 		String sql = "DELETE FROM password_reset_request WHERE token = ?";
 		String [] params = {token};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 
 	/**
@@ -473,7 +473,7 @@ public final class PartnerManager{
 		HashMap<String,Object> passwordResetRequest = new HashMap<String,Object>();
 		String sql = "SELECT * from password_reset_request WHERE token = ?";
 		String [] params = {token};
-		dbAccess.queryDB(sql,params,passwordResetRequest);
+		queryDB(sql,params,passwordResetRequest);
 		return passwordResetRequest;
 	}
 

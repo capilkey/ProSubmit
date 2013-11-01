@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import prosubmit.db.DBAccess;
-import prosubmit.db.DBConnectionPool;
+import prosubmit.db.DBPool;
 
 /**
  * @author ramone
@@ -19,7 +19,7 @@ public class SystemManager extends DBAccess{
 	 * 
 	 * @param dbAccess
 	 */
-	public SystemManager(DBConnectionPool pool){
+	public SystemManager(DBPool pool){
 		super(pool);
 	}
 	

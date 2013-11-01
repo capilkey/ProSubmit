@@ -10,20 +10,22 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.db.DBPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
 <%
   if(session!=null && session.getAttribute("dbAccess") == null){
-    session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
+    session.setAttribute("dbAccess",new DBAccess((DBPool)session.getServletContext().getAttribute("dbPool")));
   }
 %>
 <jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
 	<%
-		ProjectManager projectManager = new ProjectManager((DBAccess)session.getAttribute("dbAccess"));
-		SystemManager systemMamager = new SystemManager((DBConnectionPool)session.getServletContext().getAttribute("dbPool"));
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	
+		ProjectManager projectManager = new ProjectManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+		SystemManager systemMamager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
 		
 		ArrayList<HashMap<String,String>> projectStatuses = systemMamager.getProjectStatuses();
 		ArrayList<HashMap<String,String>> projectCategories = systemMamager.getProjectCategories();
@@ -82,6 +84,7 @@
 					  	<th>Status</th>
 					  </tr>
 					<%
+					//out.println(gson.toJson(projects));
 					for(int i = 0;i<projects.size();i++){
 							HashMap<String,String> project = projects.get(i);
 							%>
