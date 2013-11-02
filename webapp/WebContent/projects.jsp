@@ -1,5 +1,5 @@
 <%
-	if(session == null || session.getAttribute("isPartner") != "1" || session.getAttribute("userInfo") == null){
+	if(session == null || session.getAttribute("userInfo") == null){
 		response.sendRedirect("/ProSubmit/");
 		return;
 	}
@@ -14,11 +14,6 @@
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
-<%
-  if(session!=null && session.getAttribute("dbAccess") == null){
-    session.setAttribute("dbAccess",new DBAccess((DBPool)session.getServletContext().getAttribute("dbPool")));
-  }
-%>
 <jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
 	<%
@@ -40,7 +35,9 @@
 					  	<th>Status</th>
 					  </tr>
 					  <tr>
-					  	<td><input id="keyword" type="text" class="form-control"/></td>
+					  	<td>
+					  		<input id="keywords" type="text" class="form-control"/>
+					  	</td>
 					  	<td>
 					  		<select id="category" class="form-control" multiple>
 					  			<%for(int i = 0;i<projectCategories.size();i++){
@@ -60,6 +57,17 @@
 					  		</select>
 					  	</td>
 					  </tr>
+					  <tr>
+					  	<th>From Date:</th>
+					  	<th>TO Date:</th>
+					  	<th></th>
+					  </tr>
+					  <tr>
+					  	<td><input id="from_date" type="date" class="form-control"/></td>
+					  	<td><input id="to_date" type="date" class="form-control"/></td>
+					  	<td></td>
+					  </tr>
+					  
 					  </table>
 					  <button type="button" class="btn btn-primary" onclick="return proSubmit.searchProjects()">Search!</button>
 				</div>

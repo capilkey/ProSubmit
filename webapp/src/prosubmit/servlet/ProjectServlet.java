@@ -14,28 +14,30 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import prosubmit.controller.GroupHandler;
+import prosubmit.controller.ProjectManager;
 import prosubmit.db.DBPool;
 
-
-
 /**
- * Servlet implementation class GroupServlet
+ * Servlet implementation class ProjectServlet
  * @author ramone
+ * 
  */
-public class GroupServlet extends HttpServlet {
+@SuppressWarnings("all")
+public final class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private GroupHandler gh = null;
-	private final String CONTENT_TYPE = "application/json";
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static final String CONTENT_TYPE = "application/json";
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private ProjectManager projectManager = null;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GroupServlet() {
+    public ProjectServlet() {
         super();
         // TODO Auto-generated constructor stub
+        projectManager  = new ProjectManager((DBPool)getServletContext().getAttribute("dbPool"));
     }
- 
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -49,47 +51,29 @@ public class GroupServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(true);
 		response.setHeader("Content-Type",CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
 		HashMap<String,String> result = new HashMap<String,String>();
 		result.put("success","0");
 		String action = request.getParameter("v");
-		StringBuilder bio = new StringBuilder(request.getParameter("bio"));
+
 		
-		if(gh == null){
-			gh = new GroupHandler((DBPool)request.getSession().getServletContext().getAttribute("dbPool"));
-		}
+
 		if(action != null){
-			if(action.equals("updateStudentBio")){
-				if(updateStudentBio(request.getParameter("student_id"),bio)){
+			if(action.equals("addcomment")){
+				String professorId  = ((HashMap<String,String>)session.getAttribute("userInfo")).get("professor_id");
+				
+				if(projectManager.addComment(request.getParameter("project_id"),professorId,request.getParameter("comment"))){
 					result.put("success","1");
-					result.put("message","Student biography successfully updated");
-					result.put("bio",bio.toString());
 				}else{
-					result.put("message","Unable to update student biography");
+					result.put("message","Unable to add comment to project");
 				}
 			}else{
 				result.put("message","Unknown action");
 			}
 		}
 		out.println(gson.toJson(result));
-	}
-	
-
-	/**
-	 * 
-	 * @param bio
-	 * @return
-	 */
-	private boolean updateStudentBio(String studentId,StringBuilder bio) {
-		// TODO Auto-generated method stub
-		if(studentId == null){
-			return false;
-		}else if(bio == null || bio.length() == 0){
-			bio.append("No biography available for this student");
-			System.out.println("CAME HERE");
-		}
-		return gh.updateStudentBio(studentId, bio.toString());
 	}
 
 }

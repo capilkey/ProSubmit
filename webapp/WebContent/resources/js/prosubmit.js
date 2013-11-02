@@ -19,6 +19,57 @@ ProSubmit.prototype = {
 			});
 		},
 		
+		/**
+		 * 
+		 */
+		searchProjects:function(){
+			var options = {
+				keywords:$("#keywords").val(),
+				categories:$("#category").val(),
+				statuses:$("#status").val(),
+				from_date:$("#from_date").val(),
+				to_date:$("#to_date").val(),
+			};
+			
+				
+			$.ajax({
+				url:"/ProSubmit/rest/SearchProjects",
+				type:"POST",
+				data:{
+					options:JSON.stringify(options)
+				},
+				success:function(response){
+					console.log(projects);
+				},
+				error:function(jqXHR,textStatus){
+					alert(textStatus);
+				}
+			});
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		addProjectComment:function(){
+			$.ajax({
+				url:"/ProSubmit/Project",
+				type:"POST",
+				data:{
+					v:"addcomment",
+					project_id:$("#project-id").val(),
+					comment:$("#comment").text()
+				},
+				success:function(response){
+					console.log(projects);
+				},
+				error:function(jqXHR,textStatus){
+					alert(textStatus);
+				}
+			});
+			return false;
+		},
+		
 		
 		/**
 		 * 

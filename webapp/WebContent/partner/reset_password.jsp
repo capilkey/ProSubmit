@@ -4,15 +4,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
-<%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.db.DBPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
-<%
-  if(session!=null && session.getAttribute("dbAccess") == null){
-    session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
-  }
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>

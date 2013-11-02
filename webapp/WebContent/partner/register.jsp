@@ -9,15 +9,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
-<%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.db.DBPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
-<%
-  if(session!=null && session.getAttribute("dbAccess") == null){
-    session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
-  }
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -74,7 +68,7 @@
 			<label for="industry">Industry:</label>
 			<select id="industry" class="form-control">
         <% 
-            SystemManager systemManager = new SystemManager((DBAccess)session.getAttribute("dbAccess"));
+            SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
         		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
         		systemManager.getIndustries(industries); 
         		for(int i =0;i<industries.size();i++){
@@ -118,7 +112,7 @@
 						</div>
 					<%
 				}else{
-					PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
+					PartnerManager partnerManager = new PartnerManager((DBPool)session.getServletContext().getAttribute("dbPool"));
 					HashMap<String,Object> info = new HashMap<String,Object>();
 					if(partnerManager.completeRegistration(request.getParameter("token"),info)){ 
 						session.removeAttribute("registrationInfo");

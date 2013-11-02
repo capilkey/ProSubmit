@@ -185,6 +185,21 @@ form .alert{
 	display:block;
 	padding:20px;
 }
+
+div.comment-container{
+	border:1px solid silver;
+	width:640px;
+	padding:10px;
+}
+
+.round-corners{
+	border-radius:4px;
+}
+
+p.comment{
+	padding:10px;
+	width:600px;
+}
 /********************/
 /*	PARTNER 		*/
 /********************/
