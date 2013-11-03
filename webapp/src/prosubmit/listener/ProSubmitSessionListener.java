@@ -1,18 +1,17 @@
 package prosubmit.listener;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import prosubmit.db.*;
+import prosubmit.db.DBAccess;
+import prosubmit.db.DBConnectionPool;
 
 /**
  * Application Lifecycle Listener implementation class ProSubmitSessionListener
  *
  */
-public class ProSubmitSessionListener implements HttpSessionListener {
-	HttpSession session = null;
-	
+public class ProSubmitSessionListener implements  HttpSessionListener {
+
     /**
      * Default constructor. 
      */
@@ -25,15 +24,15 @@ public class ProSubmitSessionListener implements HttpSessionListener {
      */
     public void sessionCreated(HttpSessionEvent evt) {
         // TODO Auto-generated method stub
-    	session = evt.getSession();
-    	session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
+    	DBAccess dbAccess = new DBAccess((DBConnectionPool)evt.getSession().getServletContext().getAttribute("dbPool"));
+    	evt.getSession().setAttribute("dbAccess",dbAccess);
+    	System.out.println("SESSION CREATED");
     }
 
 	/**
      * @see HttpSessionListener#sessionDestroyed(HttpSessionEvent)
      */
-    public void sessionDestroyed(HttpSessionEvent evt) {
-        // TODO Auto-generated method stubs
+    public void sessionDestroyed(HttpSessionEvent arg0) {
+        // TODO Auto-generated method stub
     }
-	
 }

@@ -11,30 +11,38 @@ SET AUTOCOMMIT = 0;
 DROP TABLE IF EXISTS tempppartner;
 CREATE TABLE temppartner(
 	`temppartner_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-	`partner_company` VARCHAR(100) NOT NULL,
-	`partner_email` VARCHAR(40) NOT NULL UNIQUE,
-	`partner_firstname` VARCHAR(25) NOT NULL,
-	`partner_lastname` VARCHAR(25) NOT NULL,
-	`partner_jobtitle` VARCHAR(50) NOT NULL,
-	`partner_telephone` VARCHAR(13) NOT NULL,
-	`partner_companyaddress` VARCHAR(200) NOT NULL,
-	`partner_hashpassword` VARCHAR(100) NOT NULL,
-	`partner_createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`partner_authtoken` VARCHAR(200) NOT NULL
+	`company_name` VARCHAR(100) NOT NULL,
+	`industry` SMALLINT(5) UNSIGNED NOT NULL REFERENCES industry(id),
+	`company_url` VARCHAR(200) NULL,
+	`email` VARCHAR(40) NOT NULL UNIQUE,
+	`firstname` VARCHAR(25) NOT NULL,
+	`lastname` VARCHAR(25) NOT NULL,
+	`job_title` VARCHAR(50) NOT NULL,
+	`telephone` VARCHAR(20) NOT NULL,
+	`extension` CHAR(10) NULL,
+	`company_address` VARCHAR(200) NOT NULL,
+	`password` VARCHAR(100) NOT NULL,
+	`createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`authtoken` VARCHAR(200) NOT NULL UNIQUE,
+	`expires` TIMESTAMP NULL
 );
 
 DROP TABLE IF EXISTS partner;
 CREATE TABLE partner(
 	`partner_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-	`partner_company` VARCHAR(100) NOT NULL,
-	`partner_email` VARCHAR(40) NOT NULL UNIQUE,
-	`partner_firstname` VARCHAR(25) NOT NULL,
-	`partner_lastname` VARCHAR(25) NOT NULL,
-	`partner_jobtitle` VARCHAR(50) NOT NULL,
-	`partner_telephone` VARCHAR(13) NOT NULL,
-	`partner_companyaddress` VARCHAR(200) NOT NULL,
-	`partner_hashpassword` VARCHAR(100) NOT NULL,
-	`partner_createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `company_name` VARCHAR(100) NOT NULL,
+  `industry` SMALLINT(5) UNSIGNED NOT NULL REFERENCES industry(id),
+  `company_url` VARCHAR(200) NULL,
+  `email` VARCHAR(40) NOT NULL UNIQUE,
+  `firstname` VARCHAR(25) NOT NULL,
+  `lastname` VARCHAR(25) NOT NULL,
+  `job_title` VARCHAR(50) NOT NULL,
+  `telephone` VARCHAR(20) NOT NULL,
+  `extension` CHAR(10) NULL,
+  `company_address` VARCHAR(200) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` SMALLINT(1) NOT NULL DEFAULT TRUE
 );
 
 DROP TABLE IF EXISTS semester;
@@ -51,12 +59,13 @@ CREATE TABLE course(
 
 DROP TABLE IF EXISTS student;
 CREATE TABLE student(
-	`student_id` VARCHAR(40) NOT NULL PRIMARY KEY,
+	`student_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	`student_bio` TEXT NULL,
 	`student_firstname` VARCHAR(25) NOT NULL,
 	`student_lastname` VARCHAR(25) NOT NULL,
-	`student_email` VARCHAR(50) NOT NULL UNIQUE,
+	`student_email` VARCHAR(50) NOT NULL,
 	`student_username` VARCHAR(25) NOT NULL,
-	`group_id` INT UNSIGNED NOT NULL REFERENCES `group` (group_id)
+	`group_id` INT UNSIGNED NULL REFERENCES `group` (group_id)
 );
 
 DROP TABLE IF EXISTS `group`;
@@ -67,7 +76,7 @@ CREATE TABLE `group` (
 	`group_desc` TEXT NOT NULL,
 	`semester_code` VARCHAR(20) NOT NULL REFERENCES semester (semester_code),
 	`course_id` VARCHAR(10) NOT NULL REFERENCES course (course_id),
-	`student_id` VARCHAR(40) NOT NULL REFERENCES student(student_id)
+	`student_id` INT UNSIGNED NOT NULL REFERENCES student(student_id)
 );
 
 DROP TABLE IF EXISTS project_status;
@@ -77,14 +86,14 @@ CREATE TABLE project_status(
 	`projstatus_desc` TEXT NOT NULL
 );
 INSERT INTO `project_status` VALUES
-('',"Awaiting Approval","The project proposal has been submitted, but not looked at by a professor yet."),
-('',"Pending Approval","The project proposal has been reviewed by a professor."),
-('',"Approved","The project proposal has been accepted as a valid project."),
-('',"Rejected","The project proposal has been rejected as a valid project."),
-('',"Matched","The project proposal has been matched to a student group."),
-('',"Suspended","The design or development on the project has been suspended."),
-('',"Developing","The development of the project is ongoing."),
-('',"Completed","All phases of the project have been completed.");
+(1,"Awaiting Approval","The project proposal has been submitted, but not looked at by a professor yet."),
+(2,"Pending Approval","The project proposal has been reviewed by a professor."),
+(3,"Approved","The project proposal has been accepted as a valid project."),
+(4,"Rejected","The project proposal has been rejected as a valid project."),
+(5,"Matched","The project proposal has been matched to a student group."),
+(6,"Suspended","The design or development on the project has been suspended."),
+(7,"Developing","The development of the project is ongoing."),
+(8,"Completed","All phases of the project have been completed.");
 
 DROP TABLE IF EXISTS project_category;
 CREATE TABLE project_category(
@@ -93,10 +102,10 @@ CREATE TABLE project_category(
 	`projcategory_desc` TEXT NULL
 );
 INSERT INTO `project_category` (`projcategory_id`,`projcategory_name`) VALUES
-('',"Mobile Application"),
-('',"Web Service"),
-('',"Web Application"),
-('',"General Application");
+(1,"Mobile Application"),
+(2,"Web Service"),
+(3,"Web Application"),
+(4,"General Application");
 
 DROP TABLE IF EXISTS project;
 CREATE TABLE project(
@@ -105,7 +114,7 @@ CREATE TABLE project(
 	`project_title` VARCHAR(100) NOT NULL,
 	`project_desc` TEXT NOT NULL,
 	`project_createdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`project_editdate` TIMESTAMP NOT NULL,
+	`project_editdate` TIMESTAMP NULL,
 	`group_id` INT UNSIGNED NULL REFERENCES `group` (`group_id`),
 	`projstatus_id` SMALLINT UNSIGNED NOT NULL REFERENCES project_status (`projstatus_id`),
 	`projcategory_id` SMALLINT UNSIGNED NOT NULL REFERENCES project_category (`projcategory_id`)
@@ -142,5 +151,169 @@ CREATE TABLE system_admin(
 	`user_id` VARCHAR(40) NOT NULL PRIMARY KEY
 );
 
+DROP TABLE IF EXISTS industry;
+CREATE TABLE industry(
+  `id` SMALLINT(5) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `industry` VARCHAR(50) NOT NULL
+);
+ INSERT INTO industry (industry) VALUES
+("Accounting"),
+("Airlines/Aviation"),
+("Alternative Dispute Resolution"),
+("Alternative Medicine"),
+("Animation"),
+("Apparel &amp; Fashion"),
+("Architecture &amp; Planning"),
+("Arts and Crafts"),
+("Automotive"),
+("Aviation &amp; Aerospace"),
+("Banking"),
+("Biotechnology"),
+("Broadcast Media"),
+("Building Materials"),
+("Business Supplies and Equipment"),
+("Capital Markets"),
+("Chemicals"),
+("Civic &amp; Social Organization"),
+("Civil Engineering"),
+("Commercial Real Estate"),
+("Computer &amp; Network Security"),
+("Computer Games"),
+("Computer Hardware"),
+("Computer Networking"),
+("Computer Software"),
+("Construction"),
+("Consumer Electronics"),
+("Consumer Goods"),
+("Consumer Services"),
+("Cosmetics"),
+("Dairy"),
+("Defense &amp; Space"),
+("Design"),
+("Education Management"),
+("E-Learning"),
+("Electrical/Electronic Manufacturing"),
+("Entertainment"),
+("Environmental Services"),
+("Events Services"),
+("Executive Office"),
+("Facilities Services"),
+("Farming"),
+("Financial Services"),
+("Fine Art"),
+("Fishery"),
+("Food &amp; Beverages"),
+("Food Productio"),
+("Fund-Raising"),
+("Furniture"),
+("Gambling &amp; Casinos"),
+("Glass, Ceramics &amp; Concrete"),
+("Government Administration"),
+("Government Relations"),
+("Graphic Design"),
+("Health, Wellness and Fitness"),
+("Higher Education"),
+("Hospital &amp; Health Care"),
+("Hospitality"),
+("Human Resources"),
+("Import and Export"),
+("Individual &amp; Family Services"),
+("Industrial Automation"),
+("Information Services"),
+("Information Technology and Services"),
+("Insurance"),
+("International Affairs"),
+("International Trade and Development"),
+("Internet"),
+("Investment Banking"),
+("Ivestment Management"),
+("Judiciary"),
+("Law Enforcement"),
+("Law Practice"),
+("Legal Services"),
+("Legislative Office"),/**************************************/
+("Leisure, Travel &amp; Tourism"),
+("Libraries"),
+("Logistics and Supply Chain"),
+("Luxury Goods &amp; Jewelry"),
+("Machinery"),
+("Management Consulting"),
+("Maritime"),
+("Marketing and Advertising"),
+("Market Research"),
+("Mechanical or Industrial Engineering"),
+("Media Production"),
+("Medical Devices"),
+("Medical Practice"),
+("Mental Health Care"),
+("Military"),
+("Mining &amp; Metals"),
+("Motion Pictures and Film"),
+("Museums and Institutions"),
+("Music"),
+("Nanotechnology"),
+("Newspapers"),
+("Nonprofit Organization Management"),
+("Oil &amp; Energy"),
+("Online Media"),
+("Outsourcing/Offshoring"),
+("Package/Freight Delivery"),
+("Packaging and Containers"),
+("Paper &amp; Forest Products"),
+("Performing Arts"),
+("Pharmaceuticals"),
+("Philanthropy"),
+("Photography"),
+("Plastics"),
+("Political Organization"),
+("Primary/Secondary Education"),
+("Printing"),
+("Professional Training &amp; Coaching"),
+("Program Development"),
+("Public Policy"),
+("Public Relations and Communications"),
+("Public Safety"),
+("Publishing"),
+("Railroad Manufacture"),
+("Ranching"),
+("Real Estate"),
+("Recreational Facilities and Services"),
+("Religious Institutions"),
+("Renewables &amp; Environment"),
+("Research"),
+("Restaurants"),
+("Retail"),
+("Security and Investigations"),
+("Semiconductors"),
+("Shipbuilding"),
+("Sporting Goods"),
+("Sports"),
+("Staffing and Recruiting"),
+("Supermarkets"),
+("Telecommunications"),
+("Textiles"),
+("Think Tanks"),
+("Tobacco"),
+("Translation and Localization"),
+("Transportation/Trucking/Railroad"),
+("Utilities"),
+("Venture Capital &amp; Private Equity"),
+("Veterinary"),
+("Warehousing"),
+("Wholesale"),
+("Wine and Spirits"),
+("Wireless"),
+("Writing and Editing");
+
+DROP TABLE IF EXISTS `password_reset_request`;
+CREATE TABLE `password_reset_request`(
+	`request_id` INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	`email` VARCHAR(40) NOT NULL,
+	`token` VARCHAR(200) NOT NULL,
+	`expires` TIMESTAMP NOT NULL
+);
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
+/**************************************/
+/*			VIEWS													*/
+/**************************************/

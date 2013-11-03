@@ -13,6 +13,8 @@ import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 
+import com.google.gson.Gson;
+
 import prosubmit.controller.*;
 
 /**
@@ -27,15 +29,37 @@ public class DBAccess {
     private Connection connection = null;
     private ServletContext context;
 
-	public DBAccess(DBConnectionPool dbPool) {
-        this.dbPool = dbPool;
+	public DBAccess(DBConnectionPool dbPool) throws NullPointerException{
+        if(dbPool != null){
+        	this.dbPool = dbPool;
+		}else{
+			throw new NullPointerException("Unable to set dbPool in class DBAccess upon instantiation. Parameter dbPool is null");
+		}
     }
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean openConnection(){
+		boolean opened = false;
+			connection = dbPool.getConnection();
+		try {
+			if(connection != null && connection.isClosed() == false){
+				opened = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return opened;
+	}
     
 	/**
 	 * 
 	 * @return
 	 */
-    public boolean closeConnection() {
+    private boolean closeConnection() {
         boolean success = false;
         try {
             if (statement  != null) { statement.close(); }
@@ -50,15 +74,15 @@ public class DBAccess {
     }
 
     /**
-     * @param result
      * @param query
+     * @param result
      * @return <boolean> true if the operation was successful
      * but false otherwise
      */
-    public boolean queryDB(ArrayList<HashMap<String,String>> result, String query) {
-    	boolean success = false;
+    public boolean queryDB(String query,ArrayList<HashMap<String,String>> result) {
+    	boolean success = true;
 	    try {
-	    	connection= ((DBConnectionPool)context.getAttribute("DBConnectionPool")).getConnection();
+	    	openConnection();
 	        statement = connection.prepareStatement(query);
 	        resultSet = statement.executeQuery();
 	        int colCount = resultSet.getMetaData().getColumnCount();
@@ -71,27 +95,81 @@ public class DBAccess {
 	        }
 	    }catch (SQLException e) {
 	    	System.out.println(e.getMessage());
+	    	e.printStackTrace();
+	    	success = false;
 	    }finally {
-	       //IT SALL GOOD 
 	    	closeConnection();
-	    	success = true;
 	    }
 	    return success;
     }
     
     /**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @param result
+	 * @return
+	 */
+	public boolean queryDB(String sql, String[] params,HashMap<String, Object> result) {
+		// TODO Auto-generated method stub
+		boolean success = true;
+		ArrayList<HashMap<String,Object>> results = new ArrayList<HashMap<String,Object>>();
+    	success  = queryDB(sql,params,results);
+    	if(results.size() > 0){
+			result.putAll(results.get(0));
+		}
+		return success;
+	}
+    
+	/**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @param results
+	 * @return
+	 */
+	public boolean queryDB(String sql, String[] params,ArrayList<HashMap<String,Object>> results) {
+		boolean success = true;
+		try{
+			openConnection();
+			PreparedStatement prpStmt = connection.prepareStatement(sql);
+			for(int i =1;i<=params.length;i++){
+				prpStmt.setString(i,params[i-1]);
+			}
+			resultSet = prpStmt.executeQuery();
+			int colCount = resultSet.getMetaData().getColumnCount();
+	        while (resultSet.next()){
+	        	HashMap<String,Object> row = new HashMap<String,Object>();
+	            for (int i=1; i<=colCount; i++) {
+	                row.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
+	            }
+	            results.add(row);
+	        }
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			success = false;
+		}finally{
+			closeConnection();
+		}
+		return success;
+	}
+    /**
      * Gets a single record of an entity from the database
-     * @param professor
      * @param sql
+     * @param record
      * @return <boolean> true if the operation was successful but
      * false otherwise
      */
-    public boolean queryDB(HashMap<String, String> record, String sql) {
+    public boolean queryDB(String sql,HashMap<String, Object> record) {
 		// TODO Auto-generated method stub
-		ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
-		queryDB(results,sql);
-		record = results.get(0);
-    	return false;
+		boolean success = false;
+    	ArrayList<HashMap<String,String>> results = new ArrayList<HashMap<String,String>>();
+    	success  = queryDB(sql,results);
+    	if(results.size() > 0){
+			record.putAll(results.get(0));
+		}
+    	return success;
 	}
     
     /**
@@ -100,40 +178,69 @@ public class DBAccess {
      * false otherwise
      */ 
     public boolean updateDB(String sql) {
-    	boolean success = false;
+    	boolean success = true;
         try {
+        	openConnection();
             statement = connection.prepareStatement(sql);
             statement.executeUpdate();
         }catch (SQLException e) {
         	e.printStackTrace();
+        	success = false;
         }finally {
-            success = true;
+            closeConnection();
         }
         return success;
     }
+    
+    
 
     /**
      * 
      * @param sql
      * @param params
+     * @param keys
      * @return <boolean> true if the operation was successful 
      * but false otherwise
      */
-	public boolean updateDB(String sql, String[] params) {
+	public boolean updateDB(String sql, String[] params,HashMap<String,String> keys) {
 		// TODO Auto-generated method stub
-		boolean success = false;
+		boolean success = true;
 		try{
-			PreparedStatement prpStmt = connection.prepareStatement(sql);
-			for(int i =0;i<params.length;i++){
-				prpStmt.setString(i,params[i]);
+			openConnection();
+			PreparedStatement prpStmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			for(int i =1;i<=params.length;i++){
+				prpStmt.setString(i,params[i-1]);
 			}
-			statement.executeUpdate();
+			prpStmt.executeUpdate();
+			
+			if(keys != null){
+				int i = 1;
+				ResultSet rs = prpStmt.getGeneratedKeys();
+				while(rs.next()){
+					keys.put(rs.getMetaData().getColumnName(i),rs.getString(i));
+					i++;
+				}
+			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			success = false;
 		}finally{
-			success = true;
+			closeConnection();
 		}
 		return success;
 	}
+	
+	/**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	public boolean updateDB(String sql, String[] params) {
+		// TODO Auto-generated method stub
+		return updateDB(sql,params,null);
+	}
+	
+	
 }
