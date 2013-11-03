@@ -23,7 +23,7 @@
 </head>
 <body>
 <div id="body-mask"></div>
-<nav id="nav-bar" class="navbar navbar-default" role="navigation">
+<nav id="nav-bar" class="navbar navbar-default  blue-gradient" role="navigation">
 <div id="nav-contents-container" class="hbox">
 	<div class="flex1"><img src="/ProSubmit/resources/icons/logo-medium.png" alt="LOGO"/></div>
 	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">

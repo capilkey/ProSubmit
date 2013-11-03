@@ -23,9 +23,12 @@
 		HashMap<String,Object> project = projectManager.getProject(projectId);
 		HashMap<String,Object> group = (HashMap<String,Object>)project.get("group");
 		ArrayList<HashMap<String,Object>> comments = (ArrayList<HashMap<String,Object>>)project.get("comments");
-	//	out.println(gson.toJson(project));
+		
 	%>
 	<div id="" class="flex4">
+	<%
+	//out.println(gson.toJson(project));
+	%>
 		<h1><%=project.get("project_title")%></h1>
 		<strong>Date Added: </strong> <span><%=project.get("project_createdate")%></span><br/>
 		<p><%=project.get("project_desc")%></p>
@@ -41,13 +44,23 @@
 		%>
 		
 		<div id="project_comments">
+			<h3><%=comments.size()%> Comment(s)</h3>
 		<%for(int i =0;i<comments.size();i++){
 			HashMap<String,Object> comment = (HashMap<String,Object>)comments.get(i);
 		%>
 			<div class="comment-container box-shadow round-corners">
-				<strong>Added: </strong><span><%=comment.get("projcom_date")%></span><br/>
-				<strong>By: </strong><span><%=comment.get("professor_name")%></span><br/>
+				<div class="gray-gradient hbox">
+						<div class="flex1"><strong>By: </strong><span><%=comment.get("professor_name")%></span></div>
+						<div class="flex1"><strong>Added: </strong><span><%=comment.get("projcom_date")%></span></div>
+				</div>
 				<p class="comment"><%=comment.get("projcom_text")%></p>
+				<%
+					if(session.getAttribute("isAdmin") != null){
+						%>
+							<div><a href="#" title="Delete this comment" onclick="return proSubmit.deleteComment(<%=comment.get("projcom_id")%>)">Delete</a></div>
+						<%
+					}
+				%>
 			</div>
 			
 		<%}%>
@@ -63,6 +76,65 @@
 	</div>
 	
 	<div id="" class="flex1">
+		<%
+			ArrayList<HashMap<String,String>> activeProjects = projectManager.getActiveProjects(10);
+			ArrayList<HashMap<String,String>> mostRecentProjects = projectManager.getMostRecentProjects(10);
+			ArrayList<HashMap<String,String>> completedProjects = projectManager.getCompletedProjects(10);
+		%>
+		<div>  
+			<h4  class="underlined">Active Projects</h4>
+			<%
+				if(activeProjects.size() > 0){
+					for(int i=0;i<activeProjects.size();i++){
+					%>
+					<%
+					}
+				}else{
+					%>
+						<div class="alert alert-info">There currently are no active projects</div>
+					<%
+				}
+			%>
+		</div>
+		
+		<div>
+			<h4 class="underlined">Most Recent Projects</h4>
+				<%
+				if(mostRecentProjects.size() > 0){
+					for(int i=0;i<mostRecentProjects.size();i++){
+						HashMap<String,String> _project = mostRecentProjects.get(i); 
+					%>
+						<div>
+							<h5><%=project.get("project_title")%></h5>
+							<strong><%=project.get("project_createdate")%></strong>
+						</div>
+					<%
+					}
+				}else{
+					%>
+					<div class="alert alert-info">There currently are no recent projects</div>
+					<%
+				}
+			%>
+		</div>
+		
+		<div>
+			<h4  class="underlined">Completed Projects</h4>
+				<%
+				if(completedProjects.size() > 0){
+					for(int i=0;i<completedProjects.size();i++){
+					%>
+						
+					<%
+					}
+				}else{
+					%>
+						<div class="alert alert-info">There currently are no completed projects</div>
+					<%
+				}
+			%>
+		</div>
+		
 	</div>
 
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,12 @@ public final class ProjectServlet extends HttpServlet {
     public ProjectServlet() {
         super();
         // TODO Auto-generated constructor stub
-        projectManager  = new ProjectManager((DBPool)getServletContext().getAttribute("dbPool"));
+    }
+    
+    
+    public void init(ServletConfig config) throws ServletException{
+    	projectManager  =  new ProjectManager((DBPool)config.getServletContext().getAttribute("dbPool"));
+    	
     }
 
 	/**
@@ -62,12 +68,18 @@ public final class ProjectServlet extends HttpServlet {
 
 		if(action != null){
 			if(action.equals("addcomment")){
-				String professorId  = ((HashMap<String,String>)session.getAttribute("userInfo")).get("professor_id");
-				
+				String professorId  = ((HashMap<String,String>)session.getAttribute("userInfo")).get("professor_id");	
 				if(projectManager.addComment(request.getParameter("project_id"),professorId,request.getParameter("comment"))){
 					result.put("success","1");
 				}else{
 					result.put("message","Unable to add comment to project");
+				}
+			}else if(action.equals("deletecomment")){
+				if(projectManager.deleteComment(request.getParameter("comment_id"))){
+					result.put("success","1");
+					result.put("message","Comment successfully removed");
+				}else{
+					result.put("message","Unable to delete comment");
 				}
 			}else{
 				result.put("message","Unknown action");

@@ -58,7 +58,7 @@ public final class ProjectManager extends DBAccess {
 	private ArrayList<HashMap<String,Object>> getProjectComments(String projectId) {
 		// TODO Auto-generated method stub
 		ArrayList<HashMap<String,Object>> comments = new ArrayList<HashMap<String,Object>>();
-		String sql = "SELECT *,DATE_FORMAT(projcom_date,'%M %D %Y') AS projcom_date  FROM project_comment WHERE project_id = ?";
+		String sql = "SELECT *,CONCAT(professor_firstname,' ',professor_lastname) as professor_name,DATE_FORMAT(projcom_date,'%M %D %Y') AS projcom_date  FROM project_comment LEFT JOIN professor USING(professor_id) WHERE project_id = ?";
 		String [] params = {projectId};
 		queryDB(sql,params,comments);
 		return comments;
@@ -100,7 +100,60 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean addComment(String projectId,String profId,String comment){
-		
-		return false;
+		String sql = "INSERT INTO project_comment (project_id,projcom_text,projcom_date,professor_id) VALUES(?,?,current_timestamp,?)";
+		String [] params = {projectId,comment,profId};
+		return updateDB(sql,params);
 	}
+	
+	/**
+	 * 
+	 * @param commentId
+	 * @return
+	 */
+	public boolean deleteComment(String commentId) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE from project_comment WHERE projcom_id = ?";
+		String [] params = {commentId};
+		return updateDB(sql,params);
+	}
+	
+	
+	/**
+	 * 
+	 * @param count
+	 * @return
+	 */
+	public ArrayList<HashMap<String,String>> getActiveProjects(int count){
+		ArrayList<HashMap<String,String>> projects = new ArrayList<HashMap<String,String>>();
+		String sql = "SELECT *,DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project LEFT JOIN project_status USING (projstatus_id) WHERE projstatus_id NOT IN (1,2,4,6,8) ORDER BY project_createdate DESC LIMIT " + count;
+		queryDB(sql,projects);
+		return projects;
+	}
+	
+	/**
+	 * 
+	 * @param count
+	 * @return
+	 */
+	public ArrayList<HashMap<String,String>> getMostRecentProjects(int count){
+		ArrayList<HashMap<String,String>> projects = new ArrayList<HashMap<String,String>>();
+		String sql = "SELECT *,DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project LEFT JOIN project_status USING (projstatus_id) ORDER BY project_createdate DESC LIMIT " + count;
+		queryDB(sql,projects);
+		return projects;
+	}
+	
+	
+	/**
+	 * 
+	 * @param count
+	 * @return
+	 */
+	public ArrayList<HashMap<String,String>> getCompletedProjects(int count){
+		ArrayList<HashMap<String,String>> projects = new ArrayList<HashMap<String,String>>();
+		String sql = "SELECT *,DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project LEFT JOIN project_status USING (projstatus_id) WHERE projstatus_id = 8 ORDER BY project_createdate DESC LIMIT " + count;
+		queryDB(sql,projects);
+		return projects;
+	}
+	
+	
 }

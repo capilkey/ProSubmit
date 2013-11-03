@@ -52,21 +52,65 @@ ProSubmit.prototype = {
 		 * 
 		 */
 		addProjectComment:function(){
+			var comment = $("#comment").val();
+			if(!comment){
+				alert("Please enter a comment before submitting");
+				return;
+			}
+			
+			
 			$.ajax({
 				url:"/ProSubmit/Project",
 				type:"POST",
 				data:{
 					v:"addcomment",
 					project_id:$("#project-id").val(),
-					comment:$("#comment").text()
+					comment:comment
 				},
 				success:function(response){
-					console.log(projects);
+					var success = response.success;
+					var message = response.message;
+					var comment = response.comment;	
+					if(success == "1"){
+						window.location.reload();
+					}else{
+						alert(message);
+					}
 				},
 				error:function(jqXHR,textStatus){
 					alert(textStatus);
 				}
 			});
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		deleteComment:function(comment_id){
+			if(confirm("Are you sure you want to delete this comment?")){
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"deletecomment",
+						comment_id:comment_id,
+					},
+					success:function(response){
+						var success = response.success;
+						var message = response.message;
+						var comment = response.comment;	
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},
+					error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
 			return false;
 		},
 		
