@@ -583,9 +583,195 @@ public class ProjectHandler {
 		String [] params = {projcategory_id};
 		return dbAccess.updateDB(sql, params);
 	}
+	
+	/**
+	 * Create a single project comment
+	 * Fields:<p>
+	 * (0) projcom_id (1) project_id (2) projcom_text (3) projcom_date (4) professor_id
+	 * @param projcom_id
+	 * @param project_id
+	 * @param projcom_text
+	 * @param projcom_date
+	 * @param professor_id
+	 * @return
+	 */
+	public boolean addProjectComment(String projcom_id, String project_id,
+		String projcom_text, String projcom_date, String professor_id){
+		String sql = "INSERT INTO Project_Comment VALUES(?,?,?,?,?)";
+		String [] params = {
+							projcom_id,
+							project_id,
+							projcom_text,
+							projcom_date,
+							professor_id
+							};
+		return dbAccess.updateDB(sql, params);
+	}
+	
+	/**
+	 * Update a single project comment
+	 * Fields:<p>
+	 * (0) projcom_id (1) project_id (2) projcom_text (3) projcom_date (4) professor_id
+	 * @param projcom_id
+	 * @param project_id
+	 * @param projcom_text
+	 * @param projcom_date
+	 * @param professor_id
+	 * @return
+	 */
+	public boolean updateProjectComment(String projcom_id, String project_id,
+		String projcom_text, String projcom_date, String professor_id){
+		String sql = "UPDATE Project_Comment" +
+					" SET projcom_text=?" + "," +
+					" projcom_date=?" + "," +
+					" professor_id=?" +
+					" WHERE projcom_id=?" +
+					" AND " +
+					" project_id=?";
+		String [] params = {
+							projcom_text,
+							projcom_date,
+							professor_id,
+							projcom_id,
+							project_id
+						};
+		return dbAccess.updateDB(sql, params);
+	}
 
+	/**
+	 * Get a single project comment by projcom_id and project_id
+	 * Fields:<p>
+	 * (0) projcom_id (1) project_id
+	 * @param projcom_id
+	 * @param project_id
+	 * @return
+	 */
+	public boolean getCommentInfoByID(String projcom_id, String project_id){
+		String sql = "SELECT projcom_text, projcom_date, professor_id FROM Project_Comment" +
+					" WHERE procom_id=?" +
+					" AND" +
+					" project_id=?";
+		String [] params = {
+							projcom_id,
+							project_id
+							};
+		return dbAccess.updateDB(sql, params);
+	}
 
-	public boolean generateProjectReport()
-	{
+	/**
+	 * Get the info of project comment by projcom_id
+	 * Fields:<p>
+	 * (0) projcom_id
+	 * @param projcom_id
+	 * @return
+	 */
+	public boolean getCommentInfoByProjComID(String projcom_id){
+		String sql = "SELECT project_id, projcom_text, projcom_date, professor_id FROM Project_Comment" +
+					" WHERE projcom_id=?";
+		String [] params = {projcom_id};
+		return dbAccess.updateDB(sql, params);
+	}
+	
+	/**
+	 * Get the info of all the project comments by project_id
+	 * Fields:<p>
+	 * (0) project_id
+	 * @param project_id
+	 * @return
+	 */
+	public boolean getAllCommentByProjectID(String project_id){
+		String sql = "SELECT projcom_id, projcom_text, projcom_date, professor_id FROM Project_Comment" +
+					" WHERE project_id=?";
+		String [] params = {project_id};
+		return dbAccess.updateDB(sql, params);
+	}
+
+	/**
+	 * Get the info of all the project comments by professor_id
+	 * Fields:<p>
+	 * (0) professor_id
+	 * @param professor_id
+	 * @return
+	 */
+	public boolean getAllCommentByProfessorID(String professor_id){
+		String sql = "SELECT projcom_id, project_id, projcom_text, projcom_date FROM Project_Comment" +
+					" WHERE professor_id=?";
+		String [] params = {professor_id};
+		return dbAccess.updateDB(sql, params);
+	}
+
+	/**
+	 * Get the info of all the project comments by projcom_date
+	 * Fields:<p>
+	 * (0) projcom_date
+	 * @param projcom_date
+	 * @return
+	 */
+	public boolean getAllCommentByDate(String projcom_date){
+		String sql = "SELECT projcom_id, project_id, projcom_text, professor_id FROM Project_Comment" +
+					" WHERE projcom_date=?";
+		String [] params = {projcom_date};
+		return dbAccess.updateDB(sql, params);
+	}
+
+	/**
+	 * Remove a project comment by projcom_id and project_id
+	 * Fields:<p>
+	 * (0) projcom_id (1) project_id
+	 * @param projcom_id
+	 * @param project_id
+	 * @return
+	 */
+	public boolean removeCommentByID(String projcom_id, String project_id){
+		String sql = "DELETE FROM Project_Comment " +
+					" WHERE projcom_id=? " +
+					" project_id=?";
+		String [] params = {
+							projcom_id,
+							project_id
+							};
+		return dbAccess.updateDB(sql, params);
+	}
+	
+	/**
+	 * Remove all the project comments by project_id
+	 * Fields:<p>
+	 * (0) project_id
+	 * @param project_id
+	 * @return
+	 */
+	public boolean removeAllCommentsByProjectID(String project_id){
+		String sql = "DELETE FROM Project_Comment " +
+					" WHERE project_id=?";
+		String [] params = {project_id};
+		return dbAccess.updateDB(sql, params);
+	}
+	
+	/**
+	 * Remove all the project comments by professor_id
+	 * Fields:<p>
+	 * (0) professor_id
+	 * @param professor_id
+	 * @return
+	 */
+	public boolean removeAllCommentsByProfessorID(String professor_id){
+		String sql = "DELETE FROM Project_Comment " +
+					" WHERE professor_id=?";
+		String [] params = {professor_id};
+		return dbAccess.updateDB(sql, params);
+	}
+	
+	/**
+	 * Remove all the project comments by projcom_date
+	 * Fields:<p>
+	 * (0) projcom_date
+	 * @param projcom_date
+	 * @return
+	 */
+	public boolean removeAllCommentsByDate(String projcom_date){
+		String sql = "DELETE FROM Project_Comment " +
+					" WHERE projcom_date=?";
+		String [] params = {projcom_date};
+		return dbAccess.updateDB(sql, params);
 	}
 }
