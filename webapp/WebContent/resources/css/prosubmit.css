@@ -251,6 +251,13 @@ p.comment{
 .underlined{
 	text-decoration:underline;
 }
+p.student-bio{
+	text-align:justify;
+}
+
+.alert{
+	max-width:600px;
+}
 /********************/
 /*	PARTNER 		*/
 /********************/

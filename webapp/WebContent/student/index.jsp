@@ -26,15 +26,22 @@
 		<h1><%=group.get("group_name")%></h1>
 		<p><%=group.get("group_desc")%></p>
 		<%
+				if(userInfo.get("student_id") != null && (userInfo.get("student_id").equals(""))){
+					%><a id="edit_student_bio_link_<%=students.get(i).get("student_id")%>" href="#" onclick="return proSubmit.updateStudentBio(this,'<%=students.get(i).get("student_id")%>')">Edit Bio</a><%
+				}
+		%>
+		
+		<%
 			for(int i=0;i<students.size();i++){
 				%>
 				<h3><%=students.get(i).get("student_firstname")+" " + students.get(i).get("student_lastname") %></h3>
 				<em><%=students.get(i).get("student_email") %></em>
-				<p id='student_bio_<%=students.get(i).get("student_id")%>'><%=students.get(i).get("student_bio") %></p>
+				<p class="student-bio" id='student_bio_<%=students.get(i).get("student_id")%>'><%=students.get(i).get("student_bio") %></p>
 				<div id='cont_edit_student_bio_<%=students.get(i).get("student_id")%>' class="cont_edit_student_bio">
 					<textarea class="bio"></textarea>
 					<button type="button" class="btn btn-primary" onclick="return proSubmit.updateStudentBio(null,<%=students.get(i).get("student_id")%>)">Done</button>
 				</div>
+				<hr/>
 				<%
 				if(userInfo.get("student_id") != null && (userInfo.get("student_id").equals(students.get(i).get("student_id")))){
 					%><a id="edit_student_bio_link_<%=students.get(i).get("student_id")%>" href="#" onclick="return proSubmit.updateStudentBio(this,'<%=students.get(i).get("student_id")%>')">Edit Bio</a><%

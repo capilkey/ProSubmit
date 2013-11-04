@@ -58,10 +58,17 @@
 	    			out.println("<a href='/ProSubmit/partner/account/'>");
 	    			out.println(userInfo.get("username"));
     				out.println("<span class='badge'>Partner</span></a>");
+	    		}else if(session.getAttribute("isAdmin") != null){
+	    			out.println("<a href='/ProSubmit/admin/'>");
+	    			out.println(userInfo.get("user_id"));
+    				out.println("<span class='badge'>Admin</span></a>");
+	    		}else if(session.getAttribute("isProfessor") != null){
+	    			out.println("<a href='/ProSubmit/professor/'>");
+	    			out.println(userInfo.get("professor_username"));
+    				out.println("<span class='badge'>Teacher</span></a>");
 	    		}else{
 	    			out.println(userInfo.get("username"));
 	    		}
-	   			
 	   		%> | 
 	    	<a href="/ProSubmit//Authenticate?v=logout">Logout</a>
 		</div>

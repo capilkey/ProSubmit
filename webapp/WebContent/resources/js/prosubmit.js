@@ -176,7 +176,7 @@ ProSubmit.prototype = {
 										$("#student_bio_"+id).text(bio);
 										$("#student_bio_"+id).slideDown("fast",function(){
 											$("#edit_student_bio_link_"+id).show();
-											alert(message);
+											//alert(message);
 										});
 									});
 								})

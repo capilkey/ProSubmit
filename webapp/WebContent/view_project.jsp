@@ -23,9 +23,8 @@
 		HashMap<String,Object> project = projectManager.getProject(projectId);
 		HashMap<String,Object> group = (HashMap<String,Object>)project.get("group");
 		ArrayList<HashMap<String,Object>> comments = (ArrayList<HashMap<String,Object>>)project.get("comments");
-		
 	%>
-	<div id="" class="flex4">
+	<div id="" class="flex3">
 	<%
 	//out.println(gson.toJson(project));
 	%>
@@ -80,6 +79,7 @@
 			ArrayList<HashMap<String,String>> activeProjects = projectManager.getActiveProjects(10);
 			ArrayList<HashMap<String,String>> mostRecentProjects = projectManager.getMostRecentProjects(10);
 			ArrayList<HashMap<String,String>> completedProjects = projectManager.getCompletedProjects(10);
+			//out.println(gson.toJson(mostRecentProjects));
 		%>
 		<div>  
 			<h4  class="underlined">Active Projects</h4>
@@ -91,7 +91,7 @@
 					}
 				}else{
 					%>
-						<div class="alert alert-info">There currently are no active projects</div>
+						<em>There currently are no active projects</em>
 					<%
 				}
 			%>
@@ -105,14 +105,16 @@
 						HashMap<String,String> _project = mostRecentProjects.get(i); 
 					%>
 						<div>
-							<h5><%=project.get("project_title")%></h5>
-							<strong><%=project.get("project_createdate")%></strong>
+							<h5><a href="/ProSubmit/project/<%=_project.get("project_id") + "-" + _project.get("project_title")%>"><%=_project.get("project_title")%></a></h5>
+							<h6><%=_project.get("project_createdate")%></h6>
+							<p><%=_project.get("project_desc").substring(0,(_project.get("project_desc")).length() >= 100 ? 100 : _project.get("project_desc").length())%></p>
 						</div>
+						<hr/>
 					<%
 					}
 				}else{
 					%>
-					<div class="alert alert-info">There currently are no recent projects</div>
+					<em>There currently are no recent projects</em>
 					<%
 				}
 			%>
@@ -129,7 +131,7 @@
 					}
 				}else{
 					%>
-						<div class="alert alert-info">There currently are no completed projects</div>
+						<em>There currently are no completed projects</em>
 					<%
 				}
 			%>
