@@ -155,5 +155,63 @@ public final class ProjectManager extends DBAccess {
 		return projects;
 	}
 	
+	/**
+	 * 
+	 * @param categoryName
+	 * @param categoryDesc
+	 * @return
+	 */
+	public boolean addProjectCategory(String categoryName, String categoryDesc) {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		String sql = "INSERT INTO project_category (projcategory_name,projcategory_desc) VALUES(?,?)";
+		String [] params = {categoryName,categoryDesc};
+		success = updateDB(sql,params);
+		return success; 
+	}
+
+	/**
+	 * 
+	 * @param projcategory_id
+	 * @return
+	 */
+	public boolean deleteProjectCategory(String projcategory_id) {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		String sql = "DELETE FROM project_category WHERE projcategory_id = ?";
+		String [] params = {projcategory_id};
+		success = updateDB(sql,params);
+		return success;
+	}
+	
+	/**
+	 * 
+	 * @param statusName
+	 * @param statusDesc
+	 * @return
+	 */
+	public boolean addProjectStatus(String statusName, String statusDesc) {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		String sql = "INSERT INTO project_status (projstatus_name,projstatus_desc) VALUES(?,?)";
+		String [] params = {statusName,statusDesc};
+		success = updateDB(sql,params);
+		return success;
+	} 
+	
+	/**
+	 * 
+	 * @param projstatusId
+	 * @return
+	 */
+	public boolean deleteProjectStatus(String projstatusId) {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		String sql = "DELETE FROM project_status WHERE projstatus_id = ?";
+		String [] params = {projstatusId};
+		success = updateDB(sql,params);
+		return success;
+	}
+	
 	
 }
