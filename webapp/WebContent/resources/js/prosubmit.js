@@ -23,6 +23,7 @@ ProSubmit.prototype = {
 		 * 
 		 */
 		searchProjects:function(){
+			this.mask();
 			var options = {
 				keywords:$("#keywords").val(),
 				categories:$("#category").val(),
@@ -31,18 +32,21 @@ ProSubmit.prototype = {
 				to_date:$("#to_date").val(),
 			};
 			
-				
+			console.log(options);	
 			$.ajax({
-				url:"/ProSubmit/rest/SearchProjects",
-				type:"POST",
+				url:"/ProSubmit/rest/projects/search",
+				type:"GET",
 				data:{
-					options:JSON.stringify(options)
+					options:Base64.encode(JSON.stringify(options))
 				},
 				success:function(response){
+					var projects = response;
+					
 					console.log(projects);
+					proSubmit.unMask();
 				},
 				error:function(jqXHR,textStatus){
-					alert(textStatus);
+					proSubmit.unMask(function(){alert(textStatus);});
 				}
 			});
 			return false;

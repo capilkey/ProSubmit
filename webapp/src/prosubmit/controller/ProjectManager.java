@@ -52,6 +52,19 @@ public final class ProjectManager extends DBAccess {
 	
 	/**
 	 * 
+	 * @param projectIds
+	 * @return
+	 */
+	public ArrayList<HashMap<String,Object>> getProjects(ArrayList<String> projectIds){
+		ArrayList<HashMap<String,Object>> projects = new ArrayList<HashMap<String,Object>>();
+		for(int i = 0;i<projectIds.size();i++){
+			projects.add(getProject(projectIds.get(i)));
+		}
+		return projects;
+	}
+	
+	/**
+	 * 
 	 * @param string
 	 * @return
 	 */
@@ -211,6 +224,83 @@ public final class ProjectManager extends DBAccess {
 		String [] params = {projstatusId};
 		success = updateDB(sql,params);
 		return success;
+	}
+	
+	/**
+	 * 
+	 * @param sqlOptions
+	 * @return
+	 */
+	public ArrayList<HashMap<String,Object>> searchProjects( HashMap<String,Object> sqlOptions) {
+		// TODO Auto-generated method stub
+		StringBuffer sql = new StringBuffer();
+		
+		ArrayList<HashMap<String,String>> projects = new ArrayList<HashMap<String,String>>();
+		ArrayList<String> projectIds = new ArrayList<String>();
+		ArrayList<HashMap<String,String>> projectIdsResult = new ArrayList<HashMap<String,String>>();
+		
+		String keywords = (String)sqlOptions.get("keywords");
+		String from = (String)sqlOptions.get("from_date");
+		String to = (String)sqlOptions.get("to_date");
+		ArrayList categories = (ArrayList)sqlOptions.get("categories");
+		ArrayList statuses = (ArrayList)sqlOptions.get("statuses");
+		
+		sql.append("SELECT DISTINCT(project_id) \nFROM project,project_category,project_status \nWHERE ");
+		
+		if(!keywords.equals("")){
+			sql.append("\n(\n");
+			String[] searches = keywords.split(",");
+			for(int i =0;i<searches.length;i++){
+				sql.append(" project_title LIKE ('%" + searches[i] + "%')");
+				sql.append("\n OR \n");
+				sql.append(" project_desc LIKE ('%" + searches[i] + "%')");
+				if(i < (searches.length -1)){
+					sql.append("\n OR \n");
+				}
+			}
+			sql.append("\n) OR ");
+		}
+		sql.append("1 = 1");
+		
+		if(categories.size() > 0){		
+			StringBuilder cats = new StringBuilder();
+			for(int i = 0;i<categories.size();i++){
+				cats.append(categories.get(i));
+				if(i < (categories.size() - 1)){
+					cats.append(",");
+				}
+			}
+			sql.append("\nAND project_category.projcategory_id IN (" + cats.toString() + ")");
+		}
+		
+		if(statuses.size() > 0){		
+			StringBuilder stats = new StringBuilder();
+			for(int i = 0;i<statuses.size();i++){
+				stats.append(statuses.get(i));
+				if(i < (statuses.size() - 1)){
+					stats.append(",");
+				}
+			}
+			sql.append("\nAND project_status.projstatus_id IN (" + stats.toString() + ")");
+		}
+		
+		if(!from.equals("") && !to.equals("")){
+			sql.append("\nAND project_createdate BETWEEN "+from+" AND " + to);
+		}else if(!from.equals("") && to.equals("")){
+			sql.append("\nAND project_createdate >= "+from);
+		}else if(from.equals("") && !to.equals("")){
+			sql.append("\nAND project_createdate <= " + to);
+		}
+		
+		
+		sql.append("\nORDER BY project_createdate,project_editdate");
+		System.out.println(sql.toString());
+		queryDB(sql.toString(),projectIdsResult);
+		
+		for(int i =0;i<projectIdsResult.size();i++){
+			projectIds.add(projectIdsResult.get(i).get("project_id"));
+		}
+		return getProjects(projectIds);
 	}
 	
 	

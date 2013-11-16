@@ -31,7 +31,7 @@
 			  <div class="panel-body">
 			  	 <table class="table">
 					  <tr>
-					  	<th>Keyword</th>
+					  	<th>Keyword <em>(Separated by commas)</em></th>
 					  	<th>Category</th>
 					  	<th>Status</th>
 					  </tr>
