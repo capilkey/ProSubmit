@@ -25,9 +25,9 @@
 		ArrayList<HashMap<String,String>> projectStatuses = systemMamager.getProjectStatuses();
 		ArrayList<HashMap<String,String>> projectCategories = systemMamager.getProjectCategories();
 	%>
-	<div id="" class="flex4">
+	<div id="" class="flex3">
 		<h1>Search Projects</h1>
-		<div class="panel panel-default">
+		<div class="panel panel-default box-shadow">
 			  <div class="panel-body">
 			  	 <table class="table">
 					  <tr>
@@ -60,7 +60,7 @@
 					  </tr>
 					  <tr>
 					  	<th>From Date:</th>
-					  	<th>TO Date:</th>
+					  	<th>To Date:</th>
 					  	<th></th>
 					  </tr>
 					  <tr>
@@ -85,7 +85,7 @@
 					  <h3 style="display:inline"><%=projects.size()%> Project(s)</h3>
 					  </div>
 				   	<!-- Table -->
-					  <table class="table">
+					  <table id="project-search-result-table" class="table">
 					  <tr>
 					  	<th>#</th>
 					  	<th>Name</th>
@@ -97,7 +97,7 @@
 					for(int i = 0;i<projects.size();i++){
 							HashMap<String,String> project = projects.get(i);
 							%>
-								<tr>
+								<tr class="search-result">
 									<td>#<%=i+1%></td>
 									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
 									<td><%=project.get("project_createdate")%></td>
@@ -114,6 +114,7 @@
 	</div>
 	
 	<div id="" class="flex1">
+		<jsp:include page="/left_section.jsp"></jsp:include>
 	</div>
 
 </div>

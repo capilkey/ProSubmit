@@ -30,12 +30,17 @@
 			<h1>Account Information</h1>
 			<div class="panel panel-default">
 			  <div class="panel-body">
-			    <div>
-						<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
-						<span><%=partner.get("company_name")%></span><br/>
-						<span><%=partner.get("email")%></span><br/>
-						<span><%=partner.get("telephone")%> ex:<%=partner.get("extension")%></span><br/>
-						<span><%=partner.get("company_address")%></span><br/>
+			    <div class="hbox">
+			    	<div class="flex1">
+							<img src="/ProSubmit/resources/img/no-avatar.png" alt="..." class="img-rounded">
+						</div>
+			    	<div class="flex3" style="padding:10px">
+							<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
+							<span><%=partner.get("company_name")%></span><br/>
+							<span><%=partner.get("email")%></span><br/>
+							<span><%=partner.get("telephone")%> ex:<%=partner.get("extension")%></span><br/>
+							<span><%=partner.get("company_address")%></span>
+						</div>
 					</div>
 			  </div>
 			  <div class="panel-footer">

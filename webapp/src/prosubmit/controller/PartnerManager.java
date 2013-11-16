@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +27,12 @@ public final class PartnerManager extends DBAccess{
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private SystemManager systemManager = null;
 	private ProjectManager projectManager = null;
+	static ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 	
+	
+	public PartnerManager(){
+		this((DBPool)context.getBean("DBPool"));
+	}
 	/**
 	 * 
 	 * @param dbAccess
@@ -153,6 +160,14 @@ public final class PartnerManager extends DBAccess{
 		String sql = "SELECT * from partner WHERE partner_id = " + partnerId;
 		return queryDB(sql,info);
 	}
+	
+	public ArrayList<HashMap<String,Object>> getPartners(){
+		ArrayList<HashMap<String,Object>> partners = new ArrayList<HashMap<String,Object>>();
+		String sql = "SELECT partner_id FROM partner";
+		
+		return partners;
+	}
+	
 	
 	/**
 	 * 

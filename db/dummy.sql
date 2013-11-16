@@ -47,8 +47,11 @@ INSERT INTO `group` VALUES
 DELETE FROM `project`;
 INSERT INTO `project` VALUES
 ("",1,"Service Pro","Android application for managing services",current_timestamp,NULL,NULL,1,1),
-("",2,"Rogers ServPro","IOS application for managing services",current_timestamp,NULL,NULL,1,1);
-
+("",2,"Rogers ServPro","IOS application for managing services",current_timestamp,NULL,NULL,1,1),
+("",2,"Test Project 3","Descriotnion not provided",current_timestamp,NULL,NULL,2,2),
+("",2,"Test Project 4","Descriotnion not provided",current_timestamp,NULL,NULL,1,3),
+("",2,"Test Project 5","Descriotnion not provided",current_timestamp,NULL,NULL,3,4),
+("",2,"Test Project 6","Descriotnion not provided",current_timestamp,NULL,NULL,4,6);
 
 
 DELETE FROM `professor`;

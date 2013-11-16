@@ -42,7 +42,7 @@ public final class ProjectManager extends DBAccess {
 	 */
 	public HashMap<String,Object> getProject(String projectId){
 		HashMap<String,Object> project = new HashMap<String,Object>();
-		String sql = "SELECT *,projstatus_name as status FROM project JOIN project_status USING(projstatus_id) WHERE project_id = ?";
+		String sql = "SELECT *,DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project JOIN project_status USING(projstatus_id) WHERE project_id = ?";
 		String [] params = {projectId};
 		queryDB(sql, params,project);
 		project.put("group",getGroup((String)project.get("group_id")));
@@ -262,7 +262,7 @@ public final class ProjectManager extends DBAccess {
 		}
 		sql.append("1 = 1");
 		
-		if(categories.size() > 0){		
+		if(categories != null && categories.size() > 0){		
 			StringBuilder cats = new StringBuilder();
 			for(int i = 0;i<categories.size();i++){
 				cats.append(categories.get(i));
@@ -270,10 +270,10 @@ public final class ProjectManager extends DBAccess {
 					cats.append(",");
 				}
 			}
-			sql.append("\nAND project_category.projcategory_id IN (" + cats.toString() + ")");
+			sql.append("\nAND project.projcategory_id IN (" + cats.toString() + ")");
 		}
 		
-		if(statuses.size() > 0){		
+		if(statuses!=null && statuses.size() > 0){		
 			StringBuilder stats = new StringBuilder();
 			for(int i = 0;i<statuses.size();i++){
 				stats.append(statuses.get(i));
@@ -281,7 +281,7 @@ public final class ProjectManager extends DBAccess {
 					stats.append(",");
 				}
 			}
-			sql.append("\nAND project_status.projstatus_id IN (" + stats.toString() + ")");
+			sql.append("\nAND project.projstatus_id IN (" + stats.toString() + ")");
 		}
 		
 		if(!from.equals("") && !to.equals("")){

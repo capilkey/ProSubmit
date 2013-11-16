@@ -41,8 +41,20 @@ ProSubmit.prototype = {
 				},
 				success:function(response){
 					var projects = response;
-					
 					console.log(projects);
+					$("#project-search-result-table .search-result").remove();
+					for(var i =0;i<projects.length;i++){
+						var aProject = projects[i];
+						var row = [
+						   "<tr class='search-result'>",
+						      "<td>" + "#" + eval(i+1) + "</td>",
+						      "<td><a href='/ProSubmit/project/"+ aProject.project_id + "-" + aProject.project_title.replace(/\s/g,"_") + "'>"+ aProject.project_title + "</a></td>",
+						      "<td>" + aProject.project_createdate + "</td>",
+						      "<td>"+ aProject.projstatus_name + "</td>",
+						   "</tr>"
+						];
+						$("#project-search-result-table").append(row.join());
+					}
 					proSubmit.unMask();
 				},
 				error:function(jqXHR,textStatus){

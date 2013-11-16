@@ -21,11 +21,39 @@
 			ArrayList<HashMap<String,String>> projectCategories = systemManager.getProjectCategories();
 			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();
 			
-			//out.println(gson.toJson(session.getAttribute("userInfo")));
+			PartnerManager partnerManager = new PartnerManager(); 
+			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners(); 
+					
+			out.println(gson.toJson(partners));
 			//out.println(gson.toJson(projectCategories));
 			//out.println("<br/><br/><br/><br/><br/>");
 			//out.println(gson.toJson(projectStatuses));
 		%>
+		<h1>Partners</h1>
+		<%if(partners.size() > 0){%>
+			<table class="table">
+					<tr>
+						<th width="5%">#</th>
+						<th width="5%">#</th>
+						<th width="5%">#</th>
+					</tr>
+		<%
+			for(int i =0;i<partners.size();i++){
+		%>
+					<tr>
+						<td><%=i+1%></td>
+						<td></td>
+						<td></td>
+					</tr>
+		<%}%>
+			</table>
+		<%}%>
+		
+		
+		
+		
+		
+		
 		<h1>Project Categories</h1>
 		<%
 			if(projectCategories.size() > 0){ %>
