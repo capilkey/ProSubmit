@@ -3,12 +3,13 @@
  */
 package prosubmit.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import prosubmit.db.DBAccess;
 import prosubmit.db.DBPool;
 
+import java.util.*; 
+import javax.mail.*; 
+import javax.mail.internet.*;
 /**
  * @author ramone
  *
@@ -254,7 +255,37 @@ public class SystemManager extends DBAccess{
 	public boolean sendEmail(String to, String subject, StringBuilder message) {
 		// TODO Auto-generated method stub
 		boolean sent = true; 
-		
+		try{  
+			String host = "mercury.senecac.on.ca";
+		    String from = "raburrell@myseneca.ca"; 
+		    to = "raburrell@myseneca.ca";
+		    
+		    boolean sessionDebug = false;
+		    Properties props = System.getProperties(); 
+		    props.put("mail.host", host); 
+		    props.put("mail.transport.protocol", "smtp");
+		    props.put("mail.smtp.auth", "true");
+		    props.put("mail.smtp.port", "25"); 
+		    
+		    Session mailSession = Session.getDefaultInstance(props,new SMTPAuthenticator()); 
+		    mailSession.setDebug(sessionDebug); 
+		    Message msg = new MimeMessage(mailSession); 
+		    
+		    msg.setFrom(new InternetAddress(from)); 
+		    InternetAddress[] address = {new InternetAddress(to)}; 
+		    msg.setRecipients(Message.RecipientType.TO, address);
+		    msg.setSubject(subject); 
+		    msg.setSentDate(new Date()); 
+		    msg.setContent(message.toString(),"text/html");
+		    
+		    Transport transport = mailSession.getTransport("smtp");
+		    transport.connect();
+		    transport.sendMessage(msg, msg.getAllRecipients()); 
+		    transport.close(); 
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 sent = false;
+		 }  
 		return sent;
 	}
 }

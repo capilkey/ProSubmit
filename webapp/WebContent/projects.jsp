@@ -26,6 +26,7 @@
 		ArrayList<HashMap<String,String>> projectCategories = systemMamager.getProjectCategories();
 	%>
 	<div id="" class="flex4">
+		<h1>Search Projects</h1>
 		<div class="panel panel-default">
 			  <div class="panel-body">
 			  	 <table class="table">

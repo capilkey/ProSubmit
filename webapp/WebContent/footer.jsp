@@ -1,4 +1,4 @@
-<div id="footer" class="grey-gradient">
+<div id="footer" class="blue-gradient">
 </div>
 </body>
 </html>

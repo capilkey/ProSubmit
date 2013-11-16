@@ -281,8 +281,8 @@ ProSubmit.prototype = {
 								
 							}else{
 								proSubmit.unMask(function(){
-									$("#partner-register-update-info-error-message").text(message);
-									$("#partner-register-update-info-error-message").show();
+									$("#partner-register-error-message").text(message);
+									$("#partner-register-error-message").show();
 								});
 							}
 						},error:function(jqXHR,textStatus){
@@ -451,6 +451,18 @@ ProSubmit.prototype = {
 						alert(textStatus);
 					}
 				});
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		updateGroupDesc:function(comp,groupId){
+			if(comp){
+				$("#cont-edit-group-desc").slideDown("slow");
+			}else{
+				
 			}
 			return false;
 		},

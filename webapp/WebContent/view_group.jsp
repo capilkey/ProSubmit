@@ -24,7 +24,21 @@
 <div id="page-content" class="hbox">
 	<div class="flex4">
 		<h1><%=group.get("group_name")%></h1>
-		<p><%=group.get("group_desc")%></p>
+		<p id=""><%=group.get("group_desc")%></p>
+		
+		
+		<%
+				if(userInfo.get("student_id") != null && (userInfo.get("group_id").equals(group.get("group_id")))){
+					%>
+					<div id='cont-edit-group-desc' class="cont_edit_student_bio">
+						<textarea class="bio"><%=group.get("group_desc")%></textarea>
+						<button type="button" class="btn btn-primary" onclick="return proSubmit.updateGroupDesc(null,<%=group.get("group_id")%>)">Done</button>
+					</div>
+		
+					<a id="edit-group-desc-link" href="#" onclick="return proSubmit.updateGroupDesc(this)">Edit Description</a><%
+				}
+		%>
+		
 		<%
 			Gson gson = new Gson();
 			//out.println(gson.toJson(userInfo));

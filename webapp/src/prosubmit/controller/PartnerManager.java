@@ -69,7 +69,7 @@ public final class PartnerManager extends DBAccess{
 								company_address,password,authToken};
 			success = updateDB(sql,params,keys);
 			if(success && !keys.isEmpty()){
-				sql = "SELECT * FROM temppartner WHERE temppartner_id = ?";
+				sql = "SELECT *,DATE_FORMAT(expires,'%M %D %Y %r') as expires FROM temppartner WHERE temppartner_id = ?";
 				params = new String [] {keys.get("GENERATED_KEY")};
 				success = queryDB(sql,params,info);
 				
@@ -77,7 +77,17 @@ public final class PartnerManager extends DBAccess{
 					String to = email;
 					String subject = "Registration Completion";
 					StringBuilder body = new StringBuilder();
-					systemManager.sendEmail(to,subject,body);
+					body.append("We have recieved you registration request.");
+					body.append("Please click the link below within the next hour to complete your registration.");
+					body.append("Thanks!<br/><br/>");
+					body.append("<a href='http://localhost:8080/ProSubmit/Partner/register/?registered=1&token="+info.get("authtoken")+"'>Complete Registration</a>");
+					
+					if(!systemManager.sendEmail(to,subject,body)){
+						sql = "DELETE FROM temppartner WHERE temppartner_id = ?";
+						params = new String [] {keys.get("GENERATED_KEY")};
+						updateDB(sql,params);
+						success = true;
+					}
 				}
 			}
 		}else{

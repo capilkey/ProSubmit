@@ -19,6 +19,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cxf-api-2.7.7.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-servlet-1.17.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-core-1.9.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activation.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

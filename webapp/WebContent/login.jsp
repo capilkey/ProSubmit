@@ -27,7 +27,7 @@
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-		<form id="loginForm">
+		<form id="loginForm" class="">
 			<h2>ProSubmit Login</h2>
 			<label for="username">Username:</label>
 			<input type="text" id="username" placeHolder="Username" class="form-control" value="burrellramone@gmail.com"/>

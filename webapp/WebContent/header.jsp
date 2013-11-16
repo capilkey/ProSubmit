@@ -28,6 +28,7 @@
 	<div class="flex1"><img src="/ProSubmit/resources/icons/logo-medium.png" alt="LOGO"/></div>
 	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">
 		<ul class="nav navbar-nav">
+				<li><a href="/ProSubmit/">Home</a></li>
 			<li><a href="/ProSubmit/projects/">Projects</a></li>
 		  	<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
@@ -45,7 +46,6 @@
 				</ul>
 		    </li>
 		    	
-		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
 		  </ul>
@@ -70,7 +70,7 @@
 	    			out.println(userInfo.get("username"));
 	    		}
 	   		%> | 
-	    	<a href="/ProSubmit//Authenticate?v=logout">Logout</a>
+	    	<a href="/ProSubmit/Authenticate?v=logout">Logout</a>
 		</div>
 			  
 	</div>
