@@ -9,17 +9,7 @@
 
 -->
 <urlrewrite>
-
-    <rule>
-        <note>
-            The rule means that requests to /test/status/ will be redirected to /rewrite-status
-            the url will be rewritten.
-        </note>
-        <from>/test/status/</from>
-        <to type="redirect">%{context-path}/rewrite-status</to>
-    </rule>
-	
-	<rule>
+		<rule>
         <note>
         </note>
         <from>^/$</from>
@@ -67,7 +57,6 @@
 			GROUPS
 		 -->
 		 <rule>
-        <note></note>
         <from>/group/([\d]{1,})-(.*)[/]*$</from>
         <to>/view_group.jsp?group_id=$1</to>
     </rule>

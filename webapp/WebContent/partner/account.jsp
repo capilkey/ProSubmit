@@ -12,16 +12,15 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
-<%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.db.DBPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
 <jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
 		<div class="flex4">
-			<%
-				PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
+			<% 
+				PartnerManager partnerManager = new PartnerManager((DBPool) session.getServletContext().getAttribute("dbPool"));
 				HashMap<String,Object> partner = new HashMap<String,Object>(); 
 				partnerManager.getPartner(partner_id, partner,true);
 				
@@ -71,7 +70,7 @@
 							<label for="industry">Industry:</label>
 							<select id="industry" class="form-control">
 				        <% 
-				            SystemManager systemManager = new SystemManager((DBAccess)session.getAttribute("dbAccess"));
+				            SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
 				        		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
 				        		systemManager.getIndustries(industries); 
 				        		for(int i =0;i<industries.size();i++){
@@ -110,9 +109,9 @@
 				//out.println(gson.toJson(projects));
 				if(projects.size() > 0){
 					%>
-						<div class="panel panel-default">
-					  <!-- Default panel contents -->
-					  <div class="panel-body">
+					<div class="panel panel-default">
+				  <!-- Default panel contents -->
+				  <div class="panel-body">
 					  <h3 style="display:inline">My Projects (<%=projects.size()%>)</h3>
 					    <p>
 					    	The below lists the various projects which you have submitted to ProSubmit.

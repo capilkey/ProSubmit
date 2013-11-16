@@ -3,25 +3,25 @@
  */
 package prosubmit.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 
+import java.util.*; 
+import javax.mail.*; 
+import javax.mail.internet.*;
 /**
  * @author ramone
  *
  */
 @SuppressWarnings("all")
-public class SystemManager {
-	DBAccess dbAccess  = null;
-	
+public class SystemManager extends DBAccess{	
 	/**
 	 * 
 	 * @param dbAccess
 	 */
-	public SystemManager(DBAccess dbAccess){
-		this.dbAccess = dbAccess;
+	public SystemManager(DBPool pool){
+		super(pool);
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class SystemManager {
 	public boolean createAdmin(String user_id){
 		String sql = "INSERT INTO system_admin VALUES(?)";
 		String [] params = {user_id};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class SystemManager {
 	 */
 	public boolean removeAdmin(String user_id){
 		String sql = "DELETE FROM system_admin WHERE user_id = " + user_id;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class SystemManager {
 			professor_firstname,
 			professor_lastname
 		};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class SystemManager {
 		String sql = "SELECT *" +
 				     "FROM professor" + 
 				     "WHERE professor_id = " + professor_id;
-		return dbAccess.queryDB(sql,professor);
+		return queryDB(sql,professor);
 	}
 	
 	/**
@@ -101,7 +101,7 @@ public class SystemManager {
 			professor_lastname,
 			professor_id
 		};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class SystemManager {
 	public boolean removeProfessor(int professor_id){
 		String sql = "DELETE FROM professor" +
 					"	WHERE professor_id = " + professor_id;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class SystemManager {
 	public boolean addSemester(String semesterCode,String semesterName){
 		String sql = "INSERT INTO semester VALUES(?,?)";
 		String [] params = {semesterCode,semesterName};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -139,7 +139,7 @@ public class SystemManager {
 	public boolean removeSemester(String semesterCode){
 		String sql = "DELETE FROM semester WHERE semester_code = ?";
 		String [] params = {semesterCode};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class SystemManager {
 	public boolean updateSemester(String semesterCode,String semesterName){
 		String sql = "UPDATE semester SET semester_name = ? WHERE semester_code = ?";
 		String [] params = {semesterName,semesterCode}; 
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class SystemManager {
 	 */
 	public boolean getSemesters(ArrayList<HashMap<String,String>> semesters){
 		String sql = "SELECT * FROM semester";
-		return dbAccess.queryDB(sql,semesters);
+		return queryDB(sql,semesters);
 	}
 	
 	/**
@@ -175,7 +175,7 @@ public class SystemManager {
 	public boolean addCourse(String courseId,String courseName){
 		String sql = "INSERT INTO course VALUES(?,?)";
 		String [] params = {courseId,courseName};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -187,7 +187,7 @@ public class SystemManager {
 	public boolean removeCourse(String courseId){
 		String sql = "DELETE FROM course WHERE course_id = ?";
 		String [] params = {courseId};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -200,7 +200,7 @@ public class SystemManager {
 	public boolean updateCourse(String courseId,String courseName){
 		String sql = "UPDATE course SET course_name = ? WHERE course_id = ?";
 		String [] params = {courseName,courseId};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
 	
 	/**
@@ -210,7 +210,7 @@ public class SystemManager {
 	 */
 	public boolean getCourses(ArrayList<HashMap<String,String>> courses){
 		String sql = "SELECT * from course";
-		return dbAccess.queryDB(sql,courses);
+		return queryDB(sql,courses);
 	}
 	
 	/**
@@ -220,9 +220,31 @@ public class SystemManager {
 	 */
 	public boolean getIndustries(ArrayList<HashMap<String,String>> industries){
 		String sql = "SELECT * from industry";
-		return dbAccess.queryDB(sql,industries);
+		return queryDB(sql,industries);
 	}
-
+	
+	/**
+	 * 
+	 * @param categories
+	 * @return
+	 */
+	public ArrayList<HashMap<String,String>>  getProjectCategories(){
+		ArrayList<HashMap<String,String>> categories = new ArrayList<HashMap<String,String>> ();
+		String sql = "SELECT * FROM project_category";
+		queryDB(sql,categories);
+		return categories;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<HashMap<String,String>> getProjectStatuses(){
+		ArrayList<HashMap<String,String>> statuses = new ArrayList<HashMap<String,String>> ();
+		String sql = "SELECT * FROM project_status";
+		queryDB(sql,statuses);
+		return statuses;
+	}
 	/**
 	 * 
 	 * @param to
@@ -233,7 +255,37 @@ public class SystemManager {
 	public boolean sendEmail(String to, String subject, StringBuilder message) {
 		// TODO Auto-generated method stub
 		boolean sent = true; 
-		
+		try{  
+			String host = "mercury.senecac.on.ca";
+		    String from = "raburrell@myseneca.ca"; 
+		    to = "raburrell@myseneca.ca";
+		    
+		    boolean sessionDebug = false;
+		    Properties props = System.getProperties(); 
+		    props.put("mail.host", host); 
+		    props.put("mail.transport.protocol", "smtp");
+		    props.put("mail.smtp.auth", "true");
+		    props.put("mail.smtp.port", "25"); 
+		    
+		    Session mailSession = Session.getDefaultInstance(props,new SMTPAuthenticator()); 
+		    mailSession.setDebug(sessionDebug); 
+		    Message msg = new MimeMessage(mailSession); 
+		    
+		    msg.setFrom(new InternetAddress(from)); 
+		    InternetAddress[] address = {new InternetAddress(to)}; 
+		    msg.setRecipients(Message.RecipientType.TO, address);
+		    msg.setSubject(subject); 
+		    msg.setSentDate(new Date()); 
+		    msg.setContent(message.toString(),"text/html");
+		    
+		    Transport transport = mailSession.getTransport("smtp");
+		    transport.connect();
+		    transport.sendMessage(msg, msg.getAllRecipients()); 
+		    transport.close(); 
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 sent = false;
+		 }  
 		return sent;
 	}
 }

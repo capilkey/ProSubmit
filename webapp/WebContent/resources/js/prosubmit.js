@@ -19,6 +19,101 @@ ProSubmit.prototype = {
 			});
 		},
 		
+		/**
+		 * 
+		 */
+		searchProjects:function(){
+			var options = {
+				keywords:$("#keywords").val(),
+				categories:$("#category").val(),
+				statuses:$("#status").val(),
+				from_date:$("#from_date").val(),
+				to_date:$("#to_date").val(),
+			};
+			
+				
+			$.ajax({
+				url:"/ProSubmit/rest/SearchProjects",
+				type:"POST",
+				data:{
+					options:JSON.stringify(options)
+				},
+				success:function(response){
+					console.log(projects);
+				},
+				error:function(jqXHR,textStatus){
+					alert(textStatus);
+				}
+			});
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		addProjectComment:function(){
+			var comment = $("#comment").val();
+			if(!comment){
+				alert("Please enter a comment before submitting");
+				return;
+			}
+			
+			
+			$.ajax({
+				url:"/ProSubmit/Project",
+				type:"POST",
+				data:{
+					v:"addcomment",
+					project_id:$("#project-id").val(),
+					comment:comment
+				},
+				success:function(response){
+					var success = response.success;
+					var message = response.message;
+					var comment = response.comment;	
+					if(success == "1"){
+						window.location.reload();
+					}else{
+						alert(message);
+					}
+				},
+				error:function(jqXHR,textStatus){
+					alert(textStatus);
+				}
+			});
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		deleteComment:function(comment_id){
+			if(confirm("Are you sure you want to delete this comment?")){
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"deletecomment",
+						comment_id:comment_id,
+					},
+					success:function(response){
+						var success = response.success;
+						var message = response.message;
+						var comment = response.comment;	
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},
+					error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			return false;
+		},
+		
 		
 		/**
 		 * 
@@ -81,7 +176,7 @@ ProSubmit.prototype = {
 										$("#student_bio_"+id).text(bio);
 										$("#student_bio_"+id).slideDown("fast",function(){
 											$("#edit_student_bio_link_"+id).show();
-											alert(message);
+											//alert(message);
 										});
 									});
 								})
@@ -186,8 +281,8 @@ ProSubmit.prototype = {
 								
 							}else{
 								proSubmit.unMask(function(){
-									$("#partner-register-update-info-error-message").text(message);
-									$("#partner-register-update-info-error-message").show();
+									$("#partner-register-error-message").text(message);
+									$("#partner-register-error-message").show();
 								});
 							}
 						},error:function(jqXHR,textStatus){
@@ -356,6 +451,18 @@ ProSubmit.prototype = {
 						alert(textStatus);
 					}
 				});
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		updateGroupDesc:function(comp,groupId){
+			if(comp){
+				$("#cont-edit-group-desc").slideDown("slow");
+			}else{
+				
 			}
 			return false;
 		},

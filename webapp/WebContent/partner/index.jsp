@@ -5,11 +5,7 @@
 	}
 	String pageTitle = "Partner - Home";
 %>
-<jsp:include page="../header.jsp"></jsp:include>
+<jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
-
-
-
-
 </div>
-<jsp:include page="../footer.jsp"></jsp:include>
+<jsp:include page="/footer.jsp"></jsp:include>

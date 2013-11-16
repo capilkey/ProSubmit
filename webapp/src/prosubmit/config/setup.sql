@@ -82,7 +82,7 @@ CREATE TABLE `group` (
 DROP TABLE IF EXISTS project_status;
 CREATE TABLE project_status(
 	`projstatus_id` SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-	`projstatus_name` VARCHAR(15) NOT NULL,
+	`projstatus_name` VARCHAR(25) NOT NULL,
 	`projstatus_desc` TEXT NOT NULL
 );
 INSERT INTO `project_status` VALUES

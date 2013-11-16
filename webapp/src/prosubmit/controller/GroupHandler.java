@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 
-public class GroupHandler {
-	DBAccess dbAccess = null;
+public class GroupHandler extends DBAccess{
 	
-	public GroupHandler(DBAccess dbAccess) throws NullPointerException {
-		if(dbAccess != null){
-			this.dbAccess = dbAccess;
-		}else{
-			throw new NullPointerException("Unable to set dbAccess in class GroupHandler upon instantiation. Parameter dbAccess is null");
-		}
+	/**
+	 * 
+	 * @param pool
+	 */
+	public GroupHandler(DBPool pool){
+		super(pool);
 	}
 	
 	/**
@@ -23,7 +23,7 @@ public class GroupHandler {
 	 */
 	public boolean getAllGroups(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT * FROM `group`";
-		return dbAccess.queryDB(sql,results);
+		return queryDB(sql,results);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class GroupHandler {
 		boolean success = false;
 		String sql = "SELECT * FROM `group` WHERE group_id = " + groupID;
 		ArrayList<HashMap<String,String>> students = new ArrayList<HashMap<String,String>>(); 
-		success = dbAccess.queryDB(sql,group);
+		success = queryDB(sql,group);
 		success = getStudentsByGroup(students, groupID);
 		group.put("students",students);
 		return success;
@@ -50,7 +50,7 @@ public class GroupHandler {
 	 */
 	public boolean getGroupRanks(HashMap<String,Object> results, String groupID){
 		String sql = "SELECT * FROM project_rank WHERE group_id = " + groupID;
-		return dbAccess.queryDB(sql,results);
+		return queryDB(sql,results);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class GroupHandler {
 	 */
 	public boolean getAllStudents(HashMap<String,Object> results){
 		String sql = "SELECT * FROM student";
-		return dbAccess.queryDB(sql,results);
+		return queryDB(sql,results);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class GroupHandler {
 	 */
 	public boolean getStudent(HashMap<String,Object> results, String studentID){
 		String sql = "SELECT * FROM student WHERE student_id = " + studentID;
-		return dbAccess.queryDB(sql,results);
+		return queryDB(sql,results);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class GroupHandler {
 	 */
 	public boolean getStudentsByGroup(ArrayList<HashMap<String,String>> students, String groupID){
 		String sql = "SELECT * FROM student WHERE group_id = " + groupID;
-		return dbAccess.queryDB(sql,students);
+		return queryDB(sql,students);
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class GroupHandler {
 		String sql = "INSERT INTO group VALUES("+group.get("group_name")+
 				","+group.get("group_number")+","+group.get("group_desc")+
 				","+group.get("semester_code")+","+group.get("course_id")+")";
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class GroupHandler {
 				","+student.get("student_firstname")+","+student.get("student_lastname")+
 				","+student.get("student_email")+","+student.get("student_username")+
 				","+student.get("group_id")+")";
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class GroupHandler {
 	public boolean createRank(HashMap<String,String> rank){
 		String sql = "INSERT INTO project_rank VALUES("+rank.get("group_id")+
 				","+rank.get("project_id")+","+rank.get("projrank_val");
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class GroupHandler {
 	 */
 	public boolean removeGroup(String groupID){
 		String sql = "DELETE FROM group WHERE group_id = " + groupID;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class GroupHandler {
 	 */
 	public boolean removeStudent(String studentID){
 		String sql = "DELETE FROM student WHERE student_id = " + studentID;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class GroupHandler {
 	 */
 	public boolean removeStudentsByGroup(String groupID){
 		String sql = "DELETE FROM student WHERE group_id = " + groupID;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public class GroupHandler {
 	public boolean removeRank(String groupID, String projectID){
 		String sql = "DELETE FROM project_rank WHERE group_ID = " + groupID +
 				" AND project_id = " + projectID;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class GroupHandler {
 	 */
 	public boolean removeRankByGroup(String groupID){
 		String sql = "DELETE FROM project_rank WHERE group_id = " + groupID;
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class GroupHandler {
 	public boolean updateStudentBio(String studentId,String bio){
 		String sql = "UPDATE student SET student_bio = ? WHERE student_id = ?";
 		String [] params = {bio,studentId};
-		return dbAccess.updateDB(sql,params);
+		return updateDB(sql,params);
 	}
-	
+	 
 }

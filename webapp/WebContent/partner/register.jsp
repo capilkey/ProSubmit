@@ -9,15 +9,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
-<%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.db.DBPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
-<%
-  if(session!=null && session.getAttribute("dbAccess") == null){
-    session.setAttribute("dbAccess",new DBAccess((DBConnectionPool)session.getServletContext().getAttribute("dbPool")));
-  }
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,16 +38,16 @@
 		<div id="partner-register-error-message" class="alert alert-danger"></div>
 		
 		<fieldset>
-    <legend>Personalia:</legend>
+    <legend>Personal:</legend>
     
 			<label for="firstname">First Name:</label>
-			<input id="firstname" type="text" class="form-control" maxLength="25" value="Damion"/>
+			<input id="firstname" type="text" class="form-control" maxLength="25" value="Jahmani"/>
 			
 			<label for="lastname">Last Name:</label>
 			<input id="lastname" type="text" class="form-control" maxLength="25" value="Marley"/>
 			
 			<label for="email">Email:</label>
-			<input id="email" type="email" class="form-control" value="burrellramone2@gmail.com"/>
+			<input id="email" type="email" class="form-control" value="burrellramone@gmail.com"/>
 							
 			<label for="password">Password:</label>
 			<input id="password" type="password" class="form-control" maxLength="50" value="prosubmit123"/>
@@ -74,7 +68,7 @@
 			<label for="industry">Industry:</label>
 			<select id="industry" class="form-control">
         <% 
-            SystemManager systemManager = new SystemManager((DBAccess)session.getAttribute("dbAccess"));
+            SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
         		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
         		systemManager.getIndustries(industries); 
         		for(int i =0;i<industries.size();i++){
@@ -113,12 +107,12 @@
 					%>
 						<div class="registration-info box-shadow">
 							<h1><%=registrationInfo.get("firstname") +" "+ registrationInfo.get("lastname")%></h1>
-							<p>Your account has successfully been created. Your registration link, which will expire at <strong><%=registrationInfo.get("expires")%></strong>, 
+							<p>Your account has successfully been created. Your registration link, which will expires at <strong><%=registrationInfo.get("expires")%></strong>, 
 							has been sent to the address <strong><%=registrationInfo.get("email")%></strong>. Please open the link to complete your registration.</p>
 						</div>
 					<%
 				}else{
-					PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
+					PartnerManager partnerManager = new PartnerManager((DBPool)session.getServletContext().getAttribute("dbPool"));
 					HashMap<String,Object> info = new HashMap<String,Object>();
 					if(partnerManager.completeRegistration(request.getParameter("token"),info)){ 
 						session.removeAttribute("registrationInfo");

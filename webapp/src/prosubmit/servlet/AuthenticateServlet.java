@@ -18,7 +18,7 @@ import com.google.gson.GsonBuilder;
 
 import prosubmit.controller.AuthenticationManager;
 import prosubmit.db.DBAccess;
-import prosubmit.db.DBConnectionPool;
+import prosubmit.db.DBPool;
 
 /**
  * @author ramone
@@ -96,7 +96,7 @@ public final class AuthenticateServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		
 		if(authManager == null){
-			authManager = new AuthenticationManager(new DBAccess(((DBConnectionPool)context.getAttribute("dbPool"))));
+			authManager = new AuthenticationManager(new DBAccess(((DBPool)context.getAttribute("dbPool"))));
 		}
 		HashMap<String,Object> userInfo = new HashMap<String,Object>();
 		HashMap<String,String> result   = new HashMap<String,String>();
