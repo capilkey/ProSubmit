@@ -23,13 +23,11 @@
 			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();
 			
 			PartnerManager partnerManager = new PartnerManager(); 
-			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners(); 
-					
-			//out.println(gson.toJson(partners));
-			//out.println(gson.toJson(projectCategories));
-			//out.println("<br/><br/><br/><br/><br/>");
-			//out.println(gson.toJson(projectStatuses));
+			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners();
 		%>
+		<!-- <h1>Groups</h1>-->
+		
+		
 		<h1>Partners</h1>
 		<%if(partners.size() > 0){%>
 			<table class="table">

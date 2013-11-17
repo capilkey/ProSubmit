@@ -64,6 +64,10 @@
 	    			out.println("<a href='/ProSubmit/professor/'>");
 	    			out.println(userInfo.get("professor_username"));
     				out.println("<span class='badge'>Teacher</span></a>");
+	    		}else if(session.getAttribute("isStudent") != null){
+	    			out.println("<a href='/ProSubmit/professor/'>");
+	    			out.println(userInfo.get("username"));
+    				out.println("<span class='badge'>Student</span></a>");
 	    		}else{
 	    			out.println(userInfo.get("username"));
 	    		}
