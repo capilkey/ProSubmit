@@ -81,7 +81,35 @@ public final class ProjectServlet extends HttpServlet {
 				}else{
 					result.put("message","Unable to delete comment");
 				}
-			}else{
+			}else if(action.equals("addprojectcategory")){
+				if(projectManager.addProjectCategory(request.getParameter("category_name"),request.getParameter("category_description"))){
+					result.put("success","1");
+					result.put("message","Project category successfully added");
+				}else{
+					result.put("message","Unable to add project category");
+				}
+			}else if(action.equals("deleteprojectcategory")){
+				if(projectManager.deleteProjectCategory(request.getParameter("projcategory_id"))){
+					result.put("success","1");
+					result.put("message","Project category successfully added");
+				}else{
+					result.put("message","Unable to add project category");
+				}
+			}else if(action.equals("addprojectstatus")){
+				if(projectManager.addProjectStatus(request.getParameter("status_name"),request.getParameter("status_description"))){
+					result.put("success","1");
+					result.put("message","Project status successfully added");
+				}else{
+					result.put("message","Unable to add project status");
+				}
+			}else if(action.equals("deleteprojectstatus")){
+				if(projectManager.deleteProjectStatus(request.getParameter("projstatus_id"))){
+					result.put("success","1");
+					result.put("message","Project status successfully added");
+				}else{
+					result.put("message","Unable to add project status");
+				} 
+			}else{ 
 				result.put("message","Unknown action");
 			}
 		}

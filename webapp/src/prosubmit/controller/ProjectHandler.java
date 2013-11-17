@@ -299,7 +299,7 @@ public class ProjectHandler {
 	public boolean getProjectInfoByStatusID(String projstatus_id){
 		String sql = "SELECT * FROM Project" +
 					" WHERE projstatus=? ";
-		String [] params = {projstatus};
+		String [] params = {projstatus_id};
 		return dbAccess.updateDB(sql, params);
 	}
 
@@ -309,13 +309,13 @@ public class ProjectHandler {
 	 * (0) projcategory_id
 	 * @param projcategory_id
 	 * @return
-	 */
+	 *
 	public boolean getProjectInfoByCategoryID(String projcategory_id){
 		String sql = "SELECT * FROM Project" +
 					" WHERE projcategory=? ";
 		String [] params = {projcategory};
 		return dbAccess.updateDB(sql, params);
-	}
+	}*/
 
 	/**
 	 * Get project record from Project by group_id
@@ -376,7 +376,7 @@ public class ProjectHandler {
 	 * @param projstatus_id
 	 * @param projstatus_desc
 	 * @return
-	 */
+	 *
 	public boolean updateDescByStatusID(String projstatus_id, String projstatus_name){
 		String sql = "UPDATE Project_Status " +
 					" SET projstatus_desc=? " +
@@ -386,7 +386,7 @@ public class ProjectHandler {
 							projstatus_id
 						};
 		return dbAccess.updateDB(sql, params);
-	}
+	}*/
 
 	/**
 	 * Delete all project status records from Project_Status
@@ -503,7 +503,7 @@ public class ProjectHandler {
 	 * @param projcategory_id
 	 * @param projcategory_desc
 	 * @return
-	 */
+	 *
 	public boolean updateDescByCategoryID(String projcategory_id, String projcategory_name){
 		String sql = "UPDATE Project_Category " +
 					" SET projcategory_desc=? " +
@@ -513,7 +513,7 @@ public class ProjectHandler {
 							projcategory_id
 						};
 		return dbAccess.updateDB(sql, params);
-	}
+	}*/
 
 	/**
 	 * Delete all project category records from Project_Category

@@ -17,6 +17,7 @@
 <link type="text/css" rel="stylesheet" href="/ProSubmit/resources/css/prosubmit.css"> 
 
 <script type="text/javascript" src="/ProSubmit/resources/js/md5.js"></script>
+<script type="text/javascript" src="/ProSubmit/resources/js/Base64.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/jquery.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="/ProSubmit/resources/js/prosubmit.js"></script>
@@ -45,9 +46,6 @@
 					%>
 				</ul>
 		    </li>
-		    	
-		    	<li><a href="/">Link</a></li>
-		    	<li><a href="/">Link</a></li>
 		  </ul>
 	   </div><!-- /.navbar-collapse -->
 			
@@ -66,6 +64,10 @@
 	    			out.println("<a href='/ProSubmit/professor/'>");
 	    			out.println(userInfo.get("professor_username"));
     				out.println("<span class='badge'>Teacher</span></a>");
+	    		}else if(session.getAttribute("isStudent") != null){
+	    			out.println("<a href='/ProSubmit/professor/'>");
+	    			out.println(userInfo.get("username"));
+    				out.println("<span class='badge'>Student</span></a>");
 	    		}else{
 	    			out.println(userInfo.get("username"));
 	    		}

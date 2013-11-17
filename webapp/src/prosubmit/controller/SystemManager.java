@@ -232,6 +232,14 @@ public class SystemManager extends DBAccess{
 		ArrayList<HashMap<String,String>> categories = new ArrayList<HashMap<String,String>> ();
 		String sql = "SELECT * FROM project_category";
 		queryDB(sql,categories);
+		for(int i =0;i<categories.size();i++){
+			HashMap<String,String> category = categories.get(i);
+			sql = "SELECT COUNT(project_id) as project_count FROM project WHERE projcategory_id = " + category.get("projcategory_id");
+			HashMap<String,Object> projectCount = new HashMap<String,Object>();
+			queryDB(sql,projectCount);
+			category.put("project_count",(String)projectCount.get("project_count"));
+			categories.set(i,category);
+		}
 		return categories;
 	}
 	
@@ -243,6 +251,14 @@ public class SystemManager extends DBAccess{
 		ArrayList<HashMap<String,String>> statuses = new ArrayList<HashMap<String,String>> ();
 		String sql = "SELECT * FROM project_status";
 		queryDB(sql,statuses);
+		for(int i =0;i<statuses.size();i++){
+			HashMap<String,String> status = statuses.get(i);
+			sql = "SELECT COUNT(project_id) as project_count FROM project WHERE projstatus_id = " + status.get("projstatus_id");
+			HashMap<String,Object> projectCount = new HashMap<String,Object>();
+			queryDB(sql,projectCount);
+			status.put("project_count",(String)projectCount.get("project_count"));
+			statuses.set(i,status);
+		}
 		return statuses;
 	}
 	/**
