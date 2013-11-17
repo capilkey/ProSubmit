@@ -75,7 +75,7 @@
 	</div>
 	
 	<div id="" class="flex1">
-		<jsp:include page="/left_section.jsp"></jsp:include>
+		<jsp:include page="/right_section.jsp"></jsp:include>
 	</div>
 
 

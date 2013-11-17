@@ -28,6 +28,10 @@
 		<!-- 
 			PARTNER
 		 -->
+		<rule>
+        <from>/partner/([\d]{1,})[/]*$</from>
+        <to>/partner/index.jsp?partner_id=$1</to>
+    </rule> 
 	 	<rule>
         <from>/partner/register[/]*$</from>
         <to>/partner/register.jsp</to>

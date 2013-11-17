@@ -31,7 +31,7 @@ public final class PartnerManager extends DBAccess{
 	
 	
 	public PartnerManager(){
-		this((DBPool)context.getBean("DBPool"));
+		this((DBPool)context.getBean("dbPool"));
 	}
 	/**
 	 * 
@@ -155,16 +155,26 @@ public final class PartnerManager extends DBAccess{
 	 * @param partnerId
 	 * @param info
 	 */
-	public boolean getPartner(String partnerId, HashMap<String,Object> info) {
+	public HashMap<String,Object> getPartner(String partnerId) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * from partner WHERE partner_id = " + partnerId;
-		return queryDB(sql,info);
+		HashMap<String,Object> partner = new HashMap<String,Object>();
+		String sql = "SELECT *,partner.partner_id AS partner_id, CONCAT(firstname,' ',lastname) as fullname,COUNT(project_id) as projects FROM partner LEFT JOIN project USING(partner_id) WHERE partner.partner_id = " + partnerId;
+		queryDB(sql,partner);
+		return partner;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<HashMap<String,Object>> getPartners(){
 		ArrayList<HashMap<String,Object>> partners = new ArrayList<HashMap<String,Object>>();
 		String sql = "SELECT partner_id FROM partner";
-		
+		ArrayList<HashMap<String,String>> partnerIds = new ArrayList<HashMap<String,String>>();
+		queryDB(sql,partnerIds);
+		for(int i =0;i<partnerIds.size();i++){
+			partners.add(getPartner(partnerIds.get(i).get("partner_id")));
+		}
 		return partners;
 	}
 	
@@ -176,14 +186,15 @@ public final class PartnerManager extends DBAccess{
 	 * @param getProjects
 	 * @return
 	 */
-	public boolean getPartner(String partnerId, HashMap<String,Object> partner, boolean getProjects){
+	public HashMap<String,Object> getPartner(String partnerId,boolean getProjects){
 		boolean success = false;
-		if(getPartner(partnerId,partner)){
+		HashMap<String,Object> partner = getPartner(partnerId);
+		if(!partner.isEmpty()){
 			ArrayList<HashMap<String,Object>> projects = new ArrayList<HashMap<String,Object>>();
 			projectManager.getPartnerProjects(partnerId, projects);
 			partner.put("projects",projects);
 		}
-		return success;
+		return partner;
 	}
 	
 	/**

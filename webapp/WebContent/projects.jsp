@@ -90,6 +90,7 @@
 					  	<th>#</th>
 					  	<th>Name</th>
 					  	<th>Created</th>
+					  	<th>Group</th>
 					  	<th>Status</th>
 					  </tr>
 					<%
@@ -101,6 +102,7 @@
 									<td>#<%=i+1%></td>
 									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
 									<td><%=project.get("project_createdate")%></td>
+									<td><%=project.get("group_name")%></td>
 									<td><%=project.get("projstatus_name")%></td>
 								</tr>
 							<%
@@ -113,8 +115,8 @@
 	
 	</div>
 	
-	<div id="" class="flex1">
-		<jsp:include page="/left_section.jsp"></jsp:include>
+	<div id="" class="flex1 box-shadow">
+		<jsp:include page="/right_section.jsp"></jsp:include>
 	</div>
 
 </div>

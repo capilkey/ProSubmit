@@ -30,9 +30,14 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getPartnerProjects(String partner_id,ArrayList<HashMap<String,Object>> projects){
-		String sql = "SELECT *,projstatus_name as status FROM project JOIN project_status USING(projstatus_id) WHERE project.partner_id = ?";
+		ArrayList<HashMap<String,Object>> projectIds = new ArrayList<HashMap<String,Object>>();
+		String sql = "SELECT project_id FROM project WHERE partner_id = ?";
 		String [] params = {partner_id};
-		return queryDB(sql, params,projects);
+		queryDB(sql, params,projectIds);
+		for(int i =0;i<projectIds.size();i++){
+			projects.add(getProject((String)projectIds.get(i).get("project_id")));
+		}
+		return true;
 	}
 	
 	/**
@@ -42,7 +47,7 @@ public final class ProjectManager extends DBAccess {
 	 */
 	public HashMap<String,Object> getProject(String projectId){
 		HashMap<String,Object> project = new HashMap<String,Object>();
-		String sql = "SELECT *,DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project JOIN project_status USING(projstatus_id) WHERE project_id = ?";
+		String sql = "SELECT *,IF(group_name,group_name,'N/A') AS group_name, DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project LEFT JOIN project_status ON project.projstatus_id = project_status.projstatus_id LEFT JOIN `group` ON group.group_id = project.group_id WHERE project_id = ?";
 		String [] params = {projectId};
 		queryDB(sql, params,project);
 		project.put("group",getGroup((String)project.get("group_id")));

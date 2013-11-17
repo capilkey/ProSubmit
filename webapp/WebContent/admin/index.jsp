@@ -15,6 +15,7 @@
 <jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
 	<div class="flex1">
+	<div style="width:900px; margin-left:auto;margin-right:auto">
 		<%
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
@@ -24,7 +25,7 @@
 			PartnerManager partnerManager = new PartnerManager(); 
 			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners(); 
 					
-			out.println(gson.toJson(partners));
+			//out.println(gson.toJson(partners));
 			//out.println(gson.toJson(projectCategories));
 			//out.println("<br/><br/><br/><br/><br/>");
 			//out.println(gson.toJson(projectStatuses));
@@ -34,20 +35,25 @@
 			<table class="table">
 					<tr>
 						<th width="5%">#</th>
-						<th width="5%">#</th>
-						<th width="5%">#</th>
+						<th width="15%">Name</th>
+						<th width="20%">Company</th>
+						<th width="15%">Projects</th>
 					</tr>
 		<%
 			for(int i =0;i<partners.size();i++){
+				HashMap<String,Object> partner = partners.get(i);
 		%>
 					<tr>
 						<td><%=i+1%></td>
-						<td></td>
-						<td></td>
+						<td><a href='/ProSubmit/partner/<%=partner.get("partner_id")%>/'><%=partner.get("fullname")%></a></td> 
+						<td><%=partner.get("company_name")%></td>
+						<td><%=partner.get("projects")%></td>
 					</tr>
 		<%}%>
 			</table>
+			<hr/>
 		<%}%>
+		
 		
 		
 		
@@ -127,7 +133,8 @@
 			</table>
 			<hr/>
 		<%}%>
+	</div>	
 	</div>
-	
+ 	
 </div>
 <jsp:include page="/footer.jsp"></jsp:include>
