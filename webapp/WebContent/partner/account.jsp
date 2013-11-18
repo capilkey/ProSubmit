@@ -17,7 +17,7 @@
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
-<jsp:include page="/header.jsp"></jsp:include>
+<jsp:include page="/header.jsp" />
 <div id="page-content" class="hbox">
 		<div class="flex4">
 			<%
@@ -133,7 +133,7 @@
 							%>
 								<tr>
 									<td>#<%=i+1%></td>
-									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
+									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"><%=project.get("project_title")%></a></td>
 									<td><%=project.get("project_createdate")%></td>
 									<td><%=project.get("projstatus_name")%></td>
 								</tr>

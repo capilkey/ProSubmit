@@ -26,8 +26,8 @@ public class DBConnectionPool {
     public DBConnectionPool() {
     	pool = new DataSource();
     	pool.setDriverClassName("com.mysql.jdbc.Driver");
-    	pool.setMaxActive(Integer.parseInt(Config.getProperty("max_active")));
-    	pool.setMaxIdle(Integer.parseInt(Config.getProperty("max_active")));
+    	//pool.setMaxActive(Integer.parseInt(Config.getProperty("max_active")));
+    	//pool.setMaxIdle(Integer.parseInt(Config.getProperty("max_active")));
     	pool.setUrl(Config.getProperty("url"));
     	pool.setUsername(Config.getProperty("username"));
     	pool.setPassword(Config.getProperty("password"));

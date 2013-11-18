@@ -10,6 +10,7 @@ package prosubmit.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import prosubmit.db.DBAccess;
 
 //import db.DBAccess;
@@ -53,31 +54,22 @@ public class ProjectHandler {
 	 * @return <boolean> true if the operation was successful but false
 	 * otherwise
 	 */
-	public boolean addProject(String project_id, String project_title, String project_desc, String projcategory_id){
-		String projstatus_id = "Unmatched";
-		String project_createdate = "GETDATE()";
-		String sql = "INSERT INTO Project (project_id, project_title, project_desc, project_createdate, projstatus_id, projcategory_id) VALUES(?,?,?,?,?)";
-		String [] params = {
-							project_id,
-							project_title,
-							project_desc,
-							project_createdate,
-							projstatus_id,
-							projcategory_id
-						};
-		return dbAccess.updateDB(sql, params);
+	public boolean addProject(String project_title, String project_desc, String projcategory_id, String partner_id){
+		String sql = "INSERT INTO project (partner_id,project_title,project_desc,projstatus_id,projcategory_id) "+ ""
+				+ "VALUES ("+partner_id+",\""+project_title+"\",\""+project_desc+"\",1,"+projcategory_id+")";
+		return dbAccess.updateDB(sql);
 	}
 
 	/**
-	 * Update project_title field of Project by project_id, project_title
+	 * Update project_title field of project by project_id, project_title
 	 * Fields:<p>
 	 * (0) project_id (1) project_title
 	 * @param project_id
 	 * @param project_title
 	 * @return
 	 */
-	public boolean updateTitleByProjectID(String project_id, String project_title){
-		String sql = "UPDATE Project " +
+	public boolean updateTitleByprojectID(String project_id, String project_title){
+		String sql = "UPDATE project " +
 					" SET project_title=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -88,7 +80,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update project_desc field of Project by project_id, project_desc
+	 * Update project_desc field of project by project_id, project_desc
 	 * Fields:<p>
 	 * (0) project_id (1) project_desc
 	 * @param project_id
@@ -96,7 +88,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean updateDescByProjectID(String project_id, String project_desc){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET project_desc=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -107,7 +99,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update projstatus_id field of Project by project_id, projstatus_id
+	 * Update projstatus_id field of project by project_id, projstatus_id
 	 * Fields:<p>
 	 * (0) project_id (1) projstatus_id
 	 * @param project_id
@@ -115,7 +107,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean updateStatusByProjectID(String project_id, String projstatus_id){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET projstatus_id=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -126,7 +118,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update projcategory_id field of Project by project_id, projcategory_id
+	 * Update projcategory_id field of project by project_id, projcategory_id
 	 * Fields:<p>
 	 * (0) project_id (1) projcategory_id
 	 * @param project_id
@@ -134,7 +126,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean updateCategoryByProjectID(String project_id, String projcategory_id){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET projcategory_id=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -145,7 +137,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update group_id field of Project by project_id
+	 * Update group_id field of project by project_id
 	 * Fields:<p>
 	 * (0) project_id (1) group_id
 	 * @param project_id
@@ -153,7 +145,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean updateGroupByProjectID(String project_id, String group_id){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET group_id=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -164,7 +156,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update project_editdate field of Project by project_id
+	 * Update project_editdate field of project by project_id
 	 * Fields:<p>
 	 * (0) project_id
 	 * @param project_id
@@ -172,7 +164,7 @@ public class ProjectHandler {
 	 */
 	public boolean updateEditDateByProjectID(String project_id){
 		String project_editdate = "GETDATE()";
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET project_editdate =?" +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -183,152 +175,155 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Delete project record from Project by project_id
+	 * Delete project record from project by project_id
 	 * Fields:<p>
 	 * (0) project_id
 	 * @param project_id
 	 * @return
 	 */
 	public boolean removeProjectByProjectID(String project_id)	{
-		String sql = "DELETE FROM Project " +
+		String sql = "DELETE FROM project " +
 					" WHERE project_id=? ";
 		String [] params = {project_id};
 		return dbAccess.updateDB(sql, params);
 	}
 
 	/**
-	 * Delete project records from Project by projstatus_id
+	 * Delete project records from project by projstatus_id
 	 * Fields:<p>
 	 * (0) projstatus_id
 	 * @param projstatus_id
 	 * @return
 	 */
 	public boolean removeProjectByStatus(String projstatus_id){
-		String sql = "DELETE FROM Project " +
+		String sql = "DELETE FROM project " +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
 		return dbAccess.updateDB(sql, params);
 	}
 
 	/**
-	 * Delete project records from Project by projcategory_id
+	 * Delete project records from project by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id
 	 * @param projcategory_id
 	 * @return
 	 */
 	public boolean removeProjectByCategory(String projcategory_id){
-		String sql = "DELETE FROM Project " +
+		String sql = "DELETE FROM project " +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
 		return dbAccess.updateDB(sql, params);
 	}
 
 	/**
-	 * Get all project records from Project
+	 * Get all project records from project
 	 * @return
 	 */
-	public boolean getAllProject(){
-		String sql = "SELECT * FROM Project";
-		return dbAccess.updateDB(sql);
+	public boolean getAllProject(ArrayList<HashMap<String,String>> results){
+		String sql = "SELECT *,projstatus_name as status,projcategory_name as category FROM project JOIN project_status USING(projstatus_id) JOIN project_category USING(projcategory_id)";
+		return dbAccess.queryDB(sql, results);
 	}
 
 	/**
-	 * Get project record from Project by project_id
+	 * Get project record from project by project_id
 	 * Fields:<p>
 	 * (0) project_id
 	 * @param project_id
 	 * @return
 	 */
-	public boolean getProjectInfoByID(String project_id){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByID(String project_id, HashMap<String,Object> result){
+		String sql = "SELECT * FROM project" +
+					" JOIN project_status USING(projstatus_id) " +
+					" JOIN project_category USING(projcategory_id) " +
+					" JOIN partner USING(partner_id) " +
 					" WHERE project_id=? ";
 		String [] params = {project_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 	/**
-	 * Get project record from Project by project_title
+	 * Get project record from project by project_title
 	 * Fields:<p>
 	 * (0) project_title
 	 * @param project_title
 	 * @return
 	 */
-	public boolean getProjectInfoByTitle(String project_title){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByTitle(String project_title, HashMap<String,Object> result){
+		String sql = "SELECT * FROM project" +
 					" WHERE project_title=? ";
 		String [] params = {project_title};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 	/**
-	 * Get project record from Project by createdate
+	 * Get project record from project by createdate
 	 * Fields:<p>
 	 * (0) createdate
 	 * @param createdate
 	 * @return
 	 */
-	public boolean getProjectInfoByCreatedate(String createdate){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByCreatedate(String createdate, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT * FROM project" +
 					" WHERE createdate=? ";
 		String [] params = {createdate};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
-	 * Get project record from Project by editdate
+	 * Get project record from project by editdate
 	 * Fields:<p>
 	 * (0) editdate
 	 * @param editdate
 	 * @return
 	 */
-	public boolean getProjectInfoByEditDate(String editdate){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByEditDate(String editdate, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT * FROM project" +
 					" WHERE editdate=? ";
 		String [] params = {editdate};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
-	 * Get project record from Project by projstatus_id
+	 * Get project record from project by projstatus_id
 	 * Fields:<p>
 	 * (0) projstatus_id
 	 * @param projstatus_id
 	 * @return
 	 */
-	public boolean getProjectInfoByStatusID(String projstatus_id){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByStatusID(String projstatus_id, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT * FROM project" +
 					" WHERE projstatus=? ";
-		String [] params = {projstatus};
-		return dbAccess.updateDB(sql, params);
+		String [] params = {projstatus_id};
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
-	 * Get project record from Project by projcategory_id
+	 * Get project record from project by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id
 	 * @param projcategory_id
 	 * @return
 	 */
-	public boolean getProjectInfoByCategoryID(String projcategory_id){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByCategoryID(String projcategory_id, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT * FROM project" +
 					" WHERE projcategory=? ";
-		String [] params = {projcategory};
-		return dbAccess.updateDB(sql, params);
+		String [] params = {projcategory_id};
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
-	 * Get project record from Project by group_id
+	 * Get project record from project by group_id
 	 * Fields:<p>
 	 * (0) group_id
 	 * @param group_id
 	 * @return
 	 */
-	public boolean getProjectInfoByGroupID(String group_id){
-		String sql = "SELECT * FROM Project" +
+	public boolean getProjectInfoByGroupID(String group_id, HashMap<String,Object> result){
+		String sql = "SELECT * FROM project" +
 					" WHERE group_id=? ";
 		String [] params = {group_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 	/**
@@ -341,7 +336,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean addProjectStatus(String projstatus_id, String projstatus_name, String projstatus_desc){
-		String sql = "INSERT INTO Project_Status VALUES(?,?,?)";
+		String sql = "INSERT INTO project_status VALUES(?,?,?)";
 		String [] params = {
 							projstatus_id,
 							projstatus_name,
@@ -351,7 +346,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update projstatus_name field of Project_Status by projstatus_id
+	 * Update projstatus_name field of project_Status by projstatus_id
 	 * Fields:<p>
 	 * (0) projstatus_id (1) projstatus_name
 	 * @param projstatus_id
@@ -359,7 +354,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean updateNameByStatusID(String projstatus_id, String projstatus_name){
-		String sql = "UPDATE Project_Status " +
+		String sql = "UPDATE project_status " +
 					" SET projstatus_name=? " +
 					" WHERE projstatus_id=?";
 		String [] params = {
@@ -370,15 +365,15 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update projstatus_desc field of Project_Status by projstatus_id
+	 * Update projstatus_desc field of project_Status by projstatus_id
 	 * Fields:<p>
 	 * (0) projstatus_id (1) projstatus_desc
 	 * @param projstatus_id
 	 * @param projstatus_desc
 	 * @return
 	 */
-	public boolean updateDescByStatusID(String projstatus_id, String projstatus_name){
-		String sql = "UPDATE Project_Status " +
+	public boolean updateDescByStatusID(String projstatus_id, String projstatus_desc){
+		String sql = "UPDATE project_status " +
 					" SET projstatus_desc=? " +
 					" WHERE projstatus_id=?";
 		String [] params = {
@@ -389,44 +384,44 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Delete all project status records from Project_Status
+	 * Delete all project status records from project_status
 	 * @return
 	 */
 	public boolean removeAllStatus()	{
-		String sql = "DELETE * FROM Project_Status";
+		String sql = "DELETE * FROM project_status";
 		return dbAccess.updateDB(sql);
 	}
 
 	/**
-	 * Delete project status record from Project_Status by projstatus_id
+	 * Delete project status record from project_status by projstatus_id
 	 * Fields:<p>
 	 * (0) projstatus_id
 	 * @param projstatus_id
 	 * @return
 	 */
 	public boolean removeStatusByStatusID(String projstatus_id)	{
-		String sql = "DELETE FROM Project_Status " +
+		String sql = "DELETE FROM project_status " +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
 		return dbAccess.updateDB(sql, params);
 	}
 
 	/**
-	 * Get all status record from Project_Status
+	 * Get all status record from project_status
 	 * @return
 	 */
-	public boolean getAllStatusInfo(){
-		String sql = "SELECT * FROM Project_Status";
-		return dbAccess.updateDB(sql);
+	public boolean getAllStatusInfo(ArrayList<HashMap<String,String>> results){
+		String sql = "SELECT * FROM project_status";
+		return dbAccess.queryDB(sql, results);
 	}
 
 	/**
-	 * Get all status names from Project_Status
+	 * Get all status names from project_status
 	 * @return
 	 */
-	public boolean getAllStatusName(){
-		String sql = "SELECT projstatus_name FROM Project_Status";
-		return dbAccess.updateDB(sql);
+	public boolean getAllStatusName(ArrayList<HashMap<String,String>> results){
+		String sql = "SELECT projstatus_name FROM project_status";
+		return dbAccess.queryDB(sql, results);
 	}
 
 	/**
@@ -436,11 +431,11 @@ public class ProjectHandler {
 	 * @param projstatus_id
 	 * @return
 	 */
-	public boolean getNameByStatusID(String projstatus_id){
-		String sql = "SELECT projstatus_name FROM Project_Status" +
+	public boolean getNameByStatusID(String projstatus_id, HashMap<String,Object> result){
+		String sql = "SELECT projstatus_name FROM project_status" +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 	/**
@@ -450,11 +445,11 @@ public class ProjectHandler {
 	 * @param projstatus_id
 	 * @return
 	 */
-	public boolean getDescByStatusID(String projstatus_id){
-		String sql = "SELECT projstatus_desc FROM Project_Status" +
+	public boolean getDescByStatusID(String projstatus_id, HashMap<String,Object> result){
+		String sql = "SELECT projstatus_desc FROM project_status" +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 
@@ -468,7 +463,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean addProjectCategory(String projcategory_id, String projcategory_name, String projcategory_desc){
-		String sql = "INSERT INTO Project_Category VALUES(?,?,?)";
+		String sql = "INSERT INTO project_category VALUES(?,?,?)";
 		String [] params = {
 							projcategory_id,
 							projcategory_name,
@@ -478,7 +473,7 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update projcategory_name field of Project_Category by projcategory_id
+	 * Update projcategory_name field of project_category by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id (1) projcategory_name
 	 * @param projcategory_id
@@ -486,7 +481,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean updateNameByCategoryID(String projcategory_id, String projcategory_name){
-		String sql = "UPDATE Project_Category " +
+		String sql = "UPDATE project_category " +
 					" SET projcategory_name=? " +
 					" WHERE projcategory_id=?";
 		String [] params = {
@@ -497,15 +492,15 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Update projcategory_desc field of Project_Category by projcategory_id
+	 * Update projcategory_desc field of project_category by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id (1) projcategory_desc
 	 * @param projcategory_id
 	 * @param projcategory_desc
 	 * @return
 	 */
-	public boolean updateDescByCategoryID(String projcategory_id, String projcategory_name){
-		String sql = "UPDATE Project_Category " +
+	public boolean updateDescByCategoryID(String projcategory_id, String projcategory_desc){
+		String sql = "UPDATE project_category " +
 					" SET projcategory_desc=? " +
 					" WHERE projcategory_id=?";
 		String [] params = {
@@ -516,72 +511,72 @@ public class ProjectHandler {
 	}
 
 	/**
-	 * Delete all project category records from Project_Category
+	 * Delete all project category records from project_category
 	 * @return
 	 */
 	public boolean removeAllCategory()	{
-		String sql = "DELETE * FROM Project_Category";
+		String sql = "DELETE * FROM project_category";
 		return dbAccess.updateDB(sql);
 	}
 
 	/**
-	 * Delete project category record from Project_Category by projcategory_id
+	 * Delete project category record from project_category by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id
 	 * @param projcategory_id
 	 * @return
 	 */
 	public boolean removeCategoryByCategoryID(String projcategory_id)	{
-		String sql = "DELETE FROM Project_Category " +
+		String sql = "DELETE FROM project_category " +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
 		return dbAccess.updateDB(sql, params);
 	}
 
 	/**
-	 * Get all category record from Project_Category
+	 * Get all category record from project_category
 	 * @return
 	 */
-	public boolean getAllCategoryInfo(){
-		String sql = "SELECT * FROM Project_Category";
-		return dbAccess.updateDB(sql);
+	public boolean getAllCategoryInfo(ArrayList<HashMap<String,String>> results){
+		String sql = "SELECT * FROM project_category";
+		return dbAccess.queryDB(sql, results);
 	}
 
 	/**
-	 * Get all category name from Project_Category
+	 * Get all category name from project_category
 	 * @return
 	 */
-	public boolean getAllCategoryName(){
-		String sql = "SELECT projcategory_id FROM Project_Category";
-		return dbAccess.updateDB(sql);
+	public boolean getAllCategoryName(ArrayList<HashMap<String,String>> results){
+		String sql = "SELECT projcategory_id FROM project_category";
+		return dbAccess.queryDB(sql, results);
 	}
 
 	/**
-	 * Get category name from Project_Category by projcategory_id
+	 * Get category name from project_category by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id
 	 * @param projcategory_id
 	 * @return
 	 */
-	public boolean getNameByCategoryID(String projcategory_id){
-		String sql = "SELECT projcategory_name FROM Project_Category" +
+	public boolean getNameByCategoryID(String projcategory_id, HashMap<String,Object> result){
+		String sql = "SELECT projcategory_name FROM project_category" +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 	/**
-	 * Get category desc from Project_Category by projcategory_id
+	 * Get category desc from project_category by projcategory_id
 	 * Fields:<p>
 	 * (0) projcategory_id
 	 * @param projcategory_id
 	 * @return
 	 */
-	public boolean getDescByCategoryID(String projcategory_id){
-		String sql = "SELECT projcategory_desc FROM Project_Category" +
+	public boolean getDescByCategoryID(String projcategory_id, HashMap<String,Object> result){
+		String sql = "SELECT projcategory_desc FROM project_category" +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 	
 	/**
@@ -597,7 +592,7 @@ public class ProjectHandler {
 	 */
 	public boolean addProjectComment(String projcom_id, String project_id,
 		String projcom_text, String projcom_date, String professor_id){
-		String sql = "INSERT INTO Project_Comment VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO project_comment VALUES(?,?,?,?,?)";
 		String [] params = {
 							projcom_id,
 							project_id,
@@ -621,7 +616,7 @@ public class ProjectHandler {
 	 */
 	public boolean updateProjectComment(String projcom_id, String project_id,
 		String projcom_text, String projcom_date, String professor_id){
-		String sql = "UPDATE Project_Comment" +
+		String sql = "UPDATE project_comment" +
 					" SET projcom_text=?" + "," +
 					" projcom_date=?" + "," +
 					" professor_id=?" +
@@ -646,8 +641,8 @@ public class ProjectHandler {
 	 * @param project_id
 	 * @return
 	 */
-	public boolean getCommentInfoByID(String projcom_id, String project_id){
-		String sql = "SELECT projcom_text, projcom_date, professor_id FROM Project_Comment" +
+	public boolean getCommentInfoByID(String projcom_id, String project_id, HashMap<String,Object> result){
+		String sql = "SELECT projcom_text, projcom_date, professor_id FROM project_comment" +
 					" WHERE procom_id=?" +
 					" AND" +
 					" project_id=?";
@@ -655,7 +650,7 @@ public class ProjectHandler {
 							projcom_id,
 							project_id
 							};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 
 	/**
@@ -665,11 +660,11 @@ public class ProjectHandler {
 	 * @param projcom_id
 	 * @return
 	 */
-	public boolean getCommentInfoByProjComID(String projcom_id){
-		String sql = "SELECT project_id, projcom_text, projcom_date, professor_id FROM Project_Comment" +
+	public boolean getCommentInfoByProjComID(String projcom_id, HashMap<String,Object> result){
+		String sql = "SELECT project_id, projcom_text, projcom_date, professor_id FROM project_comment" +
 					" WHERE projcom_id=?";
 		String [] params = {projcom_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, result);
 	}
 	
 	/**
@@ -679,11 +674,11 @@ public class ProjectHandler {
 	 * @param project_id
 	 * @return
 	 */
-	public boolean getAllCommentByProjectID(String project_id){
-		String sql = "SELECT projcom_id, projcom_text, projcom_date, professor_id FROM Project_Comment" +
+	public boolean getAllCommentByProjectID(String project_id, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT projcom_id, projcom_text, projcom_date, professor_id FROM project_comment" +
 					" WHERE project_id=?";
 		String [] params = {project_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
@@ -693,11 +688,11 @@ public class ProjectHandler {
 	 * @param professor_id
 	 * @return
 	 */
-	public boolean getAllCommentByProfessorID(String professor_id){
-		String sql = "SELECT projcom_id, project_id, projcom_text, projcom_date FROM Project_Comment" +
+	public boolean getAllCommentByProfessorID(String professor_id, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT projcom_id, project_id, projcom_text, projcom_date FROM project_comment" +
 					" WHERE professor_id=?";
 		String [] params = {professor_id};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
@@ -707,11 +702,11 @@ public class ProjectHandler {
 	 * @param projcom_date
 	 * @return
 	 */
-	public boolean getAllCommentByDate(String projcom_date){
-		String sql = "SELECT projcom_id, project_id, projcom_text, professor_id FROM Project_Comment" +
+	public boolean getAllCommentByDate(String projcom_date, ArrayList<HashMap<String,Object>> results){
+		String sql = "SELECT projcom_id, project_id, projcom_text, professor_id FROM project_comment" +
 					" WHERE projcom_date=?";
 		String [] params = {projcom_date};
-		return dbAccess.updateDB(sql, params);
+		return dbAccess.queryDB(sql, params, results);
 	}
 
 	/**
@@ -723,7 +718,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean removeCommentByID(String projcom_id, String project_id){
-		String sql = "DELETE FROM Project_Comment " +
+		String sql = "DELETE FROM project_comment " +
 					" WHERE projcom_id=? " +
 					" project_id=?";
 		String [] params = {
@@ -741,7 +736,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean removeAllCommentsByProjectID(String project_id){
-		String sql = "DELETE FROM Project_Comment " +
+		String sql = "DELETE FROM project_comment " +
 					" WHERE project_id=?";
 		String [] params = {project_id};
 		return dbAccess.updateDB(sql, params);
@@ -755,7 +750,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean removeAllCommentsByProfessorID(String professor_id){
-		String sql = "DELETE FROM Project_Comment " +
+		String sql = "DELETE FROM project_comment " +
 					" WHERE professor_id=?";
 		String [] params = {professor_id};
 		return dbAccess.updateDB(sql, params);
@@ -769,7 +764,7 @@ public class ProjectHandler {
 	 * @return
 	 */
 	public boolean removeAllCommentsByDate(String projcom_date){
-		String sql = "DELETE FROM Project_Comment " +
+		String sql = "DELETE FROM project_comment " +
 					" WHERE projcom_date=?";
 		String [] params = {projcom_date};
 		return dbAccess.updateDB(sql, params);

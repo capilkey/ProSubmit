@@ -43,6 +43,13 @@
 		<servlet-class>prosubmit.servlet.PartnerServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ProjectServlet</display-name>
+		<servlet-name>ProjectServlet</servlet-name>
+		<servlet-class>prosubmit.servlet.ProjectServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticateServlet</servlet-name>
 		<url-pattern>/Authenticate</url-pattern>
@@ -54,6 +61,10 @@
 	<servlet-mapping>
 		<servlet-name>PartnerServlet</servlet-name>
 		<url-pattern>/Partner</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProjectServlet</servlet-name>
+		<url-pattern>/Project</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

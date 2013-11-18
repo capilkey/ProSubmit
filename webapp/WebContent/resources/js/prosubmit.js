@@ -360,6 +360,64 @@ ProSubmit.prototype = {
 			return false;
 		},
 		
+		createProject:function(redirect){
+			var isUpdate = redirect == null ? true : false;
+			var v = isUpdate ? "update" : "create";
+			var isValid = true;
+			this.goTop();
+			var projtitle = $("#projtitle").val();
+			var projdesc =  $("#projdesc").val();
+			var projcat =  $("#projcat").val();
+			var partner_id =  $("#partner_id").val();
+			
+			isValid = this.validateProjectTitle(projtitle);
+			if(isValid){
+				isValid = this.validateProjectDescription(projdesc);
+			}if(isValid){
+				isValid = this.validateProjectCategory(projcat);
+			}
+			
+			if(!isValid){
+				$("#create-project .alert,#edit-project .alert").show();
+			}else{
+				$("#create-project .alert").hide();
+				this.mask(function(){
+					$.ajax({
+						url:"/ProSubmit/Project",
+						type:"POST",
+						data:{
+							v:v,
+							partner_id:partner_id,
+							projectdescription:projdesc,
+							projecttitle:projtitle,
+							projectcategory:projcat
+						},success:function(response){
+							console.log(response);
+							var success = response.success;
+							var message = response.message;
+							
+							if(success == "1"){
+								if(redirect){
+									window.location = redirect;
+								}else{
+									window.location.reload();
+								}
+								
+							}else{
+								proSubmit.unMask(function(){
+									$("#project-create-error-message").text(message);
+									$("#project-create-error-message").show();
+								});
+							}
+						},error:function(jqXHR,textStatus){
+							proSubmit.ajaxErrorFn(textStatus);
+						}
+					});
+				});
+			}
+			return false;
+		},
+		
 		/**
 		 * 
 		 */
@@ -526,6 +584,41 @@ ProSubmit.prototype = {
 			return isValid;
 		},
 		
+		/**
+		 * 
+		 */
+		validateProjectTitle:function(projtitle){
+			var isValid = true;
+			if(!projtitle){
+				isValid =  false;
+				$("#create-project .alert").text("Specify a project title");
+			}
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateProjectDescription:function(projdesc){
+			var isValid = true;
+			if(!projdesc){
+				isValid =  false;
+				$("#create-project .alert").text("Specify a project description");
+			}
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateProjectCategory:function(projcat){
+			var isValid = true;
+			if(!projcat){
+				isValid =  false;
+				$("#project-create .alert").text("Specify a project category");
+			}
+			return isValid;
+		},
 		
 		/**
 		* 
