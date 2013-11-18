@@ -34,7 +34,13 @@
 	<div class="flex1"><img src="/ProSubmit/resources/icons/logo-medium.png" alt="LOGO"/></div>
 	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">
 		<ul class="nav navbar-nav">
-			<li><a href="/ProSubmit/projects/">Projects</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="/ProSubmit/projects/">View All Projects</a></li>
+					<li><a href="/ProSubmit/create_project.jsp">Create Project</a></li>
+				</ul>
+			</li>
 		  	<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 				<ul class="dropdown-menu">
@@ -50,11 +56,12 @@
 					%>
 				</ul>
 		    </li>
-		    	
+		    	<!--
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
 		    	<li><a href="/">Link</a></li>
+		    	-->
 		  </ul>
 	   </div><!-- /.navbar-collapse -->
 			
