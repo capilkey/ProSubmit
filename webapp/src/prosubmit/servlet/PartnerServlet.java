@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import prosubmit.controller.PartnerManager;
-import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 
 /**
  * Servlet implementation class PartnerServlet
@@ -60,8 +60,8 @@ public class PartnerServlet extends HttpServlet {
 		String ajax = request.getParameter("ajax");
 		
 		if(partnerManager == null){
-			partnerManager = new PartnerManager((DBAccess)request.getSession(true).getAttribute("dbAccess"));
-		}
+			partnerManager = new PartnerManager((DBPool)request.getSession(true).getServletContext().getAttribute("dbPool"));
+		} 
 		if(action != null){
 			if(action.equals("register")){
 				StringBuilder partnerId	= null;
@@ -98,8 +98,7 @@ public class PartnerServlet extends HttpServlet {
 						request.getParameter("telephone"),request.getParameter("extension"),
 						request.getParameter("company_address"),info)){
 					if(session.getAttribute("isPartner") != null){
-						HashMap<String,Object> partnerInfo = new HashMap<String,Object>(); 
-						partnerManager.getPartner(partner_id,partnerInfo);
+						HashMap<String,Object> partnerInfo = partnerManager.getPartner(partner_id); 
 						session.setAttribute("userInfo",partnerInfo);
 					}
 					result.put("success","1");

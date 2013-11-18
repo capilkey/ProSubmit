@@ -12,18 +12,16 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
-<%@ page import="prosubmit.db.DBAccess" %>
-<%@ page import="prosubmit.db.DBConnectionPool" %>
+<%@ page import="prosubmit.db.DBPool" %>
 <%@ page import="prosubmit.controller.SystemManager" %>
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
 <jsp:include page="/header.jsp" />
 <div id="page-content" class="hbox">
 		<div class="flex4">
-			<%
-				PartnerManager partnerManager = new PartnerManager((DBAccess)session.getAttribute("dbAccess"));
-				HashMap<String,Object> partner = new HashMap<String,Object>(); 
-				partnerManager.getPartner(partner_id, partner,true);
+			<% 
+				PartnerManager partnerManager = new PartnerManager((DBPool) session.getServletContext().getAttribute("dbPool"));
+				 HashMap<String,Object> partner = partnerManager.getPartner(partner_id,true);
 				
 				Gson gson = new Gson();
 				//out.println(gson.toJson(partner));
@@ -31,12 +29,17 @@
 			<h1>Account Information</h1>
 			<div class="panel panel-default">
 			  <div class="panel-body">
-			    <div>
-						<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
-						<span><%=partner.get("company_name")%></span><br/>
-						<span><%=partner.get("email")%></span><br/>
-						<span><%=partner.get("telephone")%> ex:<%=partner.get("extension")%></span><br/>
-						<span><%=partner.get("company_address")%></span><br/>
+			    <div class="hbox">
+			    	<div class="flex1">
+							<img src="/ProSubmit/resources/img/no-avatar.png" alt="..." class="img-circle partner-avatar">
+						</div>
+			    	<div class="flex3" style="padding:10px">
+							<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
+							<span><%=partner.get("company_name")%></span><br/>
+							<span><%=partner.get("email")%></span><br/>
+							<span><%=partner.get("telephone")%> ex:<%=partner.get("extension")%></span><br/>
+							<span><%=partner.get("company_address")%></span>
+						</div>
 					</div>
 			  </div>
 			  <div class="panel-footer">
@@ -71,7 +74,7 @@
 							<label for="industry">Industry:</label>
 							<select id="industry" class="form-control">
 				        <% 
-				            SystemManager systemManager = new SystemManager((DBAccess)session.getAttribute("dbAccess"));
+				            SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
 				        		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
 				        		systemManager.getIndustries(industries); 
 				        		for(int i =0;i<industries.size();i++){
@@ -103,54 +106,6 @@
 			  </div>
 			</div>
 			<hr/>
-			
-			
-			<%
-				ArrayList<HashMap<String,Object>> projects = (ArrayList<HashMap<String,Object>>) partner.get("projects");
-				//out.println(gson.toJson(projects));
-				if(projects.size() > 0){
-					%>
-						<div class="panel panel-default">
-					  <!-- Default panel contents -->
-					  <div class="panel-body">
-					  <h3 style="display:inline">My Projects (<%=projects.size()%>)</h3>
-					    <p>
-					    	The below lists the various projects which you have submitted to ProSubmit.
-					    	
-					    </p>
-					  </div>
-				   	<!-- Table -->
-					  <table class="table">
-					  <tr>
-					  	<th>#</th>
-					  	<th>Name</th>
-					  	<th>Created</th>
-					  	<th>Status</th>
-					  </tr>
-					<%
-					for(int i = 0;i<projects.size();i++){
-							HashMap<String,Object> project = projects.get(i);
-							%>
-								<tr>
-									<td>#<%=i+1%></td>
-									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"><%=project.get("project_title")%></a></td>
-									<td><%=project.get("project_createdate")%></td>
-									<td><%=project.get("projstatus_name")%></td>
-								</tr>
-							<%
-					}
-					%>
-					</table>
-					</div>
-					<%
-				}else{
-					%>
-						<div class="alert alert-info">You currently do not have any projects with us</div>
-					<%
-				}
-			%>
-			<hr/>
-			
 			<div class="panel panel-default">
 			  <div class="panel-body">
 			  	<h3 style="display:inline">Change Password</h3>

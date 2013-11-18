@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 
 //import db.DBAccess;
 
@@ -24,23 +25,22 @@ import prosubmit.db.DBAccess;
  * 4. get
  */
 
-public class ProjectHandler {
-	DBAccess dbAccess = null;
+public class ProjectHandler extends DBAccess{
+	//DBAccess dbAccess = null
 
-	/**
-	 * Empty constructor
-	 */
-	public ProjectHandler(){
-	}
 
 	/**
 	 * One argument constructor
 	 * @param dbAccess
 	 */
-    public ProjectHandler(DBAccess dbAccess) {
-    	this.dbAccess = dbAccess;
-    }
+   // public ProjectHandler(DBAccess dbAccess) {
+    	//this.dbAccess = dbAccess;
+    //}
 
+	public ProjectHandler(DBPool pool){
+		super(pool);
+	}
+    
 	/**
 	 * Create a single Project record
 	 * Fields:<p>
@@ -57,7 +57,7 @@ public class ProjectHandler {
 	public boolean addProject(String project_title, String project_desc, String projcategory_id, String partner_id){
 		String sql = "INSERT INTO project (partner_id,project_title,project_desc,projstatus_id,projcategory_id) "+ ""
 				+ "VALUES ("+partner_id+",\""+project_title+"\",\""+project_desc+"\",1,"+projcategory_id+")";
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class ProjectHandler {
 							project_title,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class ProjectHandler {
 							project_desc,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class ProjectHandler {
 							projstatus_id,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class ProjectHandler {
 							projcategory_id,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class ProjectHandler {
 							group_id,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class ProjectHandler {
 							project_editdate,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project " +
 					" WHERE project_id=? ";
 		String [] params = {project_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project " +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project " +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -222,7 +222,7 @@ public class ProjectHandler {
 	 */
 	public boolean getAllProject(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT *,projstatus_name as status,projcategory_name as category FROM project JOIN project_status USING(projstatus_id) JOIN project_category USING(projcategory_id)";
-		return dbAccess.queryDB(sql, results);
+		return queryDB(sql, results);
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class ProjectHandler {
 					" JOIN partner USING(partner_id) " +
 					" WHERE project_id=? ";
 		String [] params = {project_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class ProjectHandler {
 		String sql = "SELECT * FROM project" +
 					" WHERE project_title=? ";
 		String [] params = {project_title};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class ProjectHandler {
 		String sql = "SELECT * FROM project" +
 					" WHERE createdate=? ";
 		String [] params = {createdate};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class ProjectHandler {
 		String sql = "SELECT * FROM project" +
 					" WHERE editdate=? ";
 		String [] params = {editdate};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class ProjectHandler {
 		String sql = "SELECT * FROM project" +
 					" WHERE projstatus=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class ProjectHandler {
 		String sql = "SELECT * FROM project" +
 					" WHERE projcategory=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -323,7 +323,7 @@ public class ProjectHandler {
 		String sql = "SELECT * FROM project" +
 					" WHERE group_id=? ";
 		String [] params = {group_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 	/**
@@ -342,7 +342,7 @@ public class ProjectHandler {
 							projstatus_name,
 							projstatus_desc
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class ProjectHandler {
 							projstatus_name,
 							projstatus_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -380,7 +380,7 @@ public class ProjectHandler {
 							projstatus_desc,
 							projstatus_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -389,7 +389,7 @@ public class ProjectHandler {
 	 */
 	public boolean removeAllStatus()	{
 		String sql = "DELETE * FROM project_status";
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 
 	/**
@@ -403,7 +403,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project_status " +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -412,7 +412,7 @@ public class ProjectHandler {
 	 */
 	public boolean getAllStatusInfo(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT * FROM project_status";
-		return dbAccess.queryDB(sql, results);
+		return queryDB(sql, results);
 	}
 
 	/**
@@ -421,7 +421,7 @@ public class ProjectHandler {
 	 */
 	public boolean getAllStatusName(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT projstatus_name FROM project_status";
-		return dbAccess.queryDB(sql, results);
+		return queryDB(sql, results);
 	}
 
 	/**
@@ -435,7 +435,7 @@ public class ProjectHandler {
 		String sql = "SELECT projstatus_name FROM project_status" +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class ProjectHandler {
 		String sql = "SELECT projstatus_desc FROM project_status" +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 
@@ -469,7 +469,7 @@ public class ProjectHandler {
 							projcategory_name,
 							projcategory_desc
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -488,7 +488,7 @@ public class ProjectHandler {
 							projcategory_name,
 							projcategory_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -507,7 +507,7 @@ public class ProjectHandler {
 							projcategory_desc,
 							projcategory_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -516,7 +516,7 @@ public class ProjectHandler {
 	 */
 	public boolean removeAllCategory()	{
 		String sql = "DELETE * FROM project_category";
-		return dbAccess.updateDB(sql);
+		return updateDB(sql);
 	}
 
 	/**
@@ -530,7 +530,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project_category " +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -539,7 +539,7 @@ public class ProjectHandler {
 	 */
 	public boolean getAllCategoryInfo(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT * FROM project_category";
-		return dbAccess.queryDB(sql, results);
+		return queryDB(sql, results);
 	}
 
 	/**
@@ -548,7 +548,7 @@ public class ProjectHandler {
 	 */
 	public boolean getAllCategoryName(ArrayList<HashMap<String,String>> results){
 		String sql = "SELECT projcategory_id FROM project_category";
-		return dbAccess.queryDB(sql, results);
+		return queryDB(sql, results);
 	}
 
 	/**
@@ -562,7 +562,7 @@ public class ProjectHandler {
 		String sql = "SELECT projcategory_name FROM project_category" +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 	/**
@@ -576,7 +576,7 @@ public class ProjectHandler {
 		String sql = "SELECT projcategory_desc FROM project_category" +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 	
 	/**
@@ -600,7 +600,7 @@ public class ProjectHandler {
 							projcom_date,
 							professor_id
 							};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 	
 	/**
@@ -630,7 +630,7 @@ public class ProjectHandler {
 							projcom_id,
 							project_id
 						};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 
 	/**
@@ -650,7 +650,7 @@ public class ProjectHandler {
 							projcom_id,
 							project_id
 							};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 
 	/**
@@ -664,7 +664,7 @@ public class ProjectHandler {
 		String sql = "SELECT project_id, projcom_text, projcom_date, professor_id FROM project_comment" +
 					" WHERE projcom_id=?";
 		String [] params = {projcom_id};
-		return dbAccess.queryDB(sql, params, result);
+		return queryDB(sql, params, result);
 	}
 	
 	/**
@@ -678,7 +678,7 @@ public class ProjectHandler {
 		String sql = "SELECT projcom_id, projcom_text, projcom_date, professor_id FROM project_comment" +
 					" WHERE project_id=?";
 		String [] params = {project_id};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -692,7 +692,7 @@ public class ProjectHandler {
 		String sql = "SELECT projcom_id, project_id, projcom_text, projcom_date FROM project_comment" +
 					" WHERE professor_id=?";
 		String [] params = {professor_id};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -706,7 +706,7 @@ public class ProjectHandler {
 		String sql = "SELECT projcom_id, project_id, projcom_text, professor_id FROM project_comment" +
 					" WHERE projcom_date=?";
 		String [] params = {projcom_date};
-		return dbAccess.queryDB(sql, params, results);
+		return queryDB(sql, params, results);
 	}
 
 	/**
@@ -725,7 +725,7 @@ public class ProjectHandler {
 							projcom_id,
 							project_id
 							};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 	
 	/**
@@ -739,7 +739,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project_comment " +
 					" WHERE project_id=?";
 		String [] params = {project_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 	
 	/**
@@ -753,7 +753,7 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project_comment " +
 					" WHERE professor_id=?";
 		String [] params = {professor_id};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 	
 	/**
@@ -767,6 +767,6 @@ public class ProjectHandler {
 		String sql = "DELETE FROM project_comment " +
 					" WHERE projcom_date=?";
 		String [] params = {projcom_date};
-		return dbAccess.updateDB(sql, params);
+		return updateDB(sql, params);
 	}
 }

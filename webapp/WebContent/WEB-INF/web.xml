@@ -3,12 +3,14 @@
 	<display-name>
 	ProSubmit
 	</display-name>
+	
 	<listener>
 		<listener-class>prosubmit.listener.ProSubmitContextListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>prosubmit.listener.ProSubmitSessionListener</listener-class>
 	</listener>
+
 	<filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -19,6 +21,23 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+  
+  <servlet>
+    <servlet-name>Jersey REST Service</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>prosubmit.services.rest</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Jersey REST Service</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
+    
+    
+    
 	<servlet>
 		<description>
 		</description>
@@ -66,12 +85,10 @@
 		<servlet-name>ProjectServlet</servlet-name>
 		<url-pattern>/Project</url-pattern>
 	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>

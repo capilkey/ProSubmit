@@ -3,13 +3,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 /**
 *	For this dummy data, users will log in as a partner
 *	with their seneca email address and the password 'prosubmit'
-*/
+*
 DELETE FROM `partner`;
 INSERT INTO `partner` VALUES 
 (1,"Bell Canada","raburrell@myseneca.ca","Ramone","Burrell","Director Of IT","1-416-111-1111","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
 (2,"Rogers Canada","capilkey@myseneca.ca","Chad","Pilkey","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
 ("","Facebook","cxie8@myseneca.ca","Chaobo","Xie","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp),
-("","Twitter","xlian3@myseneca.ca","Xing","Liang","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp);
+("","Twitter","xlian3@myseneca.ca","Xing","Liang","Directory Of IT","1-416-222-2222","1234 Bedrock Ave. M1F-2J5 Toronto Candada",SHA1("prosubmit"),current_timestamp);*/
 
 DELETE FROM `semester`;
 INSERT INTO `semester` VALUES
@@ -47,8 +47,11 @@ INSERT INTO `group` VALUES
 DELETE FROM `project`;
 INSERT INTO `project` VALUES
 ("",1,"Service Pro","Android application for managing services",current_timestamp,NULL,NULL,1,1),
-("",2,"Rogers ServPro","IOS application for managing services",current_timestamp,NULL,NULL,1,1);
-
+("",2,"Rogers ServPro","IOS application for managing services",current_timestamp,NULL,NULL,1,1),
+("",2,"Test Project 3","Descriotnion not provided",current_timestamp,NULL,NULL,2,2),
+("",2,"Test Project 4","Descriotnion not provided",current_timestamp,NULL,NULL,1,3),
+("",2,"Test Project 5","Descriotnion not provided",current_timestamp,NULL,NULL,3,4),
+("",2,"Test Project 6","Descriotnion not provided",current_timestamp,NULL,NULL,4,6);
 
 
 DELETE FROM `professor`;

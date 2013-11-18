@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import prosubmit.db.DBAccess;
-import prosubmit.db.DBConnectionPool;
+import prosubmit.db.DBPool;
 
 /**
  * Application Lifecycle Listener implementation class ProSubmitSessionListener
@@ -24,7 +24,7 @@ public class ProSubmitSessionListener implements  HttpSessionListener {
      */
     public void sessionCreated(HttpSessionEvent evt) {
         // TODO Auto-generated method stub
-    	DBAccess dbAccess = new DBAccess((DBConnectionPool)evt.getSession().getServletContext().getAttribute("dbPool"));
+    	DBAccess dbAccess = new DBAccess((DBPool)evt.getSession().getServletContext().getAttribute("dbPool"));
     	evt.getSession().setAttribute("dbAccess",dbAccess);
     	System.out.println("SESSION CREATED");
     }

@@ -27,10 +27,10 @@
 <script type="text/javascript" src="/ProSubmit/resources/lib/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-		<form id="loginForm">
+		<form id="loginForm" class="">
 			<h2>ProSubmit Login</h2>
 			<label for="username">Username:</label>
-			<input type="text" id="username" placeHolder="Username" class="form-control" value="burrellramone@gmail.com"/>
+			<input type="text" id="username" placeHolder="Username" class="form-control" value="raburrell_admin"/>
 			<label for="password">Password:</label>
 			<input type="password" id="password" placeHolder="Password" class="form-control" value="prosubmit123"/><br/><br/>
 			<button type="button" class="btn btn-primary" onclick="return proSubmit.login()">Login</button>

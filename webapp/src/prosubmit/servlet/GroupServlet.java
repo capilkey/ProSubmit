@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import prosubmit.controller.GroupHandler;
-import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 
 
 
@@ -35,7 +35,7 @@ public class GroupServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+ 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -57,7 +57,7 @@ public class GroupServlet extends HttpServlet {
 		StringBuilder bio = new StringBuilder(request.getParameter("bio"));
 		
 		if(gh == null){
-			gh = new GroupHandler((DBAccess)request.getSession().getAttribute("dbAccess"));
+			gh = new GroupHandler((DBPool)request.getSession().getServletContext().getAttribute("dbPool"));
 		}
 		if(action != null){
 			if(action.equals("updateStudentBio")){

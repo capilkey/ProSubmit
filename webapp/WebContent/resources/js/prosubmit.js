@@ -3,7 +3,7 @@
  * @author ramone
  * @date 22nd September 2013
  */
-var ANIMATION_SPEED = 200;
+var ANIMATION_SPEED = 400;
 ProSubmit = function(){}
 ProSubmit.prototype = {
 		emailRegExp:/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -17,6 +17,117 @@ ProSubmit.prototype = {
 			this.unMask(function(){
 				alert(message);
 			});
+		},
+		
+		/**
+		 * 
+		 */
+		searchProjects:function(){
+			this.mask();
+			var options = {
+				keywords:$("#keywords").val(),
+				categories:$("#category").val(),
+				statuses:$("#status").val(),
+				from_date:$("#from_date").val(),
+				to_date:$("#to_date").val(),
+			};
+			
+			console.log(options);	
+			$.ajax({
+				url:"/ProSubmit/rest/projects/search",
+				type:"GET",
+				data:{
+					options:Base64.encode(JSON.stringify(options))
+				},
+				success:function(response){
+					var projects = response;
+					console.log(projects);
+					$("#project-search-result-table .search-result").remove();
+					for(var i =0;i<projects.length;i++){
+						var aProject = projects[i];
+						var row = [
+						   "<tr class='search-result'>",
+						      "<td>" + "#" + eval(i+1) + "</td>",
+						      "<td><a href='/ProSubmit/project/"+ aProject.project_id + "-" + aProject.project_title.replace(/\s/g,"_") + "'>"+ aProject.project_title + "</a></td>",
+						      "<td>" + aProject.project_createdate + "</td>",
+						      "<td>"+ aProject.projstatus_name + "</td>",
+						   "</tr>"
+						];
+						$("#project-search-result-table").append(row.join());
+					}
+					proSubmit.unMask();
+				},
+				error:function(jqXHR,textStatus){
+					proSubmit.unMask(function(){alert(textStatus);});
+				}
+			});
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		addProjectComment:function(){
+			var comment = $("#comment").val();
+			if(!comment){
+				alert("Please enter a comment before submitting");
+				return;
+			}
+			
+			
+			$.ajax({
+				url:"/ProSubmit/Project",
+				type:"POST",
+				data:{
+					v:"addcomment",
+					project_id:$("#project-id").val(),
+					comment:comment
+				},
+				success:function(response){
+					var success = response.success;
+					var message = response.message;
+					var comment = response.comment;	
+					if(success == "1"){
+						window.location.reload();
+					}else{
+						alert(message);
+					}
+				},
+				error:function(jqXHR,textStatus){
+					alert(textStatus);
+				}
+			});
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		deleteComment:function(comment_id){
+			if(confirm("Are you sure you want to delete this comment?")){
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"deletecomment",
+						comment_id:comment_id,
+					},
+					success:function(response){
+						var success = response.success;
+						var message = response.message;
+						var comment = response.comment;	
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},
+					error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			return false;
 		},
 		
 		
@@ -81,7 +192,7 @@ ProSubmit.prototype = {
 										$("#student_bio_"+id).text(bio);
 										$("#student_bio_"+id).slideDown("fast",function(){
 											$("#edit_student_bio_link_"+id).show();
-											alert(message);
+											//alert(message);
 										});
 									});
 								})
@@ -186,8 +297,8 @@ ProSubmit.prototype = {
 								
 							}else{
 								proSubmit.unMask(function(){
-									$("#partner-register-update-info-error-message").text(message);
-									$("#partner-register-update-info-error-message").show();
+									$("#partner-register-error-message").text(message);
+									$("#partner-register-error-message").show();
 								});
 							}
 						},error:function(jqXHR,textStatus){
@@ -415,6 +526,137 @@ ProSubmit.prototype = {
 					});
 				});
 			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		updateGroupDesc:function(comp,groupId){
+			if(comp){
+				$("#cont-edit-group-desc").slideDown("slow");
+			}else{
+				
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		addProjectCategory:function(){
+			var categoryName = $("#new-projcat-name").val();
+			var categoryDescription = $("#new-projcat-desc").val();
+			if(!categoryName || !categoryDescription){
+				alert("Specify both the category name and the description");
+			}else{
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"addprojectcategory",
+						category_name:categoryName,
+						category_description:categoryDescription
+					},success:function(response){
+						var message = response.message;
+						var success = response.success;
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		deleteProjectCategory:function(projcategoryId){
+			if(confirm("Are you sure you want yo delete this category?")){
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"deleteprojectcategory",
+						projcategory_id:projcategoryId,
+					},success:function(response){
+						var message = response.message;
+						var success = response.success;
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			
+			return false;
+		},
+		/**
+		 * 
+		 */
+		addProjectStatus:function(){
+			var statusName = $("#new-projstatus-name").val();
+			var statusDescription = $("#new-projstatus-desc").val();
+			if(!statusName || !statusDescription){
+				alert("Specify both the status name and the description");
+			}else{
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"addprojectstatus",
+						status_name:statusName,
+						status_description:statusDescription
+					},success:function(response){
+						var message = response.message;
+						var success = response.success;
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		deleteProjectStatus:function(projstatusId){
+			if(confirm("Are you sure you want yo delete this status?")){
+				$.ajax({
+					url:"/ProSubmit/Project",
+					type:"POST",
+					data:{
+						v:"deleteprojectstatus",
+						projstatus_id:projstatusId,
+					},success:function(response){
+						var message = response.message;
+						var success = response.success;
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+			
 			return false;
 		},
 		
@@ -661,6 +903,14 @@ ProSubmit.prototype = {
 };
 
 $(document).ready(function(){
+	$("#new-projcat-btn").click(function(){
+		$("#new-projcat-row").toggle("slow");
+	});
+	
+	$("#new-projstatus-btn").click(function(){
+		$("#new-projstatus-row").toggle("slow");
+	});
+	
 	$("#account-cancel-link").click(function(){
 		proSubmit.cancelAccount();
 		return false;

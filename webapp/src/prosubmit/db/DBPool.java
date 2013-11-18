@@ -16,14 +16,14 @@ import prosubmit.config.Config;
  *
  */
 @SuppressWarnings("all")
-public class DBConnectionPool {
+public class DBPool {
 
     private DataSource pool = null; 
     
     /**
      * 
      */
-    public DBConnectionPool() {
+    public DBPool() {
     	pool = new DataSource();
     	pool.setDriverClassName("com.mysql.jdbc.Driver");
     	//pool.setMaxActive(Integer.parseInt(Config.getProperty("max_active")));
