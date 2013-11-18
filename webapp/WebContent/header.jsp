@@ -38,7 +38,7 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="/ProSubmit/projects/">View All Projects</a></li>
-					<li><a href="/ProSubmit/create_project.jsp">Create Project</a></li>
+					<% if(session.getAttribute("isPartner") != null){ %><li><a href="/ProSubmit/create_project.jsp">Create Project</a></li><% } %>
 				</ul>
 			</li>
 		  	<li class="dropdown">
