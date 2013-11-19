@@ -10,7 +10,6 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="prosubmit.controller.*" %>
-<%@ page import="prosubmit.db.DBPool" %>
 
 <jsp:include page="/header.jsp"></jsp:include>
 <div id="page-content" class="hbox">
@@ -19,13 +18,18 @@
 		<%
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			SystemManager systemManager = new SystemManager();
+			PartnerManager partnerManager = new PartnerManager(); 
+			GroupManager groupManager = new GroupManager();
 			ArrayList<HashMap<String,String>> projectCategories = systemManager.getProjectCategories();
 			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();
 			
-			PartnerManager partnerManager = new PartnerManager(); 
 			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners();
+			//ArrayList<HashMap<String,Object>> groups = groupManager.getAllGroups();
 		%>
 		<!-- <h1>Groups</h1>-->
+		<h1>Groups</h1>
+		
+		
 		
 		
 		<h1>Partners</h1>
