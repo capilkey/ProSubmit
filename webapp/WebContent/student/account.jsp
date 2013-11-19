@@ -1,5 +1,5 @@
 <%
-	if(session == null || session.getAttribute("isProfessor") != "1" || session.getAttribute("userInfo") == null){
+	if(session == null || session.getAttribute("isProfessor") != "1" ||  session.getAttribute("userInfo") == null){
 		response.sendRedirect("/ProSubmit/");
 		return;
 	}

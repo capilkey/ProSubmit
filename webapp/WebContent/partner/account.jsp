@@ -20,7 +20,7 @@
 <div id="page-content" class="hbox">
 		<div class="flex4">
 			<% 
-				PartnerManager partnerManager = new PartnerManager((DBPool) session.getServletContext().getAttribute("dbPool"));
+				PartnerManager partnerManager = new PartnerManager();
 				 HashMap<String,Object> partner = partnerManager.getPartner(partner_id,true);
 				
 				Gson gson = new Gson();
@@ -74,7 +74,7 @@
 							<label for="industry">Industry:</label>
 							<select id="industry" class="form-control">
 				        <% 
-				            SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+				            SystemManager systemManager = new SystemManager();
 				        		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
 				        		systemManager.getIndustries(industries); 
 				        		for(int i =0;i<industries.size();i++){

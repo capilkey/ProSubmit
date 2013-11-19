@@ -4,12 +4,6 @@
 	ProSubmit
 	</display-name>
 	
-	<listener>
-		<listener-class>prosubmit.listener.ProSubmitContextListener</listener-class>
-	</listener>
-	<listener>
-		<listener-class>prosubmit.listener.ProSubmitSessionListener</listener-class>
-	</listener>
 
 	<filter>
         <filter-name>UrlRewriteFilter</filter-name>

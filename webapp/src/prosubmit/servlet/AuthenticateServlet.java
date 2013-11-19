@@ -96,7 +96,7 @@ public final class AuthenticateServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		
 		if(authManager == null){
-			authManager = new AuthenticationManager(new DBAccess(((DBPool)context.getAttribute("dbPool"))));
+			authManager = new AuthenticationManager();
 		}
 		HashMap<String,Object> userInfo = new HashMap<String,Object>();
 		HashMap<String,String> result   = new HashMap<String,String>();

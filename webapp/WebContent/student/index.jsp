@@ -9,7 +9,7 @@
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="prosubmit.controller.GroupHandler" %>
+<%@ page import="prosubmit.controller.GroupManager" %>
 <%@ page import="prosubmit.db.DBPool" %>
 
 <jsp:include page="../header.jsp"></jsp:include>

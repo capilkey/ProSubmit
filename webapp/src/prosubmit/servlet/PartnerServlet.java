@@ -32,6 +32,7 @@ public class PartnerServlet extends HttpServlet {
     public PartnerServlet() {
         super();
         // TODO Auto-generated constructor stub
+        partnerManager = new PartnerManager();
     }
 
 	/**
@@ -59,9 +60,7 @@ public class PartnerServlet extends HttpServlet {
 		String action = request.getParameter("v");
 		String ajax = request.getParameter("ajax");
 		
-		if(partnerManager == null){
-			partnerManager = new PartnerManager((DBPool)request.getSession(true).getServletContext().getAttribute("dbPool"));
-		} 
+	
 		if(action != null){
 			if(action.equals("register")){
 				StringBuilder partnerId	= null;

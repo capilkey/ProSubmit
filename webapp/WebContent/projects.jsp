@@ -19,8 +19,8 @@
 	<%
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
-		ProjectManager projectManager = new ProjectManager((DBPool)session.getServletContext().getAttribute("dbPool"));
-		SystemManager systemMamager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+		ProjectManager projectManager = new ProjectManager();
+		SystemManager systemMamager = new SystemManager();
 		
 		ArrayList<HashMap<String,String>> projectStatuses = systemMamager.getProjectStatuses();
 		ArrayList<HashMap<String,String>> projectCategories = systemMamager.getProjectCategories();

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import prosubmit.controller.GroupHandler;
 import prosubmit.controller.ProjectManager;
 import prosubmit.db.DBPool;
 
@@ -40,7 +39,7 @@ public final class ProjectServlet extends HttpServlet {
     
     
     public void init(ServletConfig config) throws ServletException{
-    	projectManager  =  new ProjectManager((DBPool)config.getServletContext().getAttribute("dbPool"));
+    	projectManager  =  new ProjectManager();
     	
     }
 

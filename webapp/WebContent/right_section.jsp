@@ -9,7 +9,7 @@
 <%@ page import="prosubmit.controller.ProjectManager" %>
 
 <% 
-	ProjectManager projectManager = new ProjectManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+	ProjectManager projectManager = new ProjectManager();
 	ArrayList<HashMap<String,String>> activeProjects = projectManager.getActiveProjects(10); 
 	ArrayList<HashMap<String,String>> mostRecentProjects = projectManager.getMostRecentProjects(10);
 	ArrayList<HashMap<String,String>> completedProjects = projectManager.getCompletedProjects(10);
