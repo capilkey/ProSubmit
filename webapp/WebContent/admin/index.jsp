@@ -18,7 +18,7 @@
 	<div style="width:900px; margin-left:auto;margin-right:auto">
 		<%
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+			SystemManager systemManager = new SystemManager();
 			ArrayList<HashMap<String,String>> projectCategories = systemManager.getProjectCategories();
 			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();
 			

@@ -42,7 +42,7 @@ public class ProjectService {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		
 		gson = new GsonBuilder().setPrettyPrinting().create();
-		projectManager = new ProjectManager((DBPool)context.getBean("dbPool"));
+		projectManager = new ProjectManager();
 	}
 	
 	/**

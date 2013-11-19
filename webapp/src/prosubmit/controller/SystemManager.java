@@ -10,18 +10,22 @@ import prosubmit.db.DBPool;
 import java.util.*; 
 import javax.mail.*; 
 import javax.mail.internet.*;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author ramone
  *
  */
 @SuppressWarnings("all")
 public class SystemManager extends DBAccess{	
+	static ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 	/**
 	 * 
 	 * @param dbAccess
 	 */
-	public SystemManager(DBPool pool){
-		super(pool);
+	public SystemManager(){
+		super((DBPool)context.getBean("dbPool"));
 	}
 	
 	/**

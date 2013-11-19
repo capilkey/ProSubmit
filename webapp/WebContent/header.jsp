@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
-<%@ page import="prosubmit.controller.GroupHandler" %>
+<%@ page import="prosubmit.controller.GroupManager" %>
 <%@ page import="prosubmit.db.DBPool" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -35,9 +35,9 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<%  
-						GroupHandler gh = new GroupHandler((DBPool)session.getServletContext().getAttribute("dbPool"));
+						GroupManager groupManager = new GroupManager();
 						ArrayList<HashMap<String,String>> groups = new ArrayList<HashMap<String,String>>();
-						gh.getAllGroups(groups);
+						groupManager.getAllGroups(groups);
 						for(int i = 0;i<groups.size() && i < 15;i++){
 							%>
 							<li><a href="/ProSubmit/group/<%=groups.get(i).get("group_id") + "-"+groups.get(i).get("group_name").replace(" ","_") %>/"><%=groups.get(i).get("group_name") %></a></li>

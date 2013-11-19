@@ -86,12 +86,14 @@ public class DBAccess {
 	        statement = connection.prepareStatement(query);
 	        resultSet = statement.executeQuery();
 	        int colCount = resultSet.getMetaData().getColumnCount();
-	        while (resultSet.next()){
-	        	HashMap<String,String> row = new HashMap<String,String>();
-	            for (int i=1; i<=colCount; i++) {
-	                row.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
-	            }
-	            result.add(row);
+	        if(resultSet != null){
+		        while (resultSet.next()){
+		        	HashMap<String,String> row = new HashMap<String,String>();
+		            for (int i=1; i<=colCount; i++) {
+		                row.put(resultSet.getMetaData().getColumnName(i),resultSet.getString(i));
+		            }
+		            result.add(row);
+		        }
 	        }
 	    }catch (SQLException e) {
 	    	System.out.println(e.getMessage());

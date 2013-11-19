@@ -68,7 +68,7 @@
 			<label for="industry">Industry:</label>
 			<select id="industry" class="form-control">
         <% 
-            SystemManager systemManager = new SystemManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+            SystemManager systemManager = new SystemManager();
         		ArrayList<HashMap<String,String>> industries = new ArrayList<HashMap<String,String>>();
         		systemManager.getIndustries(industries); 
         		for(int i =0;i<industries.size();i++){
@@ -112,7 +112,7 @@
 						</div>
 					<%
 				}else{
-					PartnerManager partnerManager = new PartnerManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+					PartnerManager partnerManager = new PartnerManager();
 					HashMap<String,Object> info = new HashMap<String,Object>();
 					if(partnerManager.completeRegistration(request.getParameter("token"),info)){ 
 						session.removeAttribute("registrationInfo");

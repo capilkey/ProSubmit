@@ -5,9 +5,13 @@ package prosubmit.controller;
 
 import java.util.HashMap;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.google.gson.Gson;
 
 import prosubmit.db.DBAccess;
+import prosubmit.db.DBPool;
 import prosubmit.ldap.LDAPAuthenticate;
 
 /**
@@ -15,17 +19,13 @@ import prosubmit.ldap.LDAPAuthenticate;
  *
  */
 @SuppressWarnings("all")
-public class AuthenticationManager {
-	private DBAccess dbAccess = null;
+public class AuthenticationManager extends DBAccess {
 	private LDAPAuthenticate ldap = new LDAPAuthenticate(); 
+	static ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 	
-	public AuthenticationManager(DBAccess dbAccess) throws NullPointerException{
+	public AuthenticationManager(){
 		// TODO Auto-generated constructor stub
-		if(dbAccess != null){
-			this.dbAccess = dbAccess;
-		}else{
-			throw new NullPointerException("Unable to set dbAccess in class AuthenticationManager upon instantiation. Parameter dbAccess is null");
-		}
+		super((DBPool)context.getBean("dbPool"));
 	}
     
 	/**
@@ -41,7 +41,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		//if(ldap.search(username,password)){
 			String sql = "SELECT *, CONCAT(student_firstname,' ',student_lastname) as username FROM student WHERE student_username  = '" + username + "'";
-			dbAccess.queryDB(sql,info);
+			queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;
 			}
@@ -62,7 +62,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		//if(ldap.search(username,password)){
 			String sql = "SELECT *,professor_username as username FROM professor WHERE professor_username  = '" + username +"'";
-			dbAccess.queryDB(sql,info);
+			queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;
 			}
@@ -82,7 +82,7 @@ public class AuthenticationManager {
 		// TODO Auto-generated method stub
 		boolean validated = false;
 		String sql = "select *,CONCAT(firstname,' ',lastname) as username FROM partner WHERE email  = '" + username + "' AND password = '" + password + "'";
-		dbAccess.queryDB(sql,info);
+		queryDB(sql,info);
 		if(info.isEmpty() == false){
 			validated = true;
 		}
@@ -102,7 +102,7 @@ public class AuthenticationManager {
 		boolean validated = false;
 		//if(ldap.search(username,password)){
 			String sql = "SELECT user_id AS `username` FROM system_admin WHERE user_id  = '" + username+"'";
-			dbAccess.queryDB(sql,info);
+			queryDB(sql,info);
 			if(info.isEmpty() == false){
 				validated = true;
 			}

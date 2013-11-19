@@ -19,7 +19,7 @@
 <div id="page-content" class="hbox">
 	<%
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		ProjectManager projectManager = new ProjectManager((DBPool)session.getServletContext().getAttribute("dbPool"));
+		ProjectManager projectManager = new ProjectManager(); 
 		HashMap<String,Object> project = projectManager.getProject(projectId);
 		HashMap<String,Object> group = (HashMap<String,Object>)project.get("group");
 		ArrayList<HashMap<String,Object>> comments = (ArrayList<HashMap<String,Object>>)project.get("comments");

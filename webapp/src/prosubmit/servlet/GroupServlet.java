@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import prosubmit.controller.GroupHandler;
+import prosubmit.controller.GroupManager;
 import prosubmit.db.DBPool;
 
 
@@ -22,9 +22,10 @@ import prosubmit.db.DBPool;
  * Servlet implementation class GroupServlet
  * @author ramone
  */
+@SuppressWarnings("all")
 public class GroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private GroupHandler gh = null;
+	private GroupManager groupManager = null;
 	private final String CONTENT_TYPE = "application/json";
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
        
@@ -33,6 +34,7 @@ public class GroupServlet extends HttpServlet {
      */
     public GroupServlet() {
         super();
+        groupManager = new GroupManager();
         // TODO Auto-generated constructor stub
     }
  
@@ -56,9 +58,6 @@ public class GroupServlet extends HttpServlet {
 		String action = request.getParameter("v");
 		StringBuilder bio = new StringBuilder(request.getParameter("bio"));
 		
-		if(gh == null){
-			gh = new GroupHandler((DBPool)request.getSession().getServletContext().getAttribute("dbPool"));
-		}
 		if(action != null){
 			if(action.equals("updateStudentBio")){
 				if(updateStudentBio(request.getParameter("student_id"),bio)){
@@ -79,7 +78,7 @@ public class GroupServlet extends HttpServlet {
 	/**
 	 * 
 	 * @param bio
-	 * @return
+	 * @return 
 	 */
 	private boolean updateStudentBio(String studentId,StringBuilder bio) {
 		// TODO Auto-generated method stub
@@ -89,7 +88,7 @@ public class GroupServlet extends HttpServlet {
 			bio.append("No biography available for this student");
 			System.out.println("CAME HERE");
 		}
-		return gh.updateStudentBio(studentId, bio.toString());
+		return groupManager.updateStudentBio(studentId, bio.toString());
 	}
 
 }
