@@ -29,7 +29,13 @@
 	//out.println(gson.toJson(project));
 	%>
 		<h1><%=project.get("project_title")%></h1>
-		<strong>Date Added: </strong> <span><%=project.get("project_createdate")%></span><br/>
+		
+		<strong>Project Category: </strong><span><%= project.get("projcategory_name") %></span><br />
+		<strong>Project Status: </strong><span><%= project.get("projstatus_name") %></span><br />
+		<strong>Created By: </strong><span><%= (String)project.get("firstname") + " " + (String)project.get("lastname") %></span><br />
+		<strong>Created: </strong> <span><%=project.get("project_createdate")%></span><br/>
+		<strong>Last Edited: </strong> <span><%=(project.get("project_editdate") == null ? "N/A" : project.get("project_editdate"))%></span><br/>
+		<br/>
 		<p><%=project.get("project_desc")%></p>
 		
 		<%

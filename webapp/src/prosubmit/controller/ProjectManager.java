@@ -52,7 +52,13 @@ public final class ProjectManager extends DBAccess {
 	 */
 	public HashMap<String,Object> getProject(String projectId){
 		HashMap<String,Object> project = new HashMap<String,Object>();
-		String sql = "SELECT *,IF(group_name,group_name,'N/A') AS group_name, DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate FROM project LEFT JOIN project_status ON project.projstatus_id = project_status.projstatus_id LEFT JOIN `group` ON group.group_id = project.group_id WHERE project_id = ?";
+		String sql = "SELECT *,IF(group_name,group_name,'N/A') AS group_name, DATE_FORMAT(project_createdate,'%M %D %Y') as project_createdate, DATE_FORMAT(project_editdate,'%M %D %Y') as project_editdate " + 
+				"FROM project " + 
+				"LEFT JOIN project_status ON project.projstatus_id = project_status.projstatus_id " + 
+				"LEFT JOIN `group` ON group.group_id = project.group_id " + 
+				"JOIN project_category USING(projcategory_id) " + 
+				"JOIN partner USING(partner_id) " +
+				"WHERE project_id = ?";
 		String [] params = {projectId};
 		queryDB(sql, params,project);
 		project.put("group",getGroup((String)project.get("group_id")));
