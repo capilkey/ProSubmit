@@ -3,13 +3,15 @@
 		response.sendRedirect("/ProSubmit/");
 		return;
 	}
+	
+	GroupManager groupManager = new GroupManager();
 
 	String groupId = request.getParameter("group_id");
 	HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
-	HashMap<String,Object> group = new HashMap<String,Object>();
+	HashMap<String,Object> group = groupManager.getGroup(groupId);
 	
-	GroupManager groupManager = new GroupManager();
-	groupManager.getGroup(group,groupId);
+	
+	
 	ArrayList<HashMap<String,String>> students = (ArrayList<HashMap<String,String>>)group.get("students");
 	String pageTitle = "Group - " + group.get("group_name");
 %> 

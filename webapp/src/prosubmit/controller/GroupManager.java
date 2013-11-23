@@ -23,14 +23,20 @@ public class GroupManager extends DBAccess{
 		super((DBPool)context.getBean("dbPool"));
 	}
 
-	/**
-	 * get all of the groups in the database
-	 * @param results
-	 * @return
-	 */
-	public boolean getAllGroups(ArrayList<HashMap<String,String>> results){
-		String sql = "SELECT * FROM `group`";
-		return queryDB(sql,results);
+
+	 /**
+	  * 
+	  * @return
+	  */
+	public ArrayList<HashMap<String,Object>> getGroups(boolean withStudents){
+		ArrayList<HashMap<String,String>> groupIds = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String,Object>> groups = new ArrayList<HashMap<String,Object>>();
+		String sql = "SELECT group_id FROM `group`";
+		queryDB(sql,groupIds);
+		for(int i = 0;i<groupIds.size();i++){
+			groups.add(getGroup((String)groupIds.get(i).get("group_id")));
+		}
+		return groups;
 	}
 	
 	/**
@@ -39,14 +45,14 @@ public class GroupManager extends DBAccess{
 	 * @param groupID
 	 * @return
 	 */
-	public boolean getGroup(HashMap<String,Object> group, String groupID){
-		boolean success = false;
-		String sql = "SELECT * FROM `group` WHERE group_id = " + groupID;
+	public HashMap<String,Object> getGroup(String groupID){
+		HashMap<String,Object> group = new HashMap<String,Object>();
+		String sql = "SELECT *,IF(project_title,project_title,'N/A') as project_name,group.group_id as group_id FROM `group` LEFT JOIN project ON project.group_id = group.group_id WHERE group.group_id = " + groupID;
 		ArrayList<HashMap<String,String>> students = new ArrayList<HashMap<String,String>>(); 
-		success = queryDB(sql,group);
-		success = getStudentsByGroup(students, groupID);
+		queryDB(sql,group);
+		getStudentsByGroup(students, groupID);
 		group.put("students",students);
-		return success;
+		return group;
 	}
 	
 	/**
@@ -134,7 +140,7 @@ public class GroupManager extends DBAccess{
 	 * @return
 	 */
 	public boolean removeGroup(String groupID){
-		String sql = "DELETE FROM group WHERE group_id = " + groupID;
+		String sql = "DELETE FROM `group` WHERE group_id = " + groupID;
 		return updateDB(sql);
 	}
 	

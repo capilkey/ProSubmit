@@ -605,6 +605,30 @@ ProSubmit.prototype = {
 		/**
 		 * 
 		 */
+		deleteGroup:function(group_id){
+			if(confirm("Are you sure you want to delete this group")){
+				$.ajax({
+					url:"/ProSubmit/rest/groups/group/" + group_id,
+					type:"DELETE",
+					success:function(response){
+						var message = response.message;
+						var success = response.success;
+						if(success == "1"){
+							window.location.reload();
+						}else{
+							alert(message);
+						}
+					},error:function(jqXHR,textStatus){
+						alert(textStatus);
+					}
+				});
+			}
+		},
+		
+		
+		/**
+		 * 
+		 */
 		validateNames:function(firstname,lastname){
 			var isValid = true;
 			if(!firstname || !lastname){

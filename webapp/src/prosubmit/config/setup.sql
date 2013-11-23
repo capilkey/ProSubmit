@@ -65,7 +65,7 @@ CREATE TABLE student(
 	`student_lastname` VARCHAR(25) NOT NULL,
 	`student_email` VARCHAR(50) NOT NULL,
 	`student_username` VARCHAR(25) NOT NULL,
-	`group_id` INT UNSIGNED NULL REFERENCES `group` (group_id)
+	`group_id` INT UNSIGNED NULL REFERENCES `group` (group_id) ON DELETE SET NULL
 );
 
 DROP TABLE IF EXISTS `group`;

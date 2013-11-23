@@ -24,13 +24,38 @@
 			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();
 			
 			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners();
-			//ArrayList<HashMap<String,Object>> groups = groupManager.getAllGroups();
-		%>
+			ArrayList<HashMap<String,Object>> groups = groupManager.getGroups(false); 
+			//out.println(gson.toJson(groups));
+		%>   
 		<!-- <h1>Groups</h1>-->
 		<h1>Groups</h1>
+		<%if(groups.size() > 0){%>
+			<table class="table">
+				<tr>
+					<th width="5%">#</th>
+					<th width="30%">Name</th>
+					<th width="30%">Semester</th>
+					<th width="">Project</th>
+					<th width="">Options</th>
+				</tr>
+		<%
+			for(int i = 0;i<groups.size();i++){
+				HashMap<String,Object> group = groups.get(i);
+		%>
+			<tr>
+				<td><%=i+1%></td>
+				<td><%=group.get("group_name")%></td>
+				<td><%=group.get("semester_code")%></td>
+				<td><%=group.get("project_name")%></td>
+				<td><button class="btn btn-danger btn-sm" onclick="return proSubmit.deleteGroup(<%=group.get("group_id")%>)">Delete</button></td>
+			</tr>
+		<%}%>
+		</table>	
+		<%}else{%>
+			<div class="alert alert-info">There are currently no groups</div>
+		<%}%>
 		
-		
-		
+		<hr/>
 		
 		<h1>Partners</h1>
 		<%if(partners.size() > 0){%>
@@ -58,7 +83,7 @@
 		
 		
 		
-		
+		 
 		
 		
 		

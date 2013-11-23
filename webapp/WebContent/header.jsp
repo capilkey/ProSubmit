@@ -5,7 +5,6 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="prosubmit.controller.GroupManager" %>
-<%@ page import="prosubmit.db.DBPool" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,12 +35,12 @@
 				<ul class="dropdown-menu">
 					<%  
 						GroupManager groupManager = new GroupManager();
-						ArrayList<HashMap<String,String>> groups = new ArrayList<HashMap<String,String>>();
-						groupManager.getAllGroups(groups);
-						for(int i = 0;i<groups.size() && i < 15;i++){
+						ArrayList<HashMap<String,Object>> groups = groupManager.getGroups(false);
+						for(int i = 0;i<groups.size();i++){
+							HashMap<String,Object> group = groups.get(i);
 							%>
-							<li><a href="/ProSubmit/group/<%=groups.get(i).get("group_id") + "-"+groups.get(i).get("group_name").replace(" ","_") %>/"><%=groups.get(i).get("group_name") %></a></li>
-							<%
+							<li><a href="/ProSubmit/group/<%=group.get("group_id")+ "-"+ ((String)group.get("group_name")).replace(" ","_")%>"><%=group.get("group_name")%></a></li>
+							<% 
 						}
 					%>
 				</ul>
