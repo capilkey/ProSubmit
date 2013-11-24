@@ -56,6 +56,10 @@
        <from>/project/([\d]{1,})-(.*)[/]*$</from>
        <to>/view_project.jsp?project_id=$1</to>
    	</rule>
+   	<rule>
+       <from>/project/create[/]*$</from>
+       <to>/create_project.jsp</to>
+   	</rule>
 		
 		<!-- 
 			GROUPS

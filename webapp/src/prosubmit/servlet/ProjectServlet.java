@@ -108,6 +108,15 @@ public final class ProjectServlet extends HttpServlet {
 				}else{
 					result.put("message","Unable to add project status");
 				} 
+			}else if(action.equals("addproject")){
+                System.out.println("Project Create recieved");
+                if (projectManager.addProject(request.getParameter("projecttitle"), request.getParameter("projectdescription"), 
+                								request.getParameter("projectcategory"), request.getParameter("partner_id"))) {
+                        result.put("success","1");
+                        result.put("message","Project successfully created");
+                } else {
+                        result.put("message","Project could not be created");
+                }
 			}else{ 
 				result.put("message","Unknown action");
 			}

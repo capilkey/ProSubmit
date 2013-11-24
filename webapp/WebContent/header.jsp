@@ -29,7 +29,17 @@
 	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">
 		<ul class="nav navbar-nav">
 				<li><a href="/ProSubmit/">Home</a></li>
-			<li><a href="/ProSubmit/projects/">Projects</a></li>
+			<% if (session.getAttribute("isPartner") != null){ %>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/ProSubmit/projects/">View All Projects</a></li>
+						<li><a href="/ProSubmit/project/create">Create Project</a></li>
+					</ul>
+				</li>
+			<% } else { %>
+				<li><a href="/ProSubmit/projects/">Projects</a></li>
+			<% } %>
 		  	<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
 				<ul class="dropdown-menu">
