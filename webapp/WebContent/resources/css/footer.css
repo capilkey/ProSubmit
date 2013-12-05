@@ -1,8 +1,8 @@
 #footer{
-	height:250px;
+	min-height:400px;
 	width:100%;
-	border-top: 1px solid #e7e7e7;
-	background-color: #F0F0F0 !important;
+	border-top: 5px solid #e7e7e7;
+	background-color:#111;
 	margin-left:auto;
 	margin-right:auto;
 	padding:20px;
@@ -13,5 +13,34 @@
 	-ms-user-select: none;
 	user-select: none;
 	text-align:center;
-	position:absolute;
 }
+
+#footer a{
+	color:#FFF;
+	text-decoration:none;
+}
+#footer-sub-div{
+	border-bottom:1px solid white;
+	width:1100px;
+	margin-bottom:10px;
+	height:100%;
+	margin-left:auto;
+	margin-right:auto;
+	padding:20px;
+}
+
+#footer-copy{
+	width:1100px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#footer-sub-div > div{
+	border:0px solid green;
+}
+
+#social-links-container > div{
+	border:0px solid blue;
+	vertical-align:middle;
+}
+

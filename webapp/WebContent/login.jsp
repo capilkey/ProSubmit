@@ -28,7 +28,8 @@
 </head>
 <body>
 		<form id="loginForm" class="">
-			<h2>ProSubmit Login</h2>
+			<div style="text-align:center"><img src="/ProSubmit/resources/icons/logos/logo-medium.png"/></div>
+			<br/>
 			<label for="username">Username:</label>
 			<input type="text" id="username" placeHolder="Username" class="form-control" value="raburrell_admin"/>
 			<label for="password">Password:</label>

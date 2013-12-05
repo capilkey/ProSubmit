@@ -23,9 +23,9 @@
 </head>
 <body>
 <div id="body-mask"></div>
-<nav id="nav-bar" class="navbar navbar-default  blue-gradient" role="navigation">
+<nav id="nav-bar" class="navbar navbar-default blue-gradient" role="navigation">
 <div id="nav-contents-container" class="hbox">
-	<div class="flex1"><img src="/ProSubmit/resources/icons/logo-medium.png" alt="LOGO"/></div>
+	<!--  <div class="flex1"><img src="/ProSubmit/resources/icons/logos/logo-small.png" alt="LOGO"/></div>-->
 	 <div class="collapse navbar-collapse navbar-ex1-collapse flex3">
 		<ul class="nav navbar-nav">
 				<li><a href="/ProSubmit/">Home</a></li>

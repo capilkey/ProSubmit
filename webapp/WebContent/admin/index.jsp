@@ -12,7 +12,7 @@
 <%@ page import="prosubmit.controller.*" %>
 
 <jsp:include page="/header.jsp"></jsp:include>
-<div id="page-content" class="hbox">
+<div id="page-content">
 	<div class="flex1">
 	<div style="width:900px; margin-left:auto;margin-right:auto">
 		<%

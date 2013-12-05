@@ -3,6 +3,8 @@ body{
 	background-color:#FCFCFC;
 	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif !important;
 }
+
+
 #page-content{
 	min-height:1000px;
 	width:1100px;
@@ -17,6 +19,7 @@ body{
 	box-shadow:-2px 2px 6px #ACACAC;
 	padding-bottom:200px;
 	border-radius:10px;
+	position:relative;
 }
 
 #page-content > div:nth-child(1){
@@ -57,19 +60,24 @@ body{
 }
 
 .vbox {
-	display: -webkit-box;
-	display: -moz-box;
 	display: flex-box;
-	box-orient:vertical;
-	-webkit-box-orient:vertical;
-	-webkit-flex-flow: row;
-	-webkit-box-align: stretch;
-	-moz-box-orient:vertical
-	-moz-flex-flow: row;
-	-moz-box-align: stretch;
+     display:flex !important;
 	-webkit-box-flex: 1;
-	box-align: stretch;
-	width:100%;
+	
+	flex-direction: column;
+	-webkit-flex-direction:column; 
+	
+	display:box;
+    box-orient:vertical;
+    box-align:stretch;
+    
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+ 
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
 }
 
 .flex1{
@@ -77,6 +85,7 @@ body{
 	-moz-box-flex:1;
 	box-flex:1;
     -webkit-flex:1 1 auto;
+    -moz-flex:1 1 auto;
     flex:1 1 auto;	 
 }
 
@@ -119,6 +128,7 @@ body{
     -webkit-flex:6 6 auto;
     flex:6 6 auto;	 
 }
+
 
 .inline{
 	display:inline !important;
