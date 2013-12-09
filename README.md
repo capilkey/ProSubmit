@@ -9,6 +9,7 @@ The fallowing instructions details how to install the application ProSubmit on a
 * **Web Server** -Additionally, you will need Tomcat 7 installed (not running)
 * **Ubuntu 12.04 LTS** - You will need server with a release of at leaset Ununtu 12.04 LTS installed
 * **MySSQL Database** - You will also need at least a release of MYSQL  5.5 installed
+* **Database Setup Script**  Download the setup script **setup.sql** from /db
 * **Memory** - Ensure that you have at least 300MiB of RAM
 * **Disk Space** - Finally, you will need at least the size of the WAR file downloaded + 15.6MiB of hard disk space
 
@@ -41,7 +42,9 @@ The fallowing instructions details how to install the application ProSubmit on a
 </Host>
 ```
 * Copy the War file to the to **CATALINE_HOME/webapps**
-* Log into your MySQL database and run the SQL script ass seen below
+* Log into your MySQL database and run the SQL script **setup.sql** as seen below
+* Startt your Tomcat server either by command line or by client
+* Finally, open your favourite browser and go to the application [HERE] (http://<Server Name>/)
 
 ```sql
 mysql> source 'setup.sql';
