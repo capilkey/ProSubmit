@@ -24,29 +24,86 @@
 		HashMap<String,Object> group = (HashMap<String,Object>)project.get("group");
 		ArrayList<HashMap<String,Object>> comments = (ArrayList<HashMap<String,Object>>)project.get("comments");
 	%>
-	<div id="" class="flex3">
+	<div id="" class="flex4">
 	<%
 	//out.println(gson.toJson(project));
 	%>
 		<h1><%=project.get("project_title")%></h1>
-		
-		<strong>Project Category: </strong><span><%= project.get("projcategory_name") %></span><br />
-		<strong>Project Status: </strong><span><%= project.get("projstatus_name") %></span><br />
-		<strong>Created By: </strong><span><%= (String)project.get("firstname") + " " + (String)project.get("lastname") %></span><br />
-		<strong>Created: </strong> <span><%=project.get("project_createdate")%></span><br/>
-		<strong>Last Edited: </strong> <span><%=(project.get("project_editdate") == null ? "N/A" : project.get("project_editdate"))%></span><br/>
-		<br/>
-		<p><%=project.get("project_desc")%></p>
-		
-		<%
-			if(group != null){
+		<div class="panel panel-default">
+			<div class="panel-body">
 				
-			}else{
-				%>
-					<div class="alert alert-info">There is currently no group assigned to this project.</div>
-				<%
-			}
-		%>
+					<strong>Project Category: </strong><span><%= project.get("projcategory_name") %></span><br />
+					<strong>Project Status: </strong><span><%= project.get("projstatus_name") %></span><br />
+					<strong>Created By: </strong><span><%= (String)project.get("firstname") + " " + (String)project.get("lastname") %></span><br />
+					<strong>Created: </strong> <span><%=project.get("project_createdate")%></span><br/>
+					<strong>Last Edited: </strong> <span><%=(project.get("project_editdate") == null ? "N/A" : project.get("project_editdate"))%></span><br/>
+					<br/>
+					<p><%=project.get("project_desc")%></p>
+					
+					<%
+						if(group != null){
+							
+						}else{
+							%>
+								<div class="alert alert-info">There is currently no group assigned to this project.</div>
+							<%
+						}
+					%>
+				<% if (session.getAttribute("isProfessor") != null || 
+						(session.getAttribute("isPartner")!=null && 
+							((HashMap<String,Object>)session.getAttribute("userInfo")).get("partner_id").equals(project.get("partner_id")))) { %>
+				<div class="panel-footer">
+				  	<a id="edit-project-link" href="#">Edit</a>
+				  	
+				  	<form id="project-edit-info-form" action="">
+						<div id="project-error-message" class="alert alert-danger"></div>
+					
+						<fieldset>
+				    		<legend>Update:</legend>
+				    		<input type="hidden" id="projectid" value="<%= projectId %>"/>
+				    		
+				    	<% if (session.getAttribute("isProfessor") != null) {
+				    		ArrayList<HashMap<String,String>> projectcats = projectManager.getAllCategoryInfo();
+				    		ArrayList<HashMap<String,String>> projectstatuses = projectManager.getAllStatusInfo();
+				    		%>
+				    		<label for="projcat">Project Category:</label>
+							<select id="projcat" class="form-control">
+							<%
+								for (int i=0; i < projectcats.size(); ++i) {
+								%>
+								<option value="<%= projectcats.get(i).get("projcategory_id") %>" <%= (projectcats.get(i).get("projcategory_id").equals(project.get("projcategory_id")) ? "selected='selected'" : "") %>><%= projectcats.get(i).get("projcategory_name") %></option>
+								<%
+								}
+							%>
+							</select>
+							
+							<label for="projstat">Project Status:</label>
+							<select id="projstat" class="form-control">
+							<%
+								for (int i=0; i < projectstatuses.size(); ++i) { %>
+								<option value="<%= projectstatuses.get(i).get("projstatus_id") %>" <%= (projectstatuses.get(i).get("projstatus_id").equals(project.get("projstatus_id")) ? "selected='selected'" : "") %>><%= projectstatuses.get(i).get("projstatus_name") %></option>
+								<%
+								}
+							%>
+							</select>
+						</fieldset><br/>
+				
+						<br/>
+						<button type="button" class="btn btn-primary" onclick="return proSubmit.updateProjectCatStat()">Update Info!</button>
+				    	<% } else { %>
+				    		<label for="projdesc">Project Description:</label>
+							<textarea id="projdesc" class="form-control" rows="25"><%=project.get("project_desc")%></textarea>
+						</fieldset><br/>
+				
+						<br/>
+						<button type="button" class="btn btn-primary" onclick="return proSubmit.updateProjectDesc()">Update Info!</button>
+						<% } %>
+						<br/><br/>
+					</form>
+				</div>
+				<% } %>
+			</div>
+		</div>
 		
 		<div id="project_comments">
 			<h3><%=comments.size()%> Comment(s)</h3>

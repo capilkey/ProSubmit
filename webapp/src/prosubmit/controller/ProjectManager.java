@@ -267,7 +267,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean updateTitleByProjectID(String project_id, String project_title){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET project_title=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -286,8 +286,9 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean updateDescByProjectID(String project_id, String project_desc){
-		String sql = "UPDATE Project " +
-					" SET project_desc=? " +
+		System.out.println("update project " + project_id + " with desc '" + project_desc + "'");
+		String sql = "UPDATE project " +
+					" SET project_desc=?, project_editdate=CURRENT_TIMESTAMP " +
 					" WHERE project_id=? ";
 		String [] params = {
 							project_desc,
@@ -305,7 +306,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean updateStatusByProjectID(String project_id, String projstatus_id){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET projstatus_id=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -315,6 +316,18 @@ public final class ProjectManager extends DBAccess {
 		return updateDB(sql, params);
 	}
 
+	public boolean updateCatStatByProjectID(String project_id, String projcategory_id, String projstatus_id){
+		String sql = "UPDATE project " +
+					" SET projcategory_id=?, projstatus_id=?, project_editdate=CURRENT_TIMESTAMP " +
+					" WHERE project_id=? ";
+		String [] params = {
+							projcategory_id,
+							projstatus_id,
+							project_id
+						};
+		return updateDB(sql, params);
+	}
+	
 	/**
 	 * Update projcategory_id field of Project by project_id, projcategory_id
 	 * Fields:<p>
@@ -324,7 +337,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean updateCategoryByProjectID(String project_id, String projcategory_id){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET projcategory_id=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -343,7 +356,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean updateGroupByProjectID(String project_id, String group_id){
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET group_id=? " +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -362,7 +375,7 @@ public final class ProjectManager extends DBAccess {
 	 */
 	public boolean updateEditDateByProjectID(String project_id){
 		String project_editdate = "GETDATE()";
-		String sql = "UPDATE Project " +
+		String sql = "UPDATE project " +
 					" SET project_editdate =?" +
 					" WHERE project_id=? ";
 		String [] params = {
@@ -380,7 +393,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean removeProjectByProjectID(String project_id)	{
-		String sql = "DELETE FROM Project " +
+		String sql = "DELETE FROM project " +
 					" WHERE project_id=? ";
 		String [] params = {project_id};
 		return updateDB(sql, params);
@@ -394,7 +407,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean removeProjectByStatus(String projstatus_id){
-		String sql = "DELETE FROM Project " +
+		String sql = "DELETE FROM project " +
 					" WHERE projstatus_id=? ";
 		String [] params = {projstatus_id};
 		return updateDB(sql, params);
@@ -408,7 +421,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean removeProjectByCategory(String projcategory_id){
-		String sql = "DELETE FROM Project " +
+		String sql = "DELETE FROM project " +
 					" WHERE projcategory_id=? ";
 		String [] params = {projcategory_id};
 		return updateDB(sql, params);
@@ -419,7 +432,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getAllProject(){
-		String sql = "SELECT * FROM Project";
+		String sql = "SELECT * FROM project";
 		return updateDB(sql);
 	}
 
@@ -431,7 +444,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getProjectInfoByID(String project_id){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE project_id=? ";
 		String [] params = {project_id};
 		return updateDB(sql, params);
@@ -445,7 +458,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getProjectInfoByTitle(String project_title){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE project_title=? ";
 		String [] params = {project_title};
 		return updateDB(sql, params);
@@ -459,7 +472,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getProjectInfoByCreatedate(String createdate){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE createdate=? ";
 		String [] params = {createdate};
 		return updateDB(sql, params);
@@ -473,7 +486,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getProjectInfoByEditDate(String editdate){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE editdate=? ";
 		String [] params = {editdate};
 		return updateDB(sql, params);
@@ -487,7 +500,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getProjectInfoByStatusID(String projstatus_id){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE projstatus=? ";
 		String [] params = {projstatus_id};
 		return updateDB(sql, params);
@@ -501,7 +514,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 *
 	public boolean getProjectInfoByCategoryID(String projcategory_id){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE projcategory=? ";
 		String [] params = {projcategory};
 		return updateDB(sql, params);
@@ -515,7 +528,7 @@ public final class ProjectManager extends DBAccess {
 	 * @return
 	 */
 	public boolean getProjectInfoByGroupID(String group_id){
-		String sql = "SELECT * FROM Project" +
+		String sql = "SELECT * FROM project" +
 					" WHERE group_id=? ";
 		String [] params = {group_id};
 		return updateDB(sql, params);
@@ -605,11 +618,13 @@ public final class ProjectManager extends DBAccess {
 	 * Get all status record from project_status
 	 * @return
 	 */
-	public boolean getAllStatusInfo(){
+	public ArrayList<HashMap<String,String>> getAllStatusInfo(){
+		ArrayList<HashMap<String,String>> statuses = new ArrayList<HashMap<String,String>>();
 		String sql = "SELECT * FROM project_status";
-		return updateDB(sql);
+		queryDB(sql,statuses);
+		return statuses;
 	}
-
+	
 	/**
 	 * Get all status names from project_status
 	 * @return
