@@ -117,6 +117,22 @@ public final class ProjectServlet extends HttpServlet {
                 } else {
                         result.put("message","Project could not be created");
                 }
+			}else if(action.equals("updateprojectdesc")){
+				System.out.println("Project desc update recieved");
+				if (projectManager.updateDescByProjectID(request.getParameter("projectid"),request.getParameter("projectdescription"))) {
+					result.put("success","1");
+					result.put("message","Project successfully updated");
+				} else {
+					result.put("message","Project could not be updated");
+				}
+			}else if(action.equals("updateprojectcatstat")){
+				System.out.println("Project cat stat update recieved");
+				if (projectManager.updateCatStatByProjectID(request.getParameter("projectid"),request.getParameter("projectcategory"),request.getParameter("projectstatus"))) {
+					result.put("success","1");
+					result.put("message","Project successfully updated");
+				} else {
+					result.put("message","Project could not be updated");
+				}
 			}else{ 
 				result.put("message","Unknown action");
 			}
