@@ -3,6 +3,6 @@ The fallowing instructions details how to install the application ProSubmit on a
 
 ## Requirements
 
-* **ProSubmit WAR File ** - Download thr lastest release of ProSubmit application package from /production
+* **ProSubmit WAR File** - Download thr lastest release of ProSubmit application package from /production
 
 -![alt text](http://www.learnhebrewpod.com/images/library/Image/final%20for%20read%20more/24a--hooray%281%29.jpg "HOORAY")
