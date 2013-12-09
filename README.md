@@ -1,6 +1,8 @@
 # ProSubmit Installation Instructions
 The fallowing instructions details how to install the application ProSubmit on a linux server.
 
+##### Note: CATALINA_HOME = Tomcat Server Root Folder
+
 ## Requirements
 
 * **ProSubmit WAR File** - Download thr lastest release of ProSubmit application package from /production
@@ -20,7 +22,7 @@ The fallowing instructions details how to install the application ProSubmit on a
 ```xml
 <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
 			
-      <Context path="" docBase="C:\Program Files\apache-tomcat-7.0.19\webapps\ProSubmit" reloadable="true">
+      <Context path="" docBase="CATALINA_HOME/webapps/ProSubmit" reloadable="true">
       </Context> 
 
   <!-- SingleSignOn valve, share authentication between web applications
@@ -38,7 +40,12 @@ The fallowing instructions details how to install the application ProSubmit on a
 
 </Host>
 ```
+* Copy the War file to the to **CATALINE_HOME/webapps**
+* Log into your MySQL database and run the SQL script ass seen below
 
+```sql
+mysql> source 'setup.sql';
+```
 
 # You're Done!! Hooray!!
 
