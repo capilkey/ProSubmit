@@ -56,16 +56,27 @@ public class GroupServlet extends HttpServlet {
 		HashMap<String,String> result = new HashMap<String,String>();
 		result.put("success","0");
 		String action = request.getParameter("v");
-		StringBuilder bio = new StringBuilder(request.getParameter("bio"));
 		
 		if(action != null){
 			if(action.equals("updateStudentBio")){
+				StringBuilder bio = new StringBuilder(request.getParameter("bio"));
 				if(updateStudentBio(request.getParameter("student_id"),bio)){
 					result.put("success","1");
 					result.put("message","Student biography successfully updated");
 					result.put("bio",bio.toString());
 				}else{
 					result.put("message","Unable to update student biography");
+				}
+			} else if(action.equals("addgroup")){
+				if(groupManager.createGroup(request.getParameter("groupname"),
+						request.getParameter("groupnumber"),
+						request.getParameter("groupdescription"),
+						request.getParameter("groupsemester"),
+						request.getParameter("groupcourse"))) {
+					result.put("success","1");
+					result.put("message","Group successfully created");
+				}else{
+					result.put("message", "Unable to create the group");
 				}
 			}else{
 				result.put("message","Unknown action");

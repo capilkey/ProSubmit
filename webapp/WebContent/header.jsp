@@ -53,6 +53,7 @@
 							<% 
 						}
 					%>
+					<li><a href="/ProSubmit/group/manage">Manage Groups</a></li>
 				</ul>
 		    </li>
 		  </ul>
