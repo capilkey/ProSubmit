@@ -44,7 +44,7 @@ The fallowing instructions details how to install the application ProSubmit on a
 * Copy the War file to the to **CATALINE_HOME/webapps**
 * Log into your MySQL database and run the SQL script **setup.sql** as seen below
 * Startt your Tomcat server either by command line or by client
-* Finally, open your favourite browser and go to the application [HERE] (http://<Server Name>/)
+* Finally, open your favourite browser and go to the application. http://<Server Name>:<Port Number>/
 
 ```sql
 mysql> source 'setup.sql';
