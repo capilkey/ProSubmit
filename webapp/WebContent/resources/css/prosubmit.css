@@ -305,7 +305,7 @@ p.student-bio{
 	margin-bottom:50px;
 }
 
-#partner-edit-info-form, #project-edit-info-form {
+#partner-edit-info-form, #project-edit-info-form, #add-group-info-form, #add-group-member-info-form {
 	width:600px;
 	height:auto;
 	margin-left:auto;

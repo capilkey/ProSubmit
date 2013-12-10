@@ -9,6 +9,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  */
 
+
+
 import prosubmit.db.DBAccess;
 import prosubmit.db.DBPool;
 
@@ -103,11 +105,12 @@ public class GroupManager extends DBAccess{
 	 * @param group
 	 * @return
 	 */
-	public boolean createGroup(HashMap<String,String> group){
-		String sql = "INSERT INTO group VALUES("+group.get("group_name")+
-				","+group.get("group_number")+","+group.get("group_desc")+
-				","+group.get("semester_code")+","+group.get("course_id")+")";
-		return updateDB(sql);
+	public boolean createGroup(String groupname, String groupnumber, String groupdesc, String semestercode, String courseid){
+		String sql = "INSERT INTO `group` (group_name,group_number,group_desc,semester_code,course_id) " +
+				"VALUES (?,?,?,?,?)";
+		String [] params = {groupname,groupnumber,groupdesc,semestercode,courseid};
+		System.out.println(sql);
+		return updateDB(sql, params);
 	}
 	
 	/**

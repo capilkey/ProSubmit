@@ -76,7 +76,7 @@ CREATE TABLE `group` (
 	`group_desc` TEXT NOT NULL,
 	`semester_code` VARCHAR(20) NOT NULL REFERENCES semester (semester_code),
 	`course_id` VARCHAR(10) NOT NULL REFERENCES course (course_id),
-	`student_id` INT UNSIGNED NOT NULL REFERENCES student(student_id)
+	`student_id` INT UNSIGNED REFERENCES student(student_id)
 );
 
 DROP TABLE IF EXISTS project_status;

@@ -752,6 +752,58 @@ ProSubmit.prototype = {
 			return false;
 		},
 		
+		addGroup:function(){
+			var v = "addgroup";
+			var isValid = true;
+			this.goTop();
+			var groupname = $("#groupname").val();
+			var groupnumber =  $("#groupnumber").val();
+			var groupdesc =  $("#groupdesc").val();
+			var groupsem =  $("#groupsemester").val();
+			var groupcourse =  $("#groupcourse").val();
+			
+			isValid = this.validateGroupName(groupname);
+			if(isValid){
+				isValid = this.validateGroupNumber(groupnumber);
+			}
+			
+			if(!isValid){
+				$("#project-error-message .alert").show();
+			}else{
+				$("#project-error-message .alert").hide();
+				this.mask(function(){
+					$.ajax({
+						url:"/ProSubmit/Group",
+						type:"POST",
+						data:{
+							v:v,
+							groupname:groupname,
+							groupnumber:groupnumber,
+							groupdescription:groupdesc,
+							groupsemester:groupsem,
+							groupcourse:groupcourse
+						},success:function(response){
+							console.log(response);
+							var success = response.success;
+							var message = response.message;
+							
+							if(success == "1"){
+								window.location.reload();	
+							}else{
+								proSubmit.unMask(function(){
+									$("#project-error-message").text(message);
+									$("#project-error-message").show();
+								});
+							}
+						},error:function(jqXHR,textStatus){
+							proSubmit.ajaxErrorFn(textStatus);
+						}
+					});
+				});
+			}
+			return false;
+		},
+		
 		/**
 		 * 
 		 */
@@ -1016,6 +1068,31 @@ ProSubmit.prototype = {
 		},
 		
 		/**
+		 * 
+		 */
+		validateGroupName:function(groupname){
+			var isValid = true;
+			if(!groupname){
+				isValid =  false;
+				$("#add-group-error-message .alert").text("Specify a group name");
+			}
+			return isValid;
+		},
+		
+		/**
+		 * 
+		 */
+		validateGroupNumber:function(groupnum){
+			groupnum = groupnum.replace(/[^\d]{1,}/gi,"");
+			var isValid = true;
+			if(!groupnum){
+				isValid =  false;
+				$("#add-group-error-message .alert").text("Specify a group number");
+			}
+			return isValid;
+		},
+		
+		/**
 		* 
 		*/
 		mask:function(callback){
@@ -1093,6 +1170,16 @@ $(document).ready(function(){
 		$("#project-edit-info-form").toggle("fast");
 		return false;
 >>>>>>> 1e9362142677f4e486231cad699e70370393530f
+	});
+	
+	$("#add-group-link").click(function(){
+		$("#add-group-info-form").toggle("fast");
+		return false;
+	});
+	
+	$("#add-group-member-link").click(function(){
+		$("#add-group-member-info-form").toggle("fast");
+		return false;
 	});
 	
 	$("#current_password").blur(function(){

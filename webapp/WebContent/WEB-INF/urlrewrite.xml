@@ -47,12 +47,12 @@
     
     <!-- 
 			PROJECTS
-		 -->
-	 	<rule>
-       <from>/projects[/]*$</from>
-       <to>/projects.jsp</to>
-   	</rule>
-   	<rule>
+	-->
+	<rule>
+		<from>/projects[/]*$</from>
+		<to>/projects.jsp</to>
+	</rule>
+	<rule>
        <from>/project/([\d]{1,})-(.*)[/]*$</from>
        <to>/view_project.jsp?project_id=$1</to>
    	</rule>
@@ -61,12 +61,16 @@
        <to>/create_project.jsp</to>
    	</rule>
 		
-		<!-- 
+	<!-- 
 			GROUPS
-		 -->
-		 <rule>
-        <from>/group/([\d]{1,})-(.*)[/]*$</from>
+	-->
+	<rule>
+		<from>/group/([\d]{1,})-(.*)[/]*$</from>
         <to>/view_group.jsp?group_id=$1</to>
+    </rule>
+    <rule>
+    	<from>/group/manage[/]*$</from>
+    	<to>/manage_group.jsp</to>
     </rule>
     
     <outbound-rule>
