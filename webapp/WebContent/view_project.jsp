@@ -80,7 +80,7 @@
 		<%}%>
 	</div>
 	
-	<div id="" class="flex1">
+	<div id="" class="flex1  box-shadow">
 		<jsp:include page="/right_section.jsp"></jsp:include>
 	</div>
 

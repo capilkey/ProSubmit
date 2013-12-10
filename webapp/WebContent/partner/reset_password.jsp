@@ -26,6 +26,7 @@
 	</a>
 	<%if(request.getParameter("token") == null){%>
 		<div class="registration-info box-shadow">
+				<img src="/ProSubmit/resources/icons/logos/logo-small-black.png"/>
 				<h3>Give us your email</h3>
 				<p>Enter your email address. We will send you a link which you will use to
 					reset your password.
@@ -33,13 +34,14 @@
 				<form id="partner-reset-password-email-form">
 					<div class="alert alert-info no-show"></div>
 					<div class="alert alert-danger no-show"></div>
-					<input id="email" type="email" class="form-control" value="burrellramone@gmail.com"/>
+					<input id="email" type="email" class="form-control"/>
 				</form>
 				<br/>
 				<button type="button" class="btn btn-primary" onclick="return proSubmit.resetPassword()">Go!</button>
 		</div>
 	<%}else{%>
 		<div class="registration-info box-shadow">
+		<img src="/ProSubmit/resources/icons/logos/logo-small-black.png"/>
 	  	<h3 style="display:inline">Create New Password</h3>
 	  	<br/><br/>
   		<form id="partner-create-password-form">

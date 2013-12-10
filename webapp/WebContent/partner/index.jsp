@@ -28,13 +28,15 @@
 	PartnerManager partnerManager = new PartnerManager();
 	HashMap<String,Object> partner = partnerManager.getPartner(partnerId,true);
 %>
+
+
 <div id="page-content" class="hbox">
 	<div class="flex3">
 			<div class="panel panel-default box-shadow">
 			  <div class="panel-body">
 			    <div class="hbox">
-			    	<div class="flex1">
-							<img src="/ProSubmit/resources/img/no-avatar.png" alt="..." class="img-circle partner-avatar">
+			    	<div class="flex1"> 
+								<img src="/ProSubmit/resources/img/no-avatar.png" alt="..." class="img-circle partner-avatar">
 						</div>
 			    	<div class="flex3" style="padding:10px;">
 							<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 

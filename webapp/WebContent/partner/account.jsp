@@ -17,6 +17,15 @@
 <%@ page import="prosubmit.controller.PartnerManager" %>
 <%@ page import="prosubmit.controller.ProjectManager" %>
 <jsp:include page="/header.jsp"></jsp:include>
+
+<div id="epa-panel" class="overlay box-shadow">
+	<h1>Change Profile Photo</h1>
+	<form method="post" action="/ProSubmit/Partner/">
+		<input type="hidden" name="v" value="updatephoto"/>
+		<label>Select Photo</label>
+		<input type="file" name="photo">
+	</form>
+</div>
 <div id="page-content" class="hbox">
 		<div class="flex4">
 			<% 
@@ -31,8 +40,10 @@
 			  <div class="panel-body">
 			    <div class="hbox">
 			    	<div class="flex1">
+			    		<a id="edit-partner-avatar" href="#"> 
 							<img src="/ProSubmit/resources/img/no-avatar.png" alt="..." class="img-circle partner-avatar">
-						</div>
+						</a>
+					</div>
 			    	<div class="flex3" style="padding:10px">
 							<h3 style="display:inline"><%=partner.get("firstname") +" " + partner.get("lastname")%> (<%=partner.get("job_title")%>)</h3> 
 							<span><%=partner.get("company_name")%></span><br/>

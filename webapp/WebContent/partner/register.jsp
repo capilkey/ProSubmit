@@ -33,34 +33,35 @@
 	</a>
 	<%if(request.getParameter("registered") == null){ %>
 	<form id="partner-register" action="" class="box-shadow">
-		<img src="/ProSubmit/resources/icons/logo-lg.png"/>
+		<img src="/ProSubmit/resources/icons/logos/logo-small-black.png"/>
 		<h4>Register to become a partner with us</h4>
 		<div id="partner-register-error-message" class="alert alert-danger"></div>
-		
-		<fieldset>
+	
+	<br/><br/>	
+	<fieldset>
     <legend>Personal:</legend>
     
 			<label for="firstname">First Name:</label>
-			<input id="firstname" type="text" class="form-control" maxLength="25" value="Jahmani"/>
+			<input id="firstname" type="text" class="form-control" maxLength="25"/>
 			
 			<label for="lastname">Last Name:</label>
-			<input id="lastname" type="text" class="form-control" maxLength="25" value="Marley"/>
+			<input id="lastname" type="text" class="form-control" maxLength="25"/>
 			
 			<label for="email">Email:</label>
-			<input id="email" type="email" class="form-control" value="burrellramone@gmail.com"/>
+			<input id="email" type="email" class="form-control"/>
 							
 			<label for="password">Password:</label>
-			<input id="password" type="password" class="form-control" maxLength="50" value="prosubmit123"/>
+			<input id="password" type="password" class="form-control" maxLength="50"/>
 			
 			<label for="confirm-password">Confirm Password:</label>
-			<input id="confirm-password" type="password" class="form-control" maxLength="50" value="prosubmit123"/>
+			<input id="confirm-password" type="password" class="form-control" maxLength="50"/>
 		</fieldset><br/>
 
     <fieldset>
     <legend>Company:</legend>
     
 			<label for="company">Company:</label>
-			<input id="company" type="text" class="form-control" maxLength="100" value="Husla Inc."/>
+			<input id="company" type="text" class="form-control" maxLength="100"/>
 			
 			<label for="url">URL:</label>
       <input id="url" type="text" class="form-control"/>
@@ -80,16 +81,16 @@
         %>
 			</select>
 			<label for="jobtitle">Job Title:</label>
-			<input id="jobtitle" type="text" class="form-control" maxLength="16" value="Manager"/>
+			<input id="jobtitle" type="text" class="form-control" maxLength="16"/>
 			
 			<label for="tel">Tel:</label>
-			<input id="tel" type="text" class="form-control" maxLength="16" value="1-416-555-3333"/>
+			<input id="tel" type="text" class="form-control" maxLength="16"/>
 			
 			<label for="extension">Ext:</label>
 	    <input id="extension" type="text" class="form-control" maxLength="10"/>
 	    
 			<label for="company-addredd">Company Address:</label>
-			<input id="company-address" type="text" class="form-control" value="1232 Terrence Ave. Toronto,Ontario M1Y-2K8"/>
+			<input id="company-address" type="text" class="form-control"/>
 		</fieldset>
 		<br/>
 		<button type="button" class="btn btn-primary" onclick="return proSubmit.registerPartner()">Register Now!</button>

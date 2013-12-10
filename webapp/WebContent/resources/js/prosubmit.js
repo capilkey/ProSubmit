@@ -683,6 +683,43 @@ ProSubmit.prototype = {
 			}
 		},
 		
+		/**
+		 * 
+		 */
+		deleteAdmin:function(user_id){
+			if(user_id){
+				if(confirm("Are you sure you want to delete this admin?")){
+					proSubmit.mask(function(){
+						$.ajax({
+							url:'/ProSubmit/System',
+							type:'POST',
+							data:{
+								v:'deleteadmin',
+								user_id:user_id
+							},
+							success:function(response){
+								var success = response.success;
+								var message = response.message;
+								if(success){
+									window.location.reload();
+								}else{
+									proSubmit.unMask(function(){
+										alert(message);
+									});
+								}
+							},error:function(jqXHR,textStatus){
+								proSubmit.unMask(function(){
+									alert(textStatus);
+								});
+							}
+						});
+					});
+				}
+			}else{
+				alert("A user id was not specified");
+			}
+		},
+		
 		
 		/**
 		 * 
@@ -915,7 +952,7 @@ ProSubmit.prototype = {
 		* 
 		*/
 		logout:function(){
-			window.location = "/ProSubmit//Authenticate?v=logout";
+			window.location = "/ProSubmit/Authenticate?v=logout";
 		},
 		
 		/**
@@ -932,7 +969,11 @@ $(document).ready(function(){
 	});
 	
 	$("#new-projstatus-btn").click(function(){
-		$("#new-projstatus-row").toggle("slow");
+		$("#new-projstatus-row").toggle(ANIMATION_SPEED);
+	});
+	
+	$("#new-admin-btn").click(function(){
+		$("#new-admin-row").toggle(ANIMATION_SPEED);
 	});
 	
 	$("#account-cancel-link").click(function(){
@@ -943,6 +984,17 @@ $(document).ready(function(){
 	$("#edit-partner-link").click(function(){
 		$("#partner-edit-info-form").toggle("fast");
 		return false;
+	});
+	
+	$("#edit-partner-avatar").click(function(){
+		proSubmit.mask(function(){
+			$("#epa-panel").slideDown();
+			$("#body-mask").bind('click',function(){
+				$("#epa-panel").slideUp(function(){
+					proSubmit.unMask(null);
+				});
+			});
+		});
 	});
 	
 	$("#current_password").blur(function(){
@@ -961,7 +1013,6 @@ $(document).ready(function(){
 					var success = response.success;
 					var message = response.message;
 					var is_password = response.is_password;
-					//console.log(response);
 					if(success == "1"){
 						if(is_password == "0"){
 							$("#partner-update-password-form .alert-danger").text("Password specified does not match the one on record");

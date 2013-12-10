@@ -16,16 +16,18 @@
 	<div class="flex1">
 	<div style="width:900px; margin-left:auto;margin-right:auto">
 		<%
+			String adminUsername = ((HashMap<String,String>)session.getAttribute("userInfo")).get("user_id");
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			SystemManager systemManager = new SystemManager();
 			PartnerManager partnerManager = new PartnerManager(); 
 			GroupManager groupManager = new GroupManager();
-			ArrayList<HashMap<String,String>> projectCategories = systemManager.getProjectCategories();
-			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();
 			
+			ArrayList<HashMap<String,String>> projectCategories = systemManager.getProjectCategories();
+			ArrayList<HashMap<String,String>> projectStatuses = systemManager.getProjectStatuses();	
 			ArrayList<HashMap<String,Object>> partners = partnerManager.getPartners();
 			ArrayList<HashMap<String,Object>> groups = groupManager.getGroups(false); 
-			//out.println(gson.toJson(groups));
+			ArrayList<HashMap<String,String>> admins = systemManager.getAdmins();
+			//out.println(gson.toJson(admins));
 		%>   
 		<!-- <h1>Groups</h1>-->
 		<h1>Groups</h1>
@@ -80,13 +82,7 @@
 			</table>
 			<hr/>
 		<%}%>
-		
-		
-		
-		 
-		
-		
-		
+			
 		<h1>Project Categories</h1>
 		<%
 			if(projectCategories.size() > 0){ %>
@@ -124,9 +120,10 @@
 			<hr/>
 		<%}%>
 		
-		<h1>Project Statuses</h1>
+		
 		<%
 			if(projectStatuses.size() > 0){ %>
+				<h1>Project Statuses</h1>
 				<table class="table">
 					<tr>
 						<th width="5%">#</th>
@@ -154,11 +151,33 @@
 				<td><textarea  id="new-projstatus-desc" class="form-control"></textarea></td>
 				<td><button class="btn btn-success btn-sm" onclick="return proSubmit.addProjectStatus();">Done</button> </td>
 			</tr>
-			<tr>
-				<td><button id="new-projstatus-btn" class="btn btn-success btn-sm">New</button> </td>
+			</table>
+			<button id="new-projstatus-btn" class="btn btn-success btn-sm">Create Project Status</button>
+			<hr/>
+		<%}%>
+
+		<%if(admins.size() > 0){%>
+			<h1>Admins</h1>
+			<table class="table">
+				<tr>
+					<th width="5%">#</th>
+					<th width="15%">Username</th>
+					<th width="80%" align="right" style="text-align:right">Options</th>
+				</tr>
+			<%for(int i =0;i<admins.size();i++){%>
+				<tr>
+					<th><%=i+1%></th>
+					<td><%=admins.get(i).get("user_id")%></td>
+					<td align="right"><button id="new-projstatus-btn" class="btn btn-danger btn-sm" onclick="return proSubmit.deleteAdmin('<%=admins.get(i).get("user_id")%>')" <%if(adminUsername.equals(admins.get(i).get("user_id"))){%>disabled<%}%>>Delete</button></td>
+				</tr>
+			<%}%>
+			<tr id="new-admin-row" style="display:none">
+				<td></td>
+				<td><input type="text" id="new-admin-id" class="form-control" size="200" placeholder="Admin Username"></td>
+				<td align="right"><button class="btn btn-success btn-sm" onclick="return proSubmit.addAdmin();">Done</button> </td>
 			</tr>
 			</table>
-			<hr/>
+			<button id="new-admin-btn" class="btn btn-success btn-sm">Create Admin</button>
 		<%}%>
 	</div>	
 	</div>

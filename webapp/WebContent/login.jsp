@@ -28,7 +28,7 @@
 </head>
 <body>
 		<form id="loginForm" class="">
-			<div style="text-align:center"><img src="/ProSubmit/resources/icons/logos/logo-medium.png"/></div>
+			<div style="text-align:center"><img src="/ProSubmit/resources/icons/logos/logo-medium-black.png"/></div>
 			<br/>
 			<label for="username">Username:</label>
 			<input type="text" id="username" placeHolder="Username" class="form-control" value="raburrell_admin"/>

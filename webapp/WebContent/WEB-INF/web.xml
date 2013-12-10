@@ -41,8 +41,7 @@
 		 <load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<description>
-		Handler all group related requests</description>
+		<description>Handler all group related requests</description>
 		<display-name>GroupServlet</display-name>
 		<servlet-name>GroupServlet</servlet-name>
 		<servlet-class>prosubmit.servlet.GroupServlet</servlet-class>
@@ -62,6 +61,15 @@
 		<display-name>ProjectServlet</display-name>
 		<servlet-name>ProjectServlet</servlet-name>
 		<servlet-class>prosubmit.servlet.ProjectServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		<servlet>
+		<description>
+		</description>
+		<display-name>SystemServlet</display-name>
+		<servlet-name>SystemServlet</servlet-name>
+		<servlet-class>prosubmit.servlet.SystemServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AuthenticateServlet</servlet-name>
@@ -78,6 +86,10 @@
 	<servlet-mapping>
 		<servlet-name>ProjectServlet</servlet-name>
 		<url-pattern>/Project</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SystemServlet</servlet-name>
+		<url-pattern>/System</url-pattern>
 	</servlet-mapping>
 	
 	

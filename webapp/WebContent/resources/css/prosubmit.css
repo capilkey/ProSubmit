@@ -209,6 +209,15 @@ textarea.bio{
 	z-index:9000;
 	display:none;	
 }
+.overlay{
+	position:fixed;
+	top:0;
+	bottom:0;
+	margin-bottom:0px;
+	background-color:#FFF;
+	z-index:9500;
+	display:none;	
+}
 
 form .alert{
 	display:none;
@@ -307,4 +316,16 @@ p.student-bio{
 
 .partner-avatar{
 	width:150px
+}
+
+#epa-panel{
+	border:1px solid silver;
+	width:400px;
+	height:200px;
+	left:50%;
+	top:50%;
+	margin-left:-200px;
+	margin-top:-150px;
+	padding:20px;
+	border-radius:4px;
 }

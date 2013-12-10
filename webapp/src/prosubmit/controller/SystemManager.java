@@ -8,6 +8,7 @@ import prosubmit.db.DBAccess;
 import prosubmit.db.DBPool;
 
 import java.util.*; 
+
 import javax.mail.*; 
 import javax.mail.internet.*;
 
@@ -265,6 +266,29 @@ public class SystemManager extends DBAccess{
 		}
 		return statuses;
 	}
+	
+	/**
+	 * 
+	 */
+	public ArrayList<HashMap<String,String>> getAdmins(){
+		ArrayList<HashMap<String,String>> admins = new ArrayList<HashMap<String,String>>();
+		String sql = "SELECT * FROM system_admin";
+		queryDB(sql,admins);
+	    return admins;
+	}
+	
+	/**
+	 * 
+	 * @param user_id
+	 * @return
+	 */
+	public boolean deleteAdmin(String user_id) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM system_admin WHERE user_id = ?";
+		String [] params = {user_id};
+		return updateDB(sql,params);
+	}
+	
 	/**
 	 * 
 	 * @param to
@@ -278,7 +302,6 @@ public class SystemManager extends DBAccess{
 		try{  
 			String host = "mercury.senecac.on.ca";
 		    String from = "raburrell@myseneca.ca"; 
-		    to = "raburrell@myseneca.ca";
 		    
 		    boolean sessionDebug = false;
 		    Properties props = System.getProperties(); 
