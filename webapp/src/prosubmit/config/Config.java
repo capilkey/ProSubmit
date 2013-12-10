@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 @SuppressWarnings("all")
 public class Config {
-	private final String CONFILE_FILE = "database.properties";
+	private final String CONFILE_FILE = "app.properties";
 	static Properties properties = new Properties();
 	static{
 		Config obj = new Config();

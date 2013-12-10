@@ -604,7 +604,7 @@ ProSubmit.prototype = {
 		
 		createProject:function(redirect){
 			var isUpdate = redirect == null ? true : false;
-			var v = isUpdate ? "updateproject" : "addproject";
+			var v = "addproject";
 			var isValid = true;
 			this.goTop();
 			var projtitle = $("#projtitle").val();
@@ -620,9 +620,9 @@ ProSubmit.prototype = {
 			}
 			
 			if(!isValid){
-				$("#create-project .alert,#edit-project .alert").show();
+				$("#project-error-message .alert").show();
 			}else{
-				$("#create-project .alert").hide();
+				$("#project-error-message .alert").hide();
 				this.mask(function(){
 					$.ajax({
 						url:"/ProSubmit/Project",
@@ -647,8 +647,100 @@ ProSubmit.prototype = {
 								
 							}else{
 								proSubmit.unMask(function(){
-									$("#project-create-error-message").text(message);
-									$("#project-create-error-message").show();
+									$("#project-error-message").text(message);
+									$("#project-error-message").show();
+								});
+							}
+						},error:function(jqXHR,textStatus){
+							proSubmit.ajaxErrorFn(textStatus);
+						}
+					});
+				});
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		updateProjectDesc:function(){
+			var v = "updateprojectdesc";
+			var projdesc =  $("#projdesc").val();
+			var projid =  $("#projectid").val();
+			var isValid = true;
+			
+			if(isValid)	isValid = this.validateProjectDescription(projdesc);
+			
+			if(!isValid){
+				$("#project-error-message .alert,#edit-project .alert").show();
+			}else{
+				$("#project-error-message .alert").hide();
+				this.mask(function(){
+					$.ajax({
+						url:"/ProSubmit/Project",
+						type:"POST",
+						data:{
+							v:v,
+							projectdescription:projdesc,
+							projectid:projid
+						},success:function(response){
+							console.log(response);
+							var success = response.success;
+							var message = response.message;
+							
+							if(success == "1"){
+								$(document.body).animate({scrollTop:0}); // doesn't work
+								window.location.reload();
+							} else{
+								proSubmit.unMask(function(){
+									$("#project-error-message").text(message);
+									$("#project-error-message").show();
+								});
+							}
+						},error:function(jqXHR,textStatus){
+							proSubmit.ajaxErrorFn(textStatus);
+						}
+					});
+				});
+			}
+			return false;
+		},
+		
+		/**
+		 * 
+		 */
+		updateProjectCatStat:function(){
+			var v = "updateprojectcatstat";
+			var projcat =  $("#projcat").val();
+			var projstat =  $("#projstat").val();
+			var projid =  $("#projectid").val();
+			var isValid = true;
+			
+			if(!isValid){
+				$("#project-error-message .alert,#edit-project .alert").show();
+			}else{
+				$("#project-error-message .alert").hide();
+				this.mask(function(){
+					$.ajax({
+						url:"/ProSubmit/Project",
+						type:"POST",
+						data:{
+							v:v,
+							projectcategory:projcat,
+							projectstatus:projstat,
+							projectid:projid
+						},success:function(response){
+							console.log(response);
+							var success = response.success;
+							var message = response.message;
+							
+							if(success == "1"){
+								$(document.body).animate({scrollTop:0}); // doesn't work
+								window.location.reload();
+							} else{
+								proSubmit.unMask(function(){
+									$("#project-error-message").text(message);
+									$("#project-error-message").show();
 								});
 							}
 						},error:function(jqXHR,textStatus){
@@ -894,7 +986,7 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!projtitle){
 				isValid =  false;
-				$("#create-project .alert").text("Specify a project title");
+				$("#project-error-message .alert").text("Specify a project title");
 			}
 			return isValid;
 		},
@@ -906,7 +998,7 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!projdesc){
 				isValid =  false;
-				$("#create-project .alert").text("Specify a project description");
+				$("#project-error-message .alert").text("Specify a project description");
 			}
 			return isValid;
 		},
@@ -918,7 +1010,7 @@ ProSubmit.prototype = {
 			var isValid = true;
 			if(!projcat){
 				isValid =  false;
-				$("#project-create .alert").text("Specify a project category");
+				$("#project-error-message .alert").text("Specify a project category");
 			}
 			return isValid;
 		},
@@ -986,6 +1078,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
+<<<<<<< HEAD
 	$("#edit-partner-avatar").click(function(){
 		proSubmit.mask(function(){
 			$("#epa-panel").slideDown();
@@ -995,6 +1088,11 @@ $(document).ready(function(){
 				});
 			});
 		});
+=======
+	$("#edit-project-link").click(function(){
+		$("#project-edit-info-form").toggle("fast");
+		return false;
+>>>>>>> 1e9362142677f4e486231cad699e70370393530f
 	});
 	
 	$("#current_password").blur(function(){

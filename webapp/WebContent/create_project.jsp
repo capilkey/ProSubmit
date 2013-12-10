@@ -19,7 +19,7 @@
 			HashMap<String,String> userInfo = (HashMap<String,String>)session.getAttribute("userInfo");
 		%>
 		<h1>Project Proposal</h1>
-		<div id="create-project-error-message" class="alert alert-danger" style="display:none"></div>
+		<div id="project-error-message" class="alert alert-danger" style="display:none"></div>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<fieldset>

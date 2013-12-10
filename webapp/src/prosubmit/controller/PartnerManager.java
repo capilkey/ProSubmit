@@ -32,8 +32,14 @@ public final class PartnerManager extends DBAccess{
 	
 	public PartnerManager(){
 		super((DBPool)context.getBean("dbPool"));
+<<<<<<< HEAD
 		systemManager = new SystemManager();
 		projectManager = new ProjectManager();
+=======
+		
+		projectManager = new ProjectManager();
+		systemManager = new SystemManager();
+>>>>>>> 1e9362142677f4e486231cad699e70370393530f
 	}
 	 
 	/**

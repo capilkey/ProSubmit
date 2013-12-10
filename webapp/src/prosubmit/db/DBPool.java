@@ -29,7 +29,7 @@ public class DBPool {
     	pool.setUrl(Config.getProperty("url"));
     	pool.setUsername(Config.getProperty("username"));
     	pool.setPassword(Config.getProperty("password"));
-    	pool.setMaxActive(10);
+    	pool.setMaxActive(20);
     }
     
     /**

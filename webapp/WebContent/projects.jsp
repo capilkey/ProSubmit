@@ -102,7 +102,7 @@
 									<td>#<%=i+1%></td>
 									<td><a href="/ProSubmit/project/<%=project.get("project_id") + "-" + ((String)project.get("project_title")).replace(" ","_") %>"/><%=project.get("project_title")%></a></td>
 									<td><%=project.get("project_createdate")%></td>
-									<td><%=project.get("group_name")%></td>
+									<td><%=(project.get("group_name") == null ? "N/A" : project.get("group_name"))%></td>
 									<td><%=project.get("projstatus_name")%></td>
 								</tr>
 							<%
