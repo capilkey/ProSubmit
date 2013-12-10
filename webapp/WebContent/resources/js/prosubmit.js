@@ -1124,6 +1124,11 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$("#add-group-member-link").click(function(){
+		$("#add-group-member-info-form").toggle("fast");
+		return false;
+	});
+	
 	$("#current_password").blur(function(){
 		var current_password = $(this).val();
 		if(current_password){

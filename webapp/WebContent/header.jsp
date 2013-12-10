@@ -53,7 +53,10 @@
 							<% 
 						}
 					%>
+					<% if ((session.getAttribute("isProfessor") != null && session.getAttribute("isProfessor").equals("1")) ||
+							(session.getAttribute("isAdmin") != null && session.getAttribute("isAdmin").equals("1"))) { %>
 					<li><a href="/ProSubmit/group/manage">Manage Groups</a></li>
+					<% } %>
 				</ul>
 		    </li>
 		  </ul>
